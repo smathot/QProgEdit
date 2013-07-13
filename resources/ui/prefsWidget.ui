@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>widgetPrefs</class>
+ <widget class="QWidget" name="widgetPrefs">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>573</width>
+    <height>267</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="13" column="1">
+    <widget class="QCheckBox" name="checkBoxWordWrapMarker">
+     <property name="text">
+      <string>Show 80 character word-wrap marker</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="labelTabWidth">
+     <property name="text">
+      <string>Tab width</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QSpinBox" name="spinBoxTabWidth">
+     <property name="suffix">
+      <string> characters</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelFontFamily">
+     <property name="text">
+      <string>Font family</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QCheckBox" name="checkBoxShowWhitespace">
+     <property name="text">
+      <string>Show whitespace</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QCheckBox" name="checkBoxLineNumbers">
+     <property name="text">
+      <string>Show line numbers</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QCheckBox" name="checkBoxWordWrap">
+     <property name="text">
+      <string>Enable word wrapping</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0">
+    <widget class="QCheckBox" name="checkBoxShowFolding">
+     <property name="text">
+      <string>Enable block folding</string>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="0">
+    <widget class="QCheckBox" name="checkBoxAutoComplete">
+     <property name="text">
+      <string>Enable automatic completion</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QFontComboBox" name="fontComboBoxFontFamily"/>
+   </item>
+   <item row="5" column="1">
+    <widget class="QCheckBox" name="checkBoxShowEol">
+     <property name="text">
+      <string>Show end-of-lines</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QCheckBox" name="checkBoxShowIndent">
+     <property name="text">
+      <string>Show indentation</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelFontSize">
+     <property name="text">
+      <string>Font size</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="spinBoxFontSize">
+     <property name="suffix">
+      <string> pt</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QCheckBox" name="checkBoxHighlightCurrentLine">
+     <property name="text">
+      <string>Highlight current line</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QCheckBox" name="checkBoxHighlightMatchingBrackets">
+     <property name="text">
+      <string>Highlight matching brackets</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QCheckBox" name="checkBoxAutoIndent">
+     <property name="text">
+      <string>Enable automatic indentation</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QComboBox" name="comboBox"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
