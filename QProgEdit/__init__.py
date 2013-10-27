@@ -17,6 +17,8 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+version = u'0.1.0'
+
 import _qeditorconst as QEditorConst
 import _qcolorscheme as QColorScheme
 from _qeditorcfg import QEditorCfg
