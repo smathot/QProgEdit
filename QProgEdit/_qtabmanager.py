@@ -21,7 +21,7 @@ import os
 import sys
 from PyQt4 import QtGui, QtCore
 from PyQt4.Qsci import QsciScintilla, QsciScintillaBase, QsciLexerPython
-from QProgEdit import QEditorCfg, QProgEdit, QTabCornerWidget
+from QProgEdit import QEditorCfg, QProgEdit, QTabCornerWidget, _
 
 class QTabManager(QtGui.QTabWidget):
 
@@ -61,7 +61,7 @@ class QTabManager(QtGui.QTabWidget):
 									(default=True)
 		"""
 
-		super(QTabManager, self).__init__(parent)
+		super(QTabManager, self).__init__(parent)		
 		self.defaultLang = defaultLang
 		if defaultLang == u'Python' and msg == None:
 			msg = u'Python %d.%d.%d' % (sys.version_info[0], \
@@ -77,7 +77,8 @@ class QTabManager(QtGui.QTabWidget):
 		self.setCornerWidget(QTabCornerWidget(self, msg=msg, \
 			handlerButtonText=handlerButtonText))
 		if createTab:
-			self.addTab(u'Empty document')
+			self.addTab(_(u'Empty document'))
+		self.setStyleSheet(u'QTabBar::tab { min-height: 32px; }')
 
 	def addTab(self, title, lang=None, select=True):
 
@@ -125,7 +126,7 @@ class QTabManager(QtGui.QTabWidget):
 			index = self.currentIndex()
 		self.removeTab(index)
 		if self.count() == 0:
-			self.addTab(u'Empty document')
+			self.addTab(_(u'Empty document'))
 
 	def isModified(self, index=None):
 		

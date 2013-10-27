@@ -55,8 +55,8 @@ class QEditorFind(QtGui.QWidget):
 		True if matching text has been found, False otherwise
 		"""
 
-		return self.qProgEdit.editor.findFirst(self.ui.lineEditFind.text(), False,
-			self.ui.checkBoxCaseSensitive.isChecked(),
+		return self.qProgEdit.editor.findFirst(self.ui.lineEditFind.text(), \
+			False, self.ui.checkBoxCaseSensitive.isChecked(), \
 			self.ui.checkBoxMatchWhole.isChecked(), True)
 
 	def replace(self):

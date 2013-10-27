@@ -44,7 +44,7 @@ class QTabCornerWidget(QtGui.QWidget):
 
 		# Preferences button
 		self.prefsButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(
-			u'preferences-other'), u'', self)
+			u'preferences-desktop'), u'', self)
 		self.prefsButton.setCheckable(True)
 		self.prefsButton.toggled.connect(self.tabManager.togglePrefs)
 		QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+Shift+P'),
@@ -91,13 +91,13 @@ class QTabCornerWidget(QtGui.QWidget):
 		self.hBox.addWidget(self.langButton)
 		if self.handlerButton != None:
 			self.hBox.addWidget(self.handlerButton)
-		self.setLayout(self.hBox)
-
+		self.setLayout(self.hBox)		
+		
 	def update(self):
 
 		"""Update to reflect document contents"""
 
 		self.langButton.setIcon(QtGui.QIcon.fromTheme(u'text-x-%s' % \
-			self.tabManager.lang(), QtGui.QIcon.fromTheme(u'text-x-generic')))
+			self.tabManager.lang(), QtGui.QIcon.fromTheme(u'text-plain')))
 		self.findButton.setChecked(False)
 		self.prefsButton.setChecked(False)

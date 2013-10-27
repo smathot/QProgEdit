@@ -35,10 +35,9 @@ class QLangMenu(QtGui.QMenu):
 
 		super(QLangMenu, self).__init__(parent)
 		self.tabCornerWidget = parent
-
 		for lang in QEditorConst.languages:
-			self.addAction(QtGui.QIcon.fromTheme(u'text-x-%s' % lang,
-				QtGui.QIcon.fromTheme(u'text-x-generic')), lang)
+			self.addAction(QtGui.QIcon.fromTheme(u'text-x-%s' % lang, \
+				QtGui.QIcon.fromTheme(u'text-plain')), lang)
 		self.triggered.connect(self.setLang)
 
 	def setLang(self, action):
