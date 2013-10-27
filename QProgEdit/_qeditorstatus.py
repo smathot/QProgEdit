@@ -53,4 +53,4 @@ class QEditorStatus(QtGui.QLabel):
 		index	--	The column number. (default=0)
 		"""
 
-		self.setText(u'(%.3d, %.3d)' % (index, line))
+		self.setText(u'(%.3d, %.3d)' % (index+1, line+1))

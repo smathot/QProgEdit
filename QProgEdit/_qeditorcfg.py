@@ -22,7 +22,7 @@ from PyQt4 import QtGui, QtCore
 
 class QEditorCfg(QtCore.QObject):
 
-	"""A persistent configuration object, built on top of QSettings"""
+	"""A non-persistent configuration object."""
 
 	def __init__(self, parent=None):
 
@@ -48,5 +48,9 @@ class QEditorCfg(QtCore.QObject):
 		self.qProgEditShowIndent = False
 		self.qProgEditShowFolding = True
 		self.qProgEditAutoComplete = True
-		self.qProgEditColorScheme = u'TangoDark'
+		self.qProgEditColorScheme = u'SolarizedDark'
+		
+	def version(self):
+		
+		return 0
 

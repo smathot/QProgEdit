@@ -28,8 +28,8 @@ class QTabManager(QtGui.QTabWidget):
 	"""A widget that contains multiple document tabs"""
 
 	def __init__(self, parent=None, defaultLang=u'text', cfg=QEditorCfg(),
-		createTab=False, tabsClosable=False, tabsMovable=False, fileMenu=False,
-		handler=None, msg=None):
+		createTab=False, tabsClosable=False, tabsMovable=False, handler=None,
+		msg=None, handlerButtonText=None, callHandlerOnFocusOut=True):
 
 		"""
 		Constructor
@@ -53,6 +53,12 @@ class QTabManager(QtGui.QTabWidget):
 		handler			--	The handler function. (default=None)
 		msg				--	An informative message for the corner widget, or
 							None for auto-detect. (default=None)
+		handlerButtonText	--	Text for a top-right button, which can be
+								clicked to call the handler, or None for no
+								button. (default=None)
+		callHandlerOnFocusOut	--	Indicates whether the handler should be
+									called when the editor loses focus.
+									(default=True)
 		"""
 
 		super(QTabManager, self).__init__(parent)
@@ -61,13 +67,15 @@ class QTabManager(QtGui.QTabWidget):
 			msg = u'Python %d.%d.%d' % (sys.version_info[0], \
 				sys.version_info[1], sys.version_info[2])
 		self.cfg = cfg
+		self.callHandlerOnFocusOut = callHandlerOnFocusOut
 		self.setDocumentMode(True)
 		self.setTabsClosable(tabsClosable)
-		self.setMovable(tabsMovable)
+		self.setMovable(tabsMovable)		
 		self.currentChanged.connect(self.tabChanged)
 		self.tabCloseRequested.connect(self.closeTab)
-		self.setCornerWidget(QTabCornerWidget(self, msg=msg))
 		self.setHandler(handler)
+		self.setCornerWidget(QTabCornerWidget(self, msg=msg, \
+			handlerButtonText=handlerButtonText))
 		if createTab:
 			self.addTab(u'Empty document')
 
@@ -118,7 +126,7 @@ class QTabManager(QtGui.QTabWidget):
 		self.removeTab(index)
 		if self.count() == 0:
 			self.addTab(u'Empty document')
-			
+
 	def isModified(self, index=None):
 		
 		"""
@@ -197,30 +205,6 @@ class QTabManager(QtGui.QTabWidget):
 		elif index >= 0 and index < self.count():
 			self.widget(index).setLang(lang)
 
-	def setModified(self, modified=True, index=None):
-
-		"""
-		Sets the modified status of a tab.
-
-		Keyword arguments:
-		modified	--	A boolean indicating the modified status. (default=True)
-		index		--	The index of the tab, or None for all tabs.
-						(default=None)
-		"""
-
-		if self.count() == 0:
-			return
-		if index == None:
-			indices = range(self.count())
-		else:
-			indices = [index]
-		if modified:			
-			for index in indices:
-				self.setTabIcon(index, QtGui.QIcon.fromTheme(u'document-save'))
-		else:
-			for index in indices:
-				self.setTabIcon(index, QtGui.QIcon())
-
 	def setText(self, txt, index=None):
 
 		"""
@@ -238,10 +222,8 @@ class QTabManager(QtGui.QTabWidget):
 			return
 		elif index == None:
 			self.currentWidget().setText(txt)
-			self.setModified(False)
 		elif index >= 0 and index < self.count():
 			self.widget(index).setText(txt)
-			self.setModified(False, index)
 
 	def text(self, index=None):
 
@@ -258,12 +240,11 @@ class QTabManager(QtGui.QTabWidget):
 
 		if self.count() == 0:
 			return None
-		elif index == None:
+		if index == None:
 			return unicode(self.currentWidget().text())
 		if index >= 0 and index < self.count():
 			return unicode(self.widget(index).text())
-		else:
-			return None
+		return None
 
 	def toggleFind(self, visible):
 
@@ -290,8 +271,8 @@ class QTabManager(QtGui.QTabWidget):
 	def tabChanged(self, index):
 
 		"""
-		Is called when the current tab must be updated, for example because a new
-		tab is selected.
+		Is called when the current tab must be updated, for example because a
+		new tab is selected.
 
 		Arguments:
 		index	--	the index of the newly selected tabs

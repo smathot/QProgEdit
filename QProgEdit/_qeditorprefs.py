@@ -22,6 +22,7 @@ from PyQt4 import QtGui, QtCore
 from PyQt4 import Qsci
 from PyQt4.Qsci import QsciScintilla
 from QProgEdit.ui import Ui_widgetPrefs
+from QProgEdit import QColorScheme
 
 class QEditorPrefs(QtGui.QWidget):
 
@@ -52,6 +53,7 @@ class QEditorPrefs(QtGui.QWidget):
 
 		# Make connections
 		self.ui.fontComboBoxFontFamily.currentIndexChanged.connect(self.apply)
+		self.ui.comboBoxColorScheme.currentIndexChanged.connect(self.apply)
 		self.ui.spinBoxFontSize.valueChanged.connect(self.apply)
 		self.ui.spinBoxTabWidth.valueChanged.connect(self.apply)
 		self.ui.checkBoxWordWrapMarker.toggled.connect(self.apply)
@@ -64,8 +66,16 @@ class QEditorPrefs(QtGui.QWidget):
 		"""Refresh the controls"""
 
 		self.lock = True
-		index = self.ui.fontComboBoxFontFamily.findText(
+		index = self.ui.fontComboBoxFontFamily.findText( \
 			self.qProgEdit.cfg.qProgEditFontFamily)
+		# Fill the color scheme combobox and select the current color scheme
+		self.ui.comboBoxColorScheme.clear()
+		i = 0
+		for scheme in QColorScheme.schemes:
+			self.ui.comboBoxColorScheme.addItem(scheme)
+			if scheme == self.qProgEdit.cfg.qProgEditColorScheme:
+				self.ui.comboBoxColorScheme.setCurrentIndex(i)
+			i += 1		
 		self.ui.fontComboBoxFontFamily.setCurrentIndex(index)
 		self.ui.spinBoxFontSize.setValue(self.qProgEdit.cfg.qProgEditFontSize)
 		self.ui.spinBoxTabWidth.setValue(self.qProgEdit.cfg.qProgEditTabWidth)
@@ -83,8 +93,10 @@ class QEditorPrefs(QtGui.QWidget):
 
 		if self.lock:
 			return
-		self.qProgEdit.cfg.qProgEditFontFamily = unicode(
+		self.qProgEdit.cfg.qProgEditFontFamily = unicode( \
 			self.ui.fontComboBoxFontFamily.currentText())
+		self.qProgEdit.cfg.qProgEditColorScheme = unicode( \
+			self.ui.comboBoxColorScheme.currentText())
 		self.qProgEdit.cfg.qProgEditFontSize = self.ui.spinBoxFontSize.value()
 		self.qProgEdit.cfg.qProgEditTabWidth = self.ui.spinBoxTabWidth.value()
 		if self.ui.checkBoxWordWrapMarker.isChecked():

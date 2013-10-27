@@ -2,13 +2,14 @@
 
 QProgEdit is a PyQt4 widget that implements a full-featured text editor component. It's primary target at the moment is [OpenSesame](http://osdoc.cogsci.nl), a graphical experiment builder.
 
-Copyright (2013) Sebastiaan Mathôt (<http://www.cogsci.nl/smathot>)
+Copyright (2013) Sebastiaan Mathôt  
+<http://www.cogsci.nl/smathot>
 
-# Example
+## Example
 
 To see a standalone example, run `qprogedit`.
 
-# Structure
+## Structure
 
 - `QTabManger` implements a multiple-tab editor, including  a menu in the top-right. Embeds:
 	- `QTabCornerWidget` implements the menu in the top-right of the tab window. Embeds:
@@ -29,6 +30,6 @@ The following are modules:
 - `QEditorConst` contains a number of constants.
 - `QColorScheme` contains color-scheme definitions.
 
-# License
+## License
 
 `QProgEdit` is released under the terms of the [General Public License v3](http://www.gnu.org/licenses/gpl-3.0.txt). For license details, please visit <http://www.gnu.org/licenses/gpl-3.0.txt> or see the included file `COPYING`.

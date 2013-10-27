@@ -25,14 +25,17 @@ class QTabCornerWidget(QtGui.QWidget):
 
 	"""Contains a number of buttons that are displayed in the tab bar"""
 
-	def __init__(self, parent=None, msg=None):
+	def __init__(self, parent=None, msg=None, handlerButtonText=None):
 
 		"""
 		Constructor
 
 		Keyword arguments:
-		parent		-- 	The parent QWidget. (default=None)
-		msg			--	An informative text message. (default=None)
+		parent				-- 	The parent QWidget. (default=None)
+		msg					--	An informative text message. (default=None)
+		handlerButtonText	--	Text for a top-right button, which can be
+								clicked to call the handler, or None for no
+								button. (default=None)
 		"""
 
 		super(QTabCornerWidget, self).__init__()
@@ -61,6 +64,14 @@ class QTabCornerWidget(QtGui.QWidget):
 		QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+Shift+L'),
 			self).activated.connect(self.langButton.click)
 		
+		# Handler button
+		if handlerButtonText != None:
+			self.handlerButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(
+				u'document-save'), handlerButtonText, self)
+			self.handlerButton.clicked.connect(self.tabManager.handler)
+		else:
+			self.handlerButton = None
+		
 		# Editor status
 		self.statusWidget = QEditorStatus(self)		
 		
@@ -73,11 +84,13 @@ class QTabCornerWidget(QtGui.QWidget):
 		self.hBox.setSpacing(2)
 		self.hBox.setContentsMargins(2,2,2,2)
 		if msg != None:
-			self.hBox.addWidget(self.msgLabel)						
+			self.hBox.addWidget(self.msgLabel)
 		self.hBox.addWidget(self.statusWidget)
 		self.hBox.addWidget(self.prefsButton)
 		self.hBox.addWidget(self.findButton)
-		self.hBox.addWidget(self.langButton)		
+		self.hBox.addWidget(self.langButton)
+		if self.handlerButton != None:
+			self.hBox.addWidget(self.handlerButton)
 		self.setLayout(self.hBox)
 
 	def update(self):

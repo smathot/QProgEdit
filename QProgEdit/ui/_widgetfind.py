@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'resources/ui/findWidget.ui'
 #
-# Created: Wed Dec 26 14:36:42 2012
-#      by: PyQt4 UI code generator 4.9.1
+# Created: Sun Oct 27 10:48:19 2013
+#      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +12,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_widgetFind(object):
     def setupUi(self, widgetFind):
@@ -33,22 +42,26 @@ class Ui_widgetFind(object):
         self.widget.setObjectName(_fromUtf8("widget"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.widget)
         self.horizontalLayout.setMargin(0)
-        self.horizontalLayout.setMargin(0)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.pushButtonFind = QtGui.QPushButton(self.widget)
+        icon = QtGui.QIcon.fromTheme(_fromUtf8("edit-find"))
+        self.pushButtonFind.setIcon(icon)
         self.pushButtonFind.setObjectName(_fromUtf8("pushButtonFind"))
         self.horizontalLayout.addWidget(self.pushButtonFind)
         self.pushButtonReplace = QtGui.QPushButton(self.widget)
+        icon = QtGui.QIcon.fromTheme(_fromUtf8("edit-find-replace"))
+        self.pushButtonReplace.setIcon(icon)
         self.pushButtonReplace.setObjectName(_fromUtf8("pushButtonReplace"))
         self.horizontalLayout.addWidget(self.pushButtonReplace)
         self.pushButtonReplaceAll = QtGui.QPushButton(self.widget)
+        icon = QtGui.QIcon.fromTheme(_fromUtf8("edit-find-replace"))
+        self.pushButtonReplaceAll.setIcon(icon)
         self.pushButtonReplaceAll.setObjectName(_fromUtf8("pushButtonReplaceAll"))
         self.horizontalLayout.addWidget(self.pushButtonReplaceAll)
         self.gridLayout.addWidget(self.widget, 6, 0, 1, 3)
         self.widget_2 = QtGui.QWidget(widgetFind)
         self.widget_2.setObjectName(_fromUtf8("widget_2"))
         self.horizontalLayout_2 = QtGui.QHBoxLayout(self.widget_2)
-        self.horizontalLayout_2.setMargin(0)
         self.horizontalLayout_2.setMargin(0)
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
         self.checkBoxCaseSensitive = QtGui.QCheckBox(self.widget_2)
@@ -69,12 +82,12 @@ class Ui_widgetFind(object):
         QtCore.QMetaObject.connectSlotsByName(widgetFind)
 
     def retranslateUi(self, widgetFind):
-        widgetFind.setWindowTitle(QtGui.QApplication.translate("widgetFind", "Form", None, QtGui.QApplication.UnicodeUTF8))
-        self.labelReplace.setText(QtGui.QApplication.translate("widgetFind", "Replace:", None, QtGui.QApplication.UnicodeUTF8))
-        self.labelFind.setText(QtGui.QApplication.translate("widgetFind", "Find:", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButtonFind.setText(QtGui.QApplication.translate("widgetFind", "Search", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButtonReplace.setText(QtGui.QApplication.translate("widgetFind", "Replace", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButtonReplaceAll.setText(QtGui.QApplication.translate("widgetFind", "Replace all", None, QtGui.QApplication.UnicodeUTF8))
-        self.checkBoxCaseSensitive.setText(QtGui.QApplication.translate("widgetFind", "Case sensitive", None, QtGui.QApplication.UnicodeUTF8))
-        self.checkBoxMatchWhole.setText(QtGui.QApplication.translate("widgetFind", "Match whole words", None, QtGui.QApplication.UnicodeUTF8))
+        widgetFind.setWindowTitle(_translate("widgetFind", "Form", None))
+        self.labelReplace.setText(_translate("widgetFind", "Replace:", None))
+        self.labelFind.setText(_translate("widgetFind", "Find:", None))
+        self.pushButtonFind.setText(_translate("widgetFind", "Search", None))
+        self.pushButtonReplace.setText(_translate("widgetFind", "Replace", None))
+        self.pushButtonReplaceAll.setText(_translate("widgetFind", "Replace all", None))
+        self.checkBoxCaseSensitive.setText(_translate("widgetFind", "Case sensitive", None))
+        self.checkBoxMatchWhole.setText(_translate("widgetFind", "Match whole words", None))
 

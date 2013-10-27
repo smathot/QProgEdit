@@ -42,11 +42,9 @@ class QLexer(Qsci.QsciLexer):
 		# pre-existing lexer class
 		lexerClass = u'QsciLexer%s' % lang
 		if hasattr(Qsci, lexerClass):
-			print u'morphing to %s' % lexerClass
 			self.__class__ = getattr(Qsci, lexerClass)
 			getattr(Qsci, lexerClass).__init__(self, parent)
 		else:
-			print u'Using default lexer'
 			super(QLexer, self).__init__(parent)
 
 		# Set the font based on the configuration

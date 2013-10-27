@@ -92,6 +92,7 @@ class QEditor(QsciScintilla):
 		else:
 			self.setBraceMatching(QsciScintilla.NoBraceMatch)
 		self.setLang(self.lang())
+		self.cfgVersion = self.qProgEdit.cfg.version()
 
 	def doWithSelection(self, func):
 
@@ -145,7 +146,15 @@ class QEditor(QsciScintilla):
 
 		"""Let the qProgEdit call the handler when we lose focus."""
 
-		self.qProgEdit.callHandler()
+		if self.qProgEdit.tabManager.callHandlerOnFocusOut:
+			self.qProgEdit.callHandler()
+		super(QEditor, self).focusOutEvent(e)
+			
+	def focusInEvent(self, e):
+
+		if self.qProgEdit.tabManager.cfg.version() != self.cfgVersion:
+			self.applyCfg()
+		super(QEditor, self).focusInEvent(e)
 
 	def uncommentSelection(self):
 
@@ -194,8 +203,6 @@ class QEditor(QsciScintilla):
 					documentation. (default=u'text')
 		"""
 
-
-		print u'lang = %s' % lang
 		self._lexer = QLexer(self, lang=lang, colorScheme= \
 			self.qProgEdit.cfg.qProgEditColorScheme)
 		self._lang = lang

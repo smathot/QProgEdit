@@ -64,7 +64,6 @@ class QProgEdit(QtGui.QWidget):
 			self.cfg = cfg
 
 		self.editor = QEditor(self, lang=lang)
-		self.editor.modificationChanged.connect(self.setModified)
 		self.prefs = QEditorPrefs(self)
 		self.prefs.hide()
 		self.find = QEditorFind(self)
@@ -94,7 +93,6 @@ class QProgEdit(QtGui.QWidget):
 		
 		if self.handler != None:
 			self.handler()
-			self.setModified(False)
 
 	def dPrint(self, msg):
 
@@ -150,20 +148,6 @@ class QProgEdit(QtGui.QWidget):
 
 		self.editor.setLang(lang=lang)
 
-	def setModified(self, modified=True):
-
-		"""
-		Sets the modified status of the document.
-
-		Keyword arguments:
-		modified	--	a boolean indicating the modified status (default=True)
-		"""
-
-		if self.tabManager == None:
-			return
-		if modified:
-			self.tabManager.setModified(modified=modified)
-
 	def setText(self, txt):
 
 		"""
@@ -173,6 +157,11 @@ class QProgEdit(QtGui.QWidget):
 		txt		--	The new editor content.
 		"""
 
+		# Unicode is preferred, so give a warning if a str is passed.
+		if isinstance(txt, str):
+			self.dPrint( \
+				u'Warning: QProgEdit.setText() received str (utf-8 assumed)')
+			txt = txt.decode('utf-8', 'ignore')
 		self.editor.setText(txt)
 
 	def text(self):
