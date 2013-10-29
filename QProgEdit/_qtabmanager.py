@@ -78,7 +78,10 @@ class QTabManager(QtGui.QTabWidget):
 			handlerButtonText=handlerButtonText))
 		if createTab:
 			self.addTab(_(u'Empty document'))
-		self.setStyleSheet(u'QTabBar::tab { min-height: 32px; }')
+		# Under Windows, the tab bar is too small for the icons. Forcing the
+		# tab-bar height looks funny on Linux. Mac OS not tested.
+		if os.name == u'nt':
+			self.setStyleSheet(u'QTabBar::tab { min-height: 32px; }')
 
 	def addTab(self, title, lang=None, select=True):
 
