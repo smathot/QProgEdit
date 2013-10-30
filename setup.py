@@ -19,7 +19,7 @@ along with zoteromarkdown.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from QProgEdit import version
-from setuptools import setup, find_packages
+from distutils.core import setup
 
 setup(
     name=u'python-qprogedit',
@@ -30,5 +30,5 @@ setup(
     author_email=u's.mathot@cogsci.nl',
     license=u'GNU GPL Version 3',
     url=u'https://github.com/smathot/QProgEdit',
-    packages=find_packages('.')
+    packages=['QProgEdit', 'QProgEdit.ui']
 )

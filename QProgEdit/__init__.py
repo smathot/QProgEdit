@@ -17,9 +17,9 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-version = u'0.1.1'
+version = u'0.1.2'
 
-# A simple wrapper arround the translate function
+# A simple wrapper around the translate function
 from PyQt4.QtCore import QCoreApplication
 _ = lambda s: unicode(QCoreApplication.translate(u'qprogedit', s))
 
