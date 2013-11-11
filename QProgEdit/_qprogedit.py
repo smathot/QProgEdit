@@ -210,6 +210,10 @@ class QProgEdit(QtGui.QWidget):
 		"""
 
 		self.toggle(self.find, visible)
+		if visible:
+			self.find.ui.lineEditFind.setFocus()
+		else:
+			self.editor.setFocus()
 
 	def togglePrefs(self, visible):
 
