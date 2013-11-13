@@ -53,7 +53,10 @@ class QLexer(Qsci.QsciLexer):
 		self.setFont(font)
 
 		# Apply the color theme
-		colorScheme = getattr(QColorScheme, colorScheme)
+		if hasattr(QColorScheme, colorScheme):
+			colorScheme = getattr(QColorScheme, colorScheme)
+		else:
+			colorScheme = QColorScheme.Default
 		if u'Background' in colorScheme:
 			self.setPaper(QtGui.QColor(colorScheme[u'Background']))
 			self.setDefaultPaper(QtGui.QColor(colorScheme[u'Background']))
