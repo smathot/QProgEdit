@@ -49,6 +49,8 @@ class QEditorCfg(QtCore.QObject):
 		self.qProgEditShowFolding = True
 		self.qProgEditAutoComplete = True
 		self.qProgEditColorScheme = u'SolarizedDark'
+		self.qProgEditCommentShortcut = u'Ctrl+M'
+		self.qProgEditUncommentShortcut = u'Ctrl+Shift+M'
 		
 	def version(self):
 		

@@ -53,6 +53,8 @@ class QEditorPrefs(QtGui.QWidget):
 
 		# Make connections
 		self.ui.fontComboBoxFontFamily.currentIndexChanged.connect(self.apply)
+		self.ui.lineEditCommentShortcut.editingFinished.connect(self.apply)
+		self.ui.lineEditUncommentShortcut.editingFinished.connect(self.apply)
 		self.ui.comboBoxColorScheme.currentIndexChanged.connect(self.apply)
 		self.ui.spinBoxFontSize.valueChanged.connect(self.apply)
 		self.ui.spinBoxTabWidth.valueChanged.connect(self.apply)
@@ -68,6 +70,11 @@ class QEditorPrefs(QtGui.QWidget):
 		self.lock = True
 		index = self.ui.fontComboBoxFontFamily.findText( \
 			self.qProgEdit.cfg.qProgEditFontFamily)
+		# Fill the shortcut fields
+		self.ui.lineEditCommentShortcut.setText( \
+			self.qProgEdit.cfg.qProgEditCommentShortcut)
+		self.ui.lineEditUncommentShortcut.setText( \
+			self.qProgEdit.cfg.qProgEditUncommentShortcut)
 		# Fill the color scheme combobox and select the current color scheme
 		self.ui.comboBoxColorScheme.clear()
 		i = 0
@@ -97,6 +104,10 @@ class QEditorPrefs(QtGui.QWidget):
 			self.ui.fontComboBoxFontFamily.currentText())
 		self.qProgEdit.cfg.qProgEditColorScheme = unicode( \
 			self.ui.comboBoxColorScheme.currentText())
+		self.qProgEdit.cfg.qProgEditCommentShortcut = unicode( \
+			self.ui.lineEditCommentShortcut.text())
+		self.qProgEdit.cfg.qProgEditUncommentShortcut = unicode( \
+			self.ui.lineEditUncommentShortcut.text())
 		self.qProgEdit.cfg.qProgEditFontSize = self.ui.spinBoxFontSize.value()
 		self.qProgEdit.cfg.qProgEditTabWidth = self.ui.spinBoxTabWidth.value()
 		if self.ui.checkBoxWordWrapMarker.isChecked():

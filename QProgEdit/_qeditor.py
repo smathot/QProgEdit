@@ -45,17 +45,23 @@ class QEditor(QsciScintilla):
 		self.setUtf8(True)
 		self.qProgEdit = parent
 		self.setLang(lang)
+		self.commentShortcut = QtGui.QShortcut(QtGui.QKeySequence( \
+			self.qProgEdit.cfg.qProgEditCommentShortcut), self)
+		self.uncommentShortcut = QtGui.QShortcut(QtGui.QKeySequence( \
+			self.qProgEdit.cfg.qProgEditUncommentShortcut), self)
+		self.commentShortcut.activated.connect(self.commentSelection)
+		self.uncommentShortcut.activated.connect(self.uncommentSelection)
 		self.applyCfg()
 		self.linesChanged.connect(self.updateMarginWidth)
-		QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+M'),
-			self).activated.connect(self.commentSelection)
-		QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+Shift+M'),
-			self).activated.connect(self.uncommentSelection)
-
+		
 	def applyCfg(self):
 
 		"""Apply the configuration"""
 
+		self.commentShortcut.setKey(QtGui.QKeySequence( \
+			self.qProgEdit.cfg.qProgEditCommentShortcut))
+		self.uncommentShortcut.setKey(QtGui.QKeySequence( \
+			self.qProgEdit.cfg.qProgEditUncommentShortcut))
 		font = QtGui.QFont(self.qProgEdit.cfg.qProgEditFontFamily,
 			self.qProgEdit.cfg.qProgEditFontSize)
 		self.setFont(font)
@@ -94,92 +100,85 @@ class QEditor(QsciScintilla):
 		self.setLang(self.lang())
 		self.cfgVersion = self.qProgEdit.cfg.version()
 
-	def doWithSelection(self, func):
-
-		"""
-		Calls a function on each line of the selected text. If no text has been
-		selected, the current line is used. After the operation, if there was a
-		selection before, the new selection is the full lines (even if previously
-		some lines were only partly selected.
-
-		Arguments:
-		func	--	a function, which accepts the old QString and returns a new
-					QString for each line.
-		"""
-
-		if not self.hasSelectedText():
-			# If there is no selection, use the current line
-			fl = self.getCursorPosition()[0]
-			tl = fl
-			fi = 0
-			ti = self.lineLength(tl)
-			selectAfter = False
-		else:
-			# Generally when the cursor is on the first position of a line, you
-			# do not want to comment that line
-			fl, fi, tl, ti = self.getSelection()
-			if ti == 0:
-				tl -= 1
-		for l in range(fl, tl+1):
-			self.insertAt(u'#', l, 0)
-		self.setSelection(fl, fi, tl, ti)
-
 	def commentSelection(self):
+		
+		"""Comments out the currently selected text."""
 
+		self.beginUndoAction()
+		cl, ci = self.getCursorPosition()
 		if not self.hasSelectedText():
+			select = False
 			# If there is no selection, use the current line
 			fl = self.getCursorPosition()[0]
 			tl = fl
 			fi = 0
 			ti = self.lineLength(tl)
 		else:
-			# Generally when the cursor is on the first position of a line, you
-			# do not want to comment that line
+			select = True
 			fl, fi, tl, ti = self.getSelection()
-			if ti == 0:
-				tl -= 1
+			if fi > 0:
+				fi += 1
+			ti += 1
 		for l in range(fl, tl+1):
 			self.insertAt(u'#', l, 0)
-		self.setSelection(fl, fi, tl, ti)
+		ci += 1
+		self.setCursorPosition(cl, ci)
+		if select:
+			self.setSelection(fl, fi, tl, ti)
+		self.endUndoAction()
 		
 	def focusOutEvent(self, e):
 
-		"""Let the qProgEdit call the handler when we lose focus."""
+		"""Lets the qProgEdit call the handler when we lose focus."""
 
 		if self.qProgEdit.tabManager.callHandlerOnFocusOut:
 			self.qProgEdit.callHandler()
 		super(QEditor, self).focusOutEvent(e)
 			
 	def focusInEvent(self, e):
+		
+		"""Apply the current configuration when we receive focus."""
 
 		if self.qProgEdit.tabManager.cfg.version() != self.cfgVersion:
 			self.applyCfg()
 		super(QEditor, self).focusInEvent(e)
 
 	def uncommentSelection(self):
+		
+		"""Uncomments the currently selected text."""
 
+		self.beginUndoAction()
+		cl, ci = self.getCursorPosition()
 		if not self.hasSelectedText():
+			select = False
 			# If there is no selection, use the current line
 			fl = self.getCursorPosition()[0]
 			tl = fl
 			fi = 0
 			ti = self.lineLength(tl)-1
 		else:
-			# Generally when the cursor is on the first position of a line, you
-			# do not want to comment that line
+			select = True
 			fl, fi, tl, ti = self.getSelection()
-			if ti == 0:
-				tl -= 1
+		stripped = False
 		for l in range(fl, tl+1):
-			l = self.setSelection(l, 0, l, self.lineLength(l)-1)
+			l = self.setSelection(l, 0, l, self.lineLength(l))
 			s = self.selectedText()
 			_s = s.trimmed()
 			if len(_s) == 0 or _s[0] != u'#':
 				continue
+			stripped = True
 			i = s.indexOf(u'#')
 			s = s.remove(i, 1)
 			self.replaceSelectedText(s)
-		self.setSelection(fl, fi, tl, ti)
+		# If a comment character has been stripped, we need to jump back one
+		# position, but not below 0
+		if stripped:
+			ci = max(0, ci-1)
+			ti = max(0, ti-1)
+		self.setCursorPosition(cl, ci)
+		if select:
+			self.setSelection(fl, fi, tl, ti)
+		self.endUndoAction()
 
 	def lang(self):
 

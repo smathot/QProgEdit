@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>573</width>
-    <height>267</height>
+    <width>853</width>
+    <height>224</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,27 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="13" column="1">
-    <widget class="QCheckBox" name="checkBoxWordWrapMarker">
+   <item row="4" column="3">
+    <widget class="QCheckBox" name="checkBoxShowIndent">
      <property name="text">
-      <string>Show 80 character word-wrap marker</string>
+      <string>Show indentation</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="spinBoxFontSize">
+     <property name="toolTip">
+      <string>The font size for the editor component</string>
+     </property>
+     <property name="suffix">
+      <string> pt</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="2">
+    <widget class="QCheckBox" name="checkBoxShowEol">
+     <property name="text">
+      <string>Show end-of-lines</string>
      </property>
     </widget>
    </item>
@@ -31,8 +48,39 @@
      </property>
     </widget>
    </item>
+   <item row="6" column="0">
+    <widget class="QCheckBox" name="checkBoxAutoIndent">
+     <property name="text">
+      <string>Enable automatic indentation</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="QCheckBox" name="checkBoxLineNumbers">
+     <property name="text">
+      <string>Show line numbers</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QCheckBox" name="checkBoxWordWrap">
+     <property name="text">
+      <string>Enable word wrapping</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QComboBox" name="comboBoxColorScheme">
+     <property name="toolTip">
+      <string>A color scheme for the editor component</string>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="1">
     <widget class="QSpinBox" name="spinBoxTabWidth">
+     <property name="toolTip">
+      <string>The tab width for the editor component</string>
+     </property>
      <property name="suffix">
       <string> characters</string>
      </property>
@@ -45,55 +93,10 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
-    <widget class="QCheckBox" name="checkBoxShowWhitespace">
-     <property name="text">
-      <string>Show whitespace</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QCheckBox" name="checkBoxLineNumbers">
-     <property name="text">
-      <string>Show line numbers</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QCheckBox" name="checkBoxWordWrap">
-     <property name="text">
-      <string>Enable word wrapping</string>
-     </property>
-    </widget>
-   </item>
-   <item row="13" column="0">
-    <widget class="QCheckBox" name="checkBoxShowFolding">
-     <property name="text">
-      <string>Enable block folding</string>
-     </property>
-    </widget>
-   </item>
-   <item row="14" column="0">
-    <widget class="QCheckBox" name="checkBoxAutoComplete">
-     <property name="text">
-      <string>Enable automatic completion</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="1">
-    <widget class="QFontComboBox" name="fontComboBoxFontFamily"/>
-   </item>
-   <item row="5" column="1">
-    <widget class="QCheckBox" name="checkBoxShowEol">
-     <property name="text">
-      <string>Show end-of-lines</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="QCheckBox" name="checkBoxShowIndent">
-     <property name="text">
-      <string>Show indentation</string>
+    <widget class="QFontComboBox" name="fontComboBoxFontFamily">
+     <property name="toolTip">
+      <string>The font font the editor component</string>
      </property>
     </widget>
    </item>
@@ -101,13 +104,6 @@
     <widget class="QLabel" name="labelFontSize">
      <property name="text">
       <string>Font size</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QSpinBox" name="spinBoxFontSize">
-     <property name="suffix">
-      <string> pt</string>
      </property>
     </widget>
    </item>
@@ -125,20 +121,66 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
-    <widget class="QCheckBox" name="checkBoxAutoIndent">
+   <item row="0" column="2">
+    <widget class="QLabel" name="labelCommentShortcut">
      <property name="text">
-      <string>Enable automatic indentation</string>
+      <string>Comment shortcut</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
-    <widget class="QComboBox" name="comboBoxColorScheme"/>
+   <item row="1" column="3">
+    <widget class="QLineEdit" name="lineEditUncommentShortcut">
+     <property name="toolTip">
+      <string>A keyboard shortcut, such as Ctrl+Shift+M</string>
+     </property>
+    </widget>
    </item>
-   <item row="3" column="0">
+   <item row="5" column="3">
+    <widget class="QCheckBox" name="checkBoxShowWhitespace">
+     <property name="text">
+      <string>Show whitespace</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QCheckBox" name="checkBoxShowFolding">
+     <property name="text">
+      <string>Enable block folding</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QLineEdit" name="lineEditCommentShortcut">
+     <property name="toolTip">
+      <string>A keyboard shortcut, such as Ctrl+M</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="2" colspan="2">
+    <widget class="QCheckBox" name="checkBoxWordWrapMarker">
+     <property name="text">
+      <string>Show 80 character word-wrap marker</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
     <widget class="QLabel" name="labelColorScheme">
      <property name="text">
       <string>Color scheme</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QCheckBox" name="checkBoxAutoComplete">
+     <property name="text">
+      <string>Enable automatic completion</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLabel" name="labelUncommentShortcut">
+     <property name="text">
+      <string>Uncomment shortcut</string>
      </property>
     </widget>
    </item>
