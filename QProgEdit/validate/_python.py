@@ -22,6 +22,21 @@ try:
 	from pyflakes.checker import Checker
 except:
 	Checker = None
+	
+_builtins = []
+
+def addPythonBuiltins(builtins):
+	
+	"""
+	Adds a number of names that should be interpreted as builtins, and not
+	trigger a warning.
+	
+	Argument:
+	builtins	--	A list of names.
+	"""
+	
+	global _builtins
+	_builtins += builtins
 
 def python(script):
 	
@@ -43,6 +58,6 @@ def python(script):
 	else:
 		if Checker == None:
 			return []
-		for msg in Checker(c).messages:
+		for msg in Checker(c, builtins=_builtins).messages:
 			l.append((msg.lineno-1, msg.message % msg.message_args))
 	return l

@@ -30,5 +30,5 @@ setup(
     author_email=u's.mathot@cogsci.nl',
     license=u'GNU GPL Version 3',
     url=u'https://github.com/smathot/QProgEdit',
-    packages=['QProgEdit', 'QProgEdit.ui', 'QProgedit.validate']
+    packages=['QProgEdit', 'QProgEdit.ui', 'QProgEdit.validate']
 )

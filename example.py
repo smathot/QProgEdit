@@ -20,12 +20,13 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
 from PyQt4 import QtGui, QtCore
-from QProgEdit import QTabManager
+from QProgEdit import QTabManager, validate
 
 def main():
 	
 	"""Runs a simple QProgEdit demonstration."""
 
+	validate.addPythonBuiltins(['builtin_var'])
 	app = QtGui.QApplication(sys.argv)
 	tabManager = QTabManager(defaultLang=u'python')
 	tabManager.setWindowIcon(QtGui.QIcon.fromTheme(u'accessories-text-editor'))
@@ -34,7 +35,7 @@ def main():
 	tabManager.addTab(u'Tab 1', lang=u'Python')
 	tabManager.setText(open(__file__).read())
 	tabManager.addTab(u'Tab 2', lang=u'Python')
-	tabManager.setText(u'def test()\n\tprint "x"\n\ntest()\n')
+	tabManager.setText(u'def test():\n\tprint undefined_var\n\tbuiltin_var\n\ntest()\n')
 	tabManager.show()
 	sys.exit(app.exec_())
 

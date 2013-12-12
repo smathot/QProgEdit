@@ -1,3 +1,16 @@
+python-qprogedit (0.3.1-ubuntu1) saucy; urgency=low
+
+  * Add missing options to specify Python builtins to pyflakes
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Thu, 12 Dec 2013 17:11:22 +0100
+
+python-qprogedit (0.3.0-ubuntu1) saucy; urgency=low
+
+  * Add content validation using pyflakes
+  * Do not get confused by capitalization in source language
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Thu, 12 Dec 2013 16:48:49 +0100
+
 python-qprogedit (0.2.0-ubuntu1) saucy; urgency=low
 
   * Improved and configurable block (un)commenting
