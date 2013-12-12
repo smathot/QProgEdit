@@ -98,6 +98,7 @@ class QTabCornerWidget(QtGui.QWidget):
 		"""Update to reflect document contents"""
 
 		self.langButton.setIcon(QtGui.QIcon.fromTheme(u'text-x-%s' % \
-			self.tabManager.lang(), QtGui.QIcon.fromTheme(u'text-plain')))
+			self.tabManager.lang().lower(), \
+			QtGui.QIcon.fromTheme(u'text-plain')))
 		self.findButton.setChecked(False)
 		self.prefsButton.setChecked(False)

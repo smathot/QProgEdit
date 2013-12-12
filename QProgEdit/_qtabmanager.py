@@ -193,8 +193,8 @@ class QTabManager(QtGui.QTabWidget):
 		Sets the language
 
 		Keyword arguments:
-		lang		-- 	language, used to select a lexer for syntax highlighting.
-					if an appropriate lexer isn't found, no error is
+		lang	-- 	language, used to select a lexer for syntax highlighting.
+					If an appropriate lexer isn't found, no error is
 					generated, but syntax highlighting is disabled. For a
 					list of available lexers, refer to the QsciScintilla
 					documentation. (default='text')

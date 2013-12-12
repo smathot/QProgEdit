@@ -40,7 +40,7 @@ class QLexer(Qsci.QsciLexer):
 
 		# If the language matches an existing Lexer, morph into that
 		# pre-existing lexer class
-		lexerClass = u'QsciLexer%s' % lang
+		lexerClass = u'QsciLexer%s' % lang.capitalize()
 		if hasattr(Qsci, lexerClass):
 			self.__class__ = getattr(Qsci, lexerClass)
 			getattr(Qsci, lexerClass).__init__(self, parent)
