@@ -56,7 +56,7 @@ class QEditor(QsciScintilla):
 		self.uncommentShortcut.activated.connect(self.uncommentSelection)
 		self.applyCfg()
 		self.linesChanged.connect(self.updateMarginWidth)
-		self.textChanged.connect(self.validate)		
+		self.cursorPositionChanged.connect(self.validate)
 		self.marginClicked.connect(self.onMarginClick)
 		self.setMarginSensitivity(1, True)
 		
@@ -279,15 +279,18 @@ class QEditor(QsciScintilla):
 		
 		"""Validates the text."""
 				
+		cl = self.getCursorPosition()[0]
+		validateCurrentLine = cl in self.validationErrors
 		self.validationErrors = {}
 		self.markerDeleteAll()
 		if not self.qProgEdit.cfg.qProgEditValidate or not hasattr(validate, \
 			self.lang().lower()):
 			return
-		validator = getattr(validate, self.lang().lower())
+		validator = getattr(validate, self.lang().lower())		
 		for l, s in validator(self.text()):
-			if l < 0:
+			# Do not validate negative positions or the current line, unless the
+			# current line already had a negative validation before.
+			if l < 0 or (not validateCurrentLine and l == cl):
 				continue
 			self.validationErrors[l] = s
 			self.markerAdd(l, self.invalidMarker)
-
