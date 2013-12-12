@@ -35,7 +35,6 @@ def main():
 	tabManager.setText(open(__file__).read())
 	tabManager.addTab(u'Tab 2', lang=u'Python')
 	tabManager.setText(u'def test()\n\tprint "x"\n\ntest()\n')
-	print tabManager.text()
 	tabManager.show()
 	sys.exit(app.exec_())
 
