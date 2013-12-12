@@ -21,11 +21,13 @@ import os
 from PyQt4 import QtGui, QtCore
 from PyQt4 import Qsci
 from PyQt4.Qsci import QsciScintilla, QsciScintillaBase
-from QProgEdit import QLexer
+from QProgEdit import QLexer, QColorScheme, validate
 
 class QEditor(QsciScintilla):
 
 	"""A single editor widget."""
+	
+	invalidMarker = 8
 
 	def __init__(self, parent=None, lang=u'text'):
 
@@ -44,6 +46,7 @@ class QEditor(QsciScintilla):
 		super(QEditor, self).__init__(parent)
 		self.setUtf8(True)
 		self.qProgEdit = parent
+		self.validationErrors = {}
 		self.setLang(lang)
 		self.commentShortcut = QtGui.QShortcut(QtGui.QKeySequence( \
 			self.qProgEdit.cfg.qProgEditCommentShortcut), self)
@@ -53,11 +56,23 @@ class QEditor(QsciScintilla):
 		self.uncommentShortcut.activated.connect(self.uncommentSelection)
 		self.applyCfg()
 		self.linesChanged.connect(self.updateMarginWidth)
+		self.textChanged.connect(self.validate)		
+		self.marginClicked.connect(self.onMarginClick)
+		self.setMarginSensitivity(1, True)
 		
 	def applyCfg(self):
 
 		"""Apply the configuration"""
-
+		
+		if hasattr(QColorScheme, self.qProgEdit.cfg.qProgEditColorScheme):
+			colorScheme = getattr(QColorScheme, self.qProgEdit.cfg.qProgEditColorScheme)
+		else:
+			colorScheme = QColorScheme.Default
+		self.markerDefine(QsciScintilla.RightArrow, self.invalidMarker)
+		self.setMarkerBackgroundColor(QtGui.QColor( \
+			colorScheme[u'Invalid']), self.invalidMarker)
+		self.setMarkerForegroundColor(QtGui.QColor( \
+			colorScheme[u'Invalid']), self.invalidMarker)
 		self.commentShortcut.setKey(QtGui.QKeySequence( \
 			self.qProgEdit.cfg.qProgEditCommentShortcut))
 		self.uncommentShortcut.setKey(QtGui.QKeySequence( \
@@ -75,7 +90,7 @@ class QEditor(QsciScintilla):
 			self.setFolding(QsciScintilla.PlainFoldStyle)
 		else:
 			self.setFolding(QsciScintilla.NoFoldStyle)
-		self.setMarginLineNumbers(1, self.qProgEdit.cfg.qProgEditLineNumbers)
+		self.setMarginLineNumbers(0, self.qProgEdit.cfg.qProgEditLineNumbers)
 		if self.qProgEdit.cfg.qProgEditShowWhitespace:
 			self.setWhitespaceVisibility(QsciScintilla.WsVisible)
 		else:
@@ -84,7 +99,7 @@ class QEditor(QsciScintilla):
 			self.setWrapMode(QsciScintilla.WrapWord)
 		else:
 			self.setWrapMode(QsciScintilla.WrapNone)
-		if self.qProgEdit.cfg.qProgEditWordWrapMarker != None:			
+		if self.qProgEdit.cfg.qProgEditWordWrapMarker != None:
 			self.setEdgeColumn(self.qProgEdit.cfg.qProgEditWordWrapMarker)
 			self.setEdgeMode(QsciScintilla.EdgeLine)
 		else:
@@ -142,6 +157,23 @@ class QEditor(QsciScintilla):
 		if self.qProgEdit.tabManager.cfg.version() != self.cfgVersion:
 			self.applyCfg()
 		super(QEditor, self).focusInEvent(e)
+
+	def onMarginClick(self, margin, line, state):
+		
+		"""
+		Show validation errors when the margin symbol is clicked.
+		
+		Arguments:
+		margin		--	The margin number.
+		line		--	The line number.
+		state		--	The keyboard state.
+		"""
+		
+		if margin != 1:
+			return
+		if line in self.validationErrors:
+			err = self.validationErrors[line]
+			QtGui.QToolTip.showText(QtGui.QCursor().pos(), err)
 
 	def uncommentSelection(self):
 		
@@ -207,6 +239,7 @@ class QEditor(QsciScintilla):
 		self._lang = lang
 		self.SendScintilla(QsciScintillaBase.SCI_CLEARDOCUMENTSTYLE)
 		self.setLexer(self._lexer)
+		self.validate()
 		
 	def setText(self, text):
 		
@@ -235,9 +268,26 @@ class QEditor(QsciScintilla):
 		"""
 
 		return unicode(super(QEditor, self).text())
-
+	
 	def updateMarginWidth(self):
 
 		"""Updates the width of the margin containing the line numbers"""
 
-		self.setMarginWidth(1, u' %s' % self.lines())
+		self.setMarginWidth(0, u' %s' % self.lines())
+
+	def validate(self):
+		
+		"""Validates the text."""
+				
+		self.validationErrors = {}
+		self.markerDeleteAll()
+		if not self.qProgEdit.cfg.qProgEditValidate or not hasattr(validate, \
+			self.lang().lower()):
+			return
+		validator = getattr(validate, self.lang().lower())
+		for l, s in validator(self.text()):
+			if l < 0:
+				continue
+			self.validationErrors[l] = s
+			self.markerAdd(l, self.invalidMarker)
+

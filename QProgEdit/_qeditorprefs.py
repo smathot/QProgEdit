@@ -33,7 +33,7 @@ class QEditorPrefs(QtGui.QWidget):
 	checkBoxCfgOptions = [u'AutoComplete', u'AutoIndent',
 		u'HighlightCurrentLine', u'HighlightMatchingBrackets', u'LineNumbers',
 		u'ShowEol', u'ShowFolding', u'ShowIndent', u'ShowWhitespace',
-		u'WordWrap']
+		u'WordWrap', u'Validate']
 
 	def __init__(self, parent=None):
 
@@ -82,7 +82,7 @@ class QEditorPrefs(QtGui.QWidget):
 			self.ui.comboBoxColorScheme.addItem(scheme)
 			if scheme == self.qProgEdit.cfg.qProgEditColorScheme:
 				self.ui.comboBoxColorScheme.setCurrentIndex(i)
-			i += 1		
+			i += 1
 		self.ui.fontComboBoxFontFamily.setCurrentIndex(index)
 		self.ui.spinBoxFontSize.setValue(self.qProgEdit.cfg.qProgEditFontSize)
 		self.ui.spinBoxTabWidth.setValue(self.qProgEdit.cfg.qProgEditTabWidth)

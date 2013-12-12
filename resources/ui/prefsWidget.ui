@@ -17,6 +17,37 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="4" column="1">
+    <widget class="QCheckBox" name="checkBoxWordWrap">
+     <property name="text">
+      <string>Enable word wrapping</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QComboBox" name="comboBoxColorScheme">
+     <property name="toolTip">
+      <string>A color scheme for the editor component</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QSpinBox" name="spinBoxTabWidth">
+     <property name="toolTip">
+      <string>The tab width for the editor component</string>
+     </property>
+     <property name="suffix">
+      <string> characters</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelFontFamily">
+     <property name="text">
+      <string>Font family</string>
+     </property>
+    </widget>
+   </item>
    <item row="4" column="3">
     <widget class="QCheckBox" name="checkBoxShowIndent">
      <property name="text">
@@ -59,37 +90,6 @@
     <widget class="QCheckBox" name="checkBoxLineNumbers">
      <property name="text">
       <string>Show line numbers</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QCheckBox" name="checkBoxWordWrap">
-     <property name="text">
-      <string>Enable word wrapping</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="3">
-    <widget class="QComboBox" name="comboBoxColorScheme">
-     <property name="toolTip">
-      <string>A color scheme for the editor component</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QSpinBox" name="spinBoxTabWidth">
-     <property name="toolTip">
-      <string>The tab width for the editor component</string>
-     </property>
-     <property name="suffix">
-      <string> characters</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="labelFontFamily">
-     <property name="text">
-      <string>Font family</string>
      </property>
     </widget>
    </item>
@@ -156,13 +156,6 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="2" colspan="2">
-    <widget class="QCheckBox" name="checkBoxWordWrapMarker">
-     <property name="text">
-      <string>Show 80 character word-wrap marker</string>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="2">
     <widget class="QLabel" name="labelColorScheme">
      <property name="text">
@@ -181,6 +174,20 @@
     <widget class="QLabel" name="labelUncommentShortcut">
      <property name="text">
       <string>Uncomment shortcut</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="3">
+    <widget class="QCheckBox" name="checkBoxWordWrapMarker">
+     <property name="text">
+      <string>Show 80 character word-wrap marker</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="2">
+    <widget class="QCheckBox" name="checkBoxValidate">
+     <property name="text">
+      <string>Validate content</string>
      </property>
     </widget>
    </item>

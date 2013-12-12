@@ -39,6 +39,7 @@ TangoDark = {
 	u'Unclosed string'				: u'#ef2929',
 	u'Highlighted identifier'		: u'#ef2929',
 	u'Decorator'					: u'#ef2929',
+	u'Invalid'						: u'#cc0000',
 	}
 
 SolarizedPalette = {
@@ -82,9 +83,10 @@ SolarizedDark = {
 	u'Unclosed string'				: SolarizedPalette[u'Red'],
 	u'Highlighted identifier'		: SolarizedPalette[u'Cyan'],
 	u'Decorator'					: SolarizedPalette[u'Orange'],
+	u'Invalid'						: SolarizedPalette[u'Orange'],
 	}
 
-Default = {}
+Default = {u'Invalid' : u'red'}
 
 # A list of available themes
 schemes = ['Default', 'TangoDark', 'SolarizedDark']
