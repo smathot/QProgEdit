@@ -146,8 +146,7 @@ class QEditor(QsciScintilla):
 
 		"""Lets the qProgEdit call the handler when we lose focus."""
 
-		if self.qProgEdit.tabManager.callHandlerOnFocusOut:
-			self.qProgEdit.callHandler()
+		self.qProgEdit.callFocusOutHandler()
 		super(QEditor, self).focusOutEvent(e)
 			
 	def focusInEvent(self, e):

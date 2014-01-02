@@ -22,13 +22,26 @@ import sys
 from PyQt4 import QtGui, QtCore
 from QProgEdit import QTabManager, validate
 
+def focusOut():
+	
+	"""Is called when an editor widget loses focus."""
+	
+	print u'focusOut()'
+	
+def apply():
+	
+	"""Is called when the apply button is pressed."""
+	
+	print u'apply()'	
+
 def main():
 	
 	"""Runs a simple QProgEdit demonstration."""
 
 	validate.addPythonBuiltins(['builtin_var'])
 	app = QtGui.QApplication(sys.argv)
-	tabManager = QTabManager(defaultLang=u'python')
+	tabManager = QTabManager(defaultLang=u'python', handler=apply, \
+		focusOutHandler=focusOut, handlerButtonText=u'apply')
 	tabManager.setWindowIcon(QtGui.QIcon.fromTheme(u'accessories-text-editor'))
 	tabManager.setWindowTitle(u'QProgEdit')
 	tabManager.resize(800, 600)

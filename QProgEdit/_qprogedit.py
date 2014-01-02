@@ -29,7 +29,7 @@ class QProgEdit(QtGui.QWidget):
 	"""
 
 	def __init__(self, parent=None, lang=u'text', cfg=None, dPrint=None,
-		title=u'Empty document', handler=None):
+		title=u'Empty document', handler=None, focusOutHandler=None):
 				
 		"""
 		Constructor.
@@ -49,6 +49,8 @@ class QProgEdit(QtGui.QWidget):
 		handler		--	A function that is called when the editor loses focus,
 						typically to respond to changes in the content.
 						(default=None)
+		focusOutHandler	--	The handler function that is called when focus is
+							lost. (default=None)
 		"""
 
 		super(QProgEdit, self).__init__(parent)
@@ -56,6 +58,7 @@ class QProgEdit(QtGui.QWidget):
 		self.tabManager = parent
 		self.title = title
 		self.handler = handler
+		self.focusOutHandler = focusOutHandler
 		if dPrint != None:
 			self.dPrint = dPrint
 		if cfg == None:
@@ -86,6 +89,13 @@ class QProgEdit(QtGui.QWidget):
 		"""Applies the configuration."""
 
 		self.editor.applyCfg()
+		
+	def callFocusOutHandler(self):
+		
+		"""Calls the focus-out handler."""
+		
+		if self.focusOutHandler != None:
+			self.focusOutHandler()
 		
 	def callHandler(self):
 		
@@ -119,6 +129,19 @@ class QProgEdit(QtGui.QWidget):
 		"""
 
 		return self.editor.lang()
+	
+	def setFocusOutHandler(self, focusOutHandler=None):
+		
+		"""
+		Set the handler function, i.e. the function that is called when the
+		editor loses focus.
+		
+		Keyword arguments:
+		focusOutHandler		--	A handler function or None to disable the
+								handler. (default=None)
+		"""
+		
+		self.focusOutHandler = focusOutHandler
 	
 	def setHandler(self, handler=None):
 		

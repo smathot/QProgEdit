@@ -29,7 +29,8 @@ class QTabManager(QtGui.QTabWidget):
 
 	def __init__(self, parent=None, defaultLang=u'text', cfg=QEditorCfg(),
 		createTab=False, tabsClosable=False, tabsMovable=False, handler=None,
-		msg=None, handlerButtonText=None, callHandlerOnFocusOut=True):
+		focusOutHandler=None, msg=None, handlerButtonText=None, \
+		**deprecatedArgs):
 
 		"""
 		Constructor
@@ -50,15 +51,15 @@ class QTabManager(QtGui.QTabWidget):
 							each tab. (default=False)
 		tabsMovable		--	Indicates whether tabs can be re-ordered.
 							(default=False)
-		handler			--	The handler function. (default=None)
+		handler			--	The handler function that is called when the handler
+							button is clicked. (default=None)
+		focusOutHandler	--	The handler function that is called when focus is
+							lost. (default=None)
 		msg				--	An informative message for the corner widget, or
 							None for auto-detect. (default=None)
 		handlerButtonText	--	Text for a top-right button, which can be
 								clicked to call the handler, or None for no
 								button. (default=None)
-		callHandlerOnFocusOut	--	Indicates whether the handler should be
-									called when the editor loses focus.
-									(default=True)
 		"""
 
 		super(QTabManager, self).__init__(parent)		
@@ -67,13 +68,13 @@ class QTabManager(QtGui.QTabWidget):
 			msg = u'Python %d.%d.%d' % (sys.version_info[0], \
 				sys.version_info[1], sys.version_info[2])
 		self.cfg = cfg
-		self.callHandlerOnFocusOut = callHandlerOnFocusOut
 		self.setDocumentMode(True)
 		self.setTabsClosable(tabsClosable)
 		self.setMovable(tabsMovable)		
 		self.currentChanged.connect(self.tabChanged)
 		self.tabCloseRequested.connect(self.closeTab)
 		self.setHandler(handler)
+		self.setFocusOutHandler(focusOutHandler)
 		self.setCornerWidget(QTabCornerWidget(self, msg=msg, \
 			handlerButtonText=handlerButtonText))
 		if createTab:
@@ -82,6 +83,10 @@ class QTabManager(QtGui.QTabWidget):
 		# tab-bar height looks funny on Linux. Mac OS not tested.
 		if os.name == u'nt':
 			self.setStyleSheet(u'QTabBar::tab { min-height: 32px; }')
+			
+		if len(deprecatedArgs) > 0:
+			print \
+				u'QProgEdit.QTabManager.__init__(): deprecated keyword arguments received'
 
 	def addTab(self, title, lang=None, select=True):
 
@@ -101,7 +106,7 @@ class QTabManager(QtGui.QTabWidget):
 		if lang == None:
 			lang = self.defaultLang
 		progEdit = QProgEdit(self, lang=lang, cfg=self.cfg, title=title, \
-			handler=self.handler)
+			handler=self.handler, focusOutHandler=self.focusOutHandler)
 		index = super(QTabManager, self).addTab(progEdit, progEdit.title)
 		if select:
 			self.setCurrentIndex(index)
@@ -172,11 +177,26 @@ class QTabManager(QtGui.QTabWidget):
 			return self.widget(index).lang()
 		return None
 	
+	def setFocusOutHandler(self, focusOutHandler=None):
+		
+		"""
+		Set the handler function, i.e. the function that is called when the
+		editor loses focus.
+		
+		Keyword arguments:
+		focusOutHandler		--	A handler function or None to disable the
+								handler. (default=None)
+		"""
+		
+		self.focusOutHandler = focusOutHandler
+		for i in range(self.count()):
+			self.widget(i).setFocusOutHandler(focusOutHandler)
+	
 	def setHandler(self, handler=None):
 		
 		"""
 		Set the handler function, i.e. the function that is called when the
-		editor loses focus and changes need to be processed.
+		handler button is pressed.
 		
 		Keyword arguments:
 		handler		--	A handler function or None to disable the handler.
