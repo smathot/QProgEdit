@@ -21,12 +21,12 @@ import os
 from PyQt4 import QtGui, QtCore
 from PyQt4 import Qsci
 from PyQt4.Qsci import QsciScintilla, QsciScintillaBase
-from QProgEdit import QLexer, QColorScheme, validate
+from QProgEdit import QLexer, QColorScheme, validate, clean, _
 
 class QEditor(QsciScintilla):
 
 	"""A single editor widget."""
-	
+
 	invalidMarker = 8
 
 	def __init__(self, parent=None, lang=u'text'):
@@ -59,13 +59,14 @@ class QEditor(QsciScintilla):
 		self.cursorPositionChanged.connect(self.validate)
 		self.marginClicked.connect(self.onMarginClick)
 		self.setMarginSensitivity(1, True)
-		
+
 	def applyCfg(self):
 
 		"""Apply the configuration"""
-		
+
 		if hasattr(QColorScheme, self.qProgEdit.cfg.qProgEditColorScheme):
-			colorScheme = getattr(QColorScheme, self.qProgEdit.cfg.qProgEditColorScheme)
+			colorScheme = getattr(QColorScheme, \
+				self.qProgEdit.cfg.qProgEditColorScheme)
 		else:
 			colorScheme = QColorScheme.Default
 		self.markerDefine(QsciScintilla.RightArrow, self.invalidMarker)
@@ -116,7 +117,7 @@ class QEditor(QsciScintilla):
 		self.cfgVersion = self.qProgEdit.cfg.version()
 
 	def commentSelection(self):
-		
+
 		"""Comments out the currently selected text."""
 
 		self.beginUndoAction()
@@ -141,33 +142,60 @@ class QEditor(QsciScintilla):
 		if select:
 			self.setSelection(fl, fi, tl, ti)
 		self.endUndoAction()
-		
+
 	def focusOutEvent(self, e):
 
 		"""Lets the qProgEdit call the handler when we lose focus."""
 
 		self.qProgEdit.callFocusOutHandler()
 		super(QEditor, self).focusOutEvent(e)
-			
+
 	def focusInEvent(self, e):
-		
+
 		"""Apply the current configuration when we receive focus."""
 
 		if self.qProgEdit.tabManager.cfg.version() != self.cfgVersion:
 			self.applyCfg()
 		super(QEditor, self).focusInEvent(e)
 
+	def keyPressEvent(self, event):
+
+		"""
+		Intercepts certain keypress events to implement custom copy-pasting and
+		zoomin.
+
+		Arguments:
+		event	--	A QKeyPressEvent.
+		"""
+
+		key = event.key()
+		ctrl = event.modifiers() & QtCore.Qt.ControlModifier
+		shift = event.modifiers() & QtCore.Qt.ShiftModifier
+		# Zoom in/out
+		if ((key == QtCore.Qt.Key_Plus) and ctrl) \
+			or ((key == QtCore.Qt.Key_Equal) and shift and ctrl):
+			self.zoomIn()
+			event.accept()
+		elif (key == QtCore.Qt.Key_Minus) and ctrl:
+			self.zoomOut()
+			event.accept()
+		elif (key == QtCore.Qt.Key_V) and ctrl:
+			self.paste()
+			event.accept()
+		else:
+			QsciScintilla.keyPressEvent(self, event)
+
 	def onMarginClick(self, margin, line, state):
-		
+
 		"""
 		Show validation errors when the margin symbol is clicked.
-		
+
 		Arguments:
 		margin		--	The margin number.
 		line		--	The line number.
 		state		--	The keyboard state.
 		"""
-		
+
 		if margin != 1:
 			return
 		if line in self.validationErrors:
@@ -175,7 +203,7 @@ class QEditor(QsciScintilla):
 			QtGui.QToolTip.showText(QtGui.QCursor().pos(), err)
 
 	def uncommentSelection(self):
-		
+
 		"""Uncomments the currently selected text."""
 
 		self.beginUndoAction()
@@ -220,6 +248,23 @@ class QEditor(QsciScintilla):
 
 		return self._lang
 
+	def paste(self):
+
+		"""
+		Re-implements the paste method to allow modification of paste content.
+		"""
+
+		text = unicode(QtGui.QApplication.clipboard().text())
+		if hasattr(clean, self.lang().lower()):
+			msg, cleanText = getattr(clean, self.lang().lower())(text)
+			if msg != None:
+				resp = QtGui.QMessageBox.question(self, _(u'Pasting content'), \
+					msg, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+				if resp == QtGui.QMessageBox.Yes:
+					text = cleanText
+		self.removeSelectedText()
+		self.insert(text)
+
 	def setLang(self, lang=u'text'):
 
 		"""
@@ -239,35 +284,35 @@ class QEditor(QsciScintilla):
 		self.SendScintilla(QsciScintillaBase.SCI_CLEARDOCUMENTSTYLE)
 		self.setLexer(self._lexer)
 		self.validate()
-		
+
 	def setText(self, text):
-		
+
 		"""
 		Sets the editor contents.
-		
+
 		Arguments:
 		text	--	A text string. This can be a str object, which is assumed
 					to be in utf-8 encoding, a Unicode object, or a QString.
 		"""
-		
+
 		if isinstance(text, str):
 			text = text.decode(u'utf-8')
 		elif not isinstance(text, unicode) and not isinstance(text, \
 			QtCore.QString):
 			raise Exception(u'Expecting a str, unicode, or QString object')
 		super(QEditor, self).setText(text)
-		
+
 	def text(self):
-		
+
 		"""
 		Retrieves the editor contents.
-		
+
 		Returns:
 		A unicode object.
 		"""
 
 		return unicode(super(QEditor, self).text())
-	
+
 	def updateMarginWidth(self):
 
 		"""Updates the width of the margin containing the line numbers"""
@@ -275,9 +320,9 @@ class QEditor(QsciScintilla):
 		self.setMarginWidth(0, u' %s' % self.lines())
 
 	def validate(self):
-		
+
 		"""Validates the text."""
-				
+
 		cl = self.getCursorPosition()[0]
 		validateCurrentLine = cl in self.validationErrors
 		self.validationErrors = {}
@@ -285,7 +330,7 @@ class QEditor(QsciScintilla):
 		if not self.qProgEdit.cfg.qProgEditValidate or not hasattr(validate, \
 			self.lang().lower()):
 			return
-		validator = getattr(validate, self.lang().lower())		
+		validator = getattr(validate, self.lang().lower())
 		for l, s in validator(self.text()):
 			# Do not validate negative positions or the current line, unless the
 			# current line already had a negative validation before.
