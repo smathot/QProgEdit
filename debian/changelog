@@ -1,3 +1,16 @@
+python-qprogedit (1.1.0-ubuntu1) saucy; urgency=low
+
+  * Auto-fix space-based indentation
+  * Use Python lexer for OpenSesame script
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Mon, 03 Mar 2014 18:59:42 +0100
+
+python-qprogedit (1.0.0-ubuntu1) saucy; urgency=low
+
+  * Better implementation of focus-out handler
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Thu, 02 Jan 2014 17:23:26 +0100
+
 python-qprogedit (0.3.1-ubuntu1) saucy; urgency=low
 
   * Add missing options to specify Python builtins to pyflakes
