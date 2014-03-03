@@ -28,12 +28,12 @@ class QLexer(Qsci.QsciLexer):
 	def __init__(self, parent=None, lang=u'text', colorScheme=u'Default'):
 
 		"""
-		Constructor
+		Constructor.
 
 		Keyword arguments:
-		parent		--	a QEditor
-		lang			--	the language (default='text')
-		colorScheme	--	the colorScheme (default='default')
+		parent			--	A QEditor.
+		lang			--	The language. (default='text')
+		colorScheme		--	The color scheme. (default='default')
 		"""
 
 		self.editor = parent
@@ -44,6 +44,9 @@ class QLexer(Qsci.QsciLexer):
 		if hasattr(Qsci, lexerClass):
 			self.__class__ = getattr(Qsci, lexerClass)
 			getattr(Qsci, lexerClass).__init__(self, parent)
+		elif lang.lower() == 'opensesame':
+			self.__class__ = Qsci.QsciLexerPython
+			Qsci.QsciLexerPython.__init__(self, parent)
 		else:
 			super(QLexer, self).__init__(parent)
 
