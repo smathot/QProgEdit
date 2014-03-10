@@ -1,3 +1,9 @@
+python-qprogedit (1.2.0-ubuntu1) saucy; urgency=low
+
+  * Zoom on scroll
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Mon, 10 Mar 2014 16:38:20 +0100
+
 python-qprogedit (1.1.0-ubuntu1) saucy; urgency=low
 
   * Auto-fix space-based indentation

@@ -338,3 +338,21 @@ class QEditor(QsciScintilla):
 				continue
 			self.validationErrors[l] = s
 			self.markerAdd(l, self.invalidMarker)
+
+	def wheelEvent(self, event):
+
+		"""
+		Implements scroll-to-zoom functionality.
+
+		Arguments:
+		event	--	A QWheelEvent.
+		"""
+
+		if QtCore.Qt.ControlModifier == event.modifiers():
+			event.ignore()
+			if event.delta() > 0:
+				self.zoomIn()
+			else:
+				self.zoomOut()
+		else:
+			event.accept()
