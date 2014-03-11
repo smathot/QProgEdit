@@ -20,36 +20,43 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 import _ast
 try:
 	from pyflakes.checker import Checker
+	# Check whether PyFlakes supports the builtins keyword
+	try:
+		Checker(compile(u'', u'<string>', u'exec', _ast.PyCF_ONLY_AST), \
+			builtins=None)
+		pyflakesBuiltins = True
+	except TypeError:
+		pyflakesBuiltins = False
 except:
 	Checker = None
-	
+
 _builtins = []
 
 def addPythonBuiltins(builtins):
-	
+
 	"""
 	Adds a number of names that should be interpreted as builtins, and not
 	trigger a warning.
-	
+
 	Argument:
 	builtins	--	A list of names.
 	"""
-	
+
 	global _builtins
 	_builtins += builtins
 
 def python(script):
-	
+
 	"""
 	Validates a Python script using pyflakes.
-	
+
 	Arguments:
 	script		--	The script to validate.
-	
+
 	Returns:
 	A list of (line number, message) tuples contain all warnings.
 	"""
-	
+
 	l = []
 	try:
 		c = compile(script, u'<string>', u'exec', _ast.PyCF_ONLY_AST)
@@ -58,6 +65,12 @@ def python(script):
 	else:
 		if Checker == None:
 			return []
-		for msg in Checker(c, builtins=_builtins).messages:
+		# Older version of PyFlakes don't support the builtins keyword, and
+		# we don't want to crash on that.
+		if pyflakesBuiltins:
+			messages = Checker(c, builtins=_builtins).messages
+		else:
+			messages = Checker(c).messages
+		for msg in messages:
 			l.append((msg.lineno-1, msg.message % msg.message_args))
 	return l
