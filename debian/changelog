@@ -1,6 +1,7 @@
 python-qprogedit (1.2.1-ubuntu1) saucy; urgency=low
 
   * Don't assume that pyflakes accepts builtins keyword (#6)
+  * Only call focusOut handler when isModified is True
 
  -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Tue, 11 Mar 2014 17:08:19 +0100
 

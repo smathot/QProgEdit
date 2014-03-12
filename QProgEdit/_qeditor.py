@@ -147,7 +147,9 @@ class QEditor(QsciScintilla):
 
 		"""Lets the qProgEdit call the handler when we lose focus."""
 
-		self.qProgEdit.callFocusOutHandler()
+		if self.isModified():
+			self.qProgEdit.callFocusOutHandler()
+			self.setModified(False)
 		super(QEditor, self).focusOutEvent(e)
 
 	def focusInEvent(self, e):
@@ -301,6 +303,7 @@ class QEditor(QsciScintilla):
 			QtCore.QString):
 			raise Exception(u'Expecting a str, unicode, or QString object')
 		super(QEditor, self).setText(text)
+		self.setModified(False)
 
 	def text(self):
 
