@@ -355,4 +355,5 @@ class QEditor(QsciScintilla):
 			else:
 				self.zoomOut()
 		else:
-			event.accept()
+			super(QEditor, self).wheelEvent(event)
+
