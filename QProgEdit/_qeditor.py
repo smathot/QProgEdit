@@ -147,6 +147,9 @@ class QEditor(QsciScintilla):
 
 		"""Lets the qProgEdit call the handler when we lose focus."""
 
+		if e.reason() == QtCore.Qt.PopupFocusReason:
+			e.ignore()
+			return
 		if self.isModified():
 			self.qProgEdit.callFocusOutHandler()
 			self.setModified(False)
