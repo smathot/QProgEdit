@@ -44,6 +44,7 @@ class QEditor(QsciScintilla):
 		"""
 
 		super(QEditor, self).__init__(parent)
+		self.setEolMode(self.EolUnix)
 		self.setUtf8(True)
 		self.qProgEdit = parent
 		self.validationErrors = {}
