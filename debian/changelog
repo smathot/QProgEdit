@@ -1,4 +1,10 @@
-python-qprogedit (1.2.2-ubuntu1) saucy; urgency=low
+python-qprogedit (1.2.3-ubuntu1) trusty; urgency=medium
+
+  * Set EOL mode to linux to fix problems on OSX
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Fri, 25 Apr 2014 09:55:23 +0200
+
+python-qprogedit (1.2.2-2) unstable; urgency=low
 
   * Do not accept popup-focus events
 
