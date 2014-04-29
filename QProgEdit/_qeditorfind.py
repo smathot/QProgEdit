@@ -84,3 +84,9 @@ class QEditorFind(QtGui.QWidget):
 		i = 0
 		while self.replace():
 			i += 1
+
+	def unshow(self):
+
+		"""Toggles the widget's visibility."""
+
+		self.qProgEdit.toggleFind(False)

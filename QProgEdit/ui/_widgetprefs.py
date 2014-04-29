@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'resources/ui/prefsWidget.ui'
 #
-# Created: Thu Dec 12 14:48:46 2013
-#      by: PyQt4 UI code generator 4.10.3
+# Created: Tue Apr 29 11:53:54 2014
+#      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_widgetPrefs(object):
     def setupUi(self, widgetPrefs):
         widgetPrefs.setObjectName(_fromUtf8("widgetPrefs"))
-        widgetPrefs.resize(853, 224)
+        widgetPrefs.resize(867, 224)
         widgetPrefs.setAutoFillBackground(True)
         self.gridLayout = QtGui.QGridLayout(widgetPrefs)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
@@ -105,6 +105,23 @@ class Ui_widgetPrefs(object):
 
         self.retranslateUi(widgetPrefs)
         QtCore.QMetaObject.connectSlotsByName(widgetPrefs)
+        widgetPrefs.setTabOrder(self.fontComboBoxFontFamily, self.spinBoxFontSize)
+        widgetPrefs.setTabOrder(self.spinBoxFontSize, self.spinBoxTabWidth)
+        widgetPrefs.setTabOrder(self.spinBoxTabWidth, self.lineEditCommentShortcut)
+        widgetPrefs.setTabOrder(self.lineEditCommentShortcut, self.lineEditUncommentShortcut)
+        widgetPrefs.setTabOrder(self.lineEditUncommentShortcut, self.comboBoxColorScheme)
+        widgetPrefs.setTabOrder(self.comboBoxColorScheme, self.checkBoxHighlightCurrentLine)
+        widgetPrefs.setTabOrder(self.checkBoxHighlightCurrentLine, self.checkBoxHighlightMatchingBrackets)
+        widgetPrefs.setTabOrder(self.checkBoxHighlightMatchingBrackets, self.checkBoxAutoIndent)
+        widgetPrefs.setTabOrder(self.checkBoxAutoIndent, self.checkBoxWordWrap)
+        widgetPrefs.setTabOrder(self.checkBoxWordWrap, self.checkBoxShowFolding)
+        widgetPrefs.setTabOrder(self.checkBoxShowFolding, self.checkBoxAutoComplete)
+        widgetPrefs.setTabOrder(self.checkBoxAutoComplete, self.checkBoxLineNumbers)
+        widgetPrefs.setTabOrder(self.checkBoxLineNumbers, self.checkBoxShowEol)
+        widgetPrefs.setTabOrder(self.checkBoxShowEol, self.checkBoxValidate)
+        widgetPrefs.setTabOrder(self.checkBoxValidate, self.checkBoxShowIndent)
+        widgetPrefs.setTabOrder(self.checkBoxShowIndent, self.checkBoxShowWhitespace)
+        widgetPrefs.setTabOrder(self.checkBoxShowWhitespace, self.checkBoxWordWrapMarker)
 
     def retranslateUi(self, widgetPrefs):
         widgetPrefs.setWindowTitle(_translate("widgetPrefs", "Form", None))

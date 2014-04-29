@@ -23,17 +23,17 @@ from PyQt4.Qsci import QsciScintilla, QsciScintillaBase, QsciLexerPython
 from QProgEdit import QEditor, QEditorCfg, QEditorPrefs, QEditorFind
 
 class QProgEdit(QtGui.QWidget):
-	
+
 	"""
 	A single editor window, with preferences widget and search functionality.
 	"""
 
 	def __init__(self, parent=None, lang=u'text', cfg=None, dPrint=None,
 		title=u'Empty document', handler=None, focusOutHandler=None):
-				
+
 		"""
 		Constructor.
-		
+
 		Keyword arguments:
 		parent		--	A parent QWidget, typically a QTabManager.
 						(default=None)
@@ -79,7 +79,7 @@ class QProgEdit(QtGui.QWidget):
 		self.mainBox.addWidget(self.find)
 		self.mainBox.addWidget(self.editor)
 		self.setLayout(self.mainBox)
-		
+
 		if self.tabManager != None:
 			self.editor.cursorPositionChanged.connect( \
 				self.tabManager.cornerWidget().statusWidget.updateCursorPos)
@@ -89,71 +89,71 @@ class QProgEdit(QtGui.QWidget):
 		"""Applies the configuration."""
 
 		self.editor.applyCfg()
-		
+
 	def callFocusOutHandler(self):
-		
+
 		"""Calls the focus-out handler."""
-		
+
 		if self.focusOutHandler != None:
 			self.focusOutHandler()
-		
+
 	def callHandler(self):
-		
+
 		"""Calls the handler."""
-		
+
 		if self.handler != None:
 			self.handler()
 
 	def dPrint(self, msg):
 
 		print u'debug: %s' % msg
-		
+
 	def isModified(self):
-		
+
 		"""
 		Returns the modified status.
-				
+
 		Returns:
 		True if the editor is modified, False otherwise.
 		"""
-		
+
 		return self.editor.isModified()
 
 	def lang(self):
 
 		"""
 		Returns the language used for syntax highlighting.
-		
+
 		Returns:
 		The language.
 		"""
 
 		return self.editor.lang()
-	
+
 	def setFocusOutHandler(self, focusOutHandler=None):
-		
+
 		"""
 		Set the handler function, i.e. the function that is called when the
 		editor loses focus.
-		
+
 		Keyword arguments:
 		focusOutHandler		--	A handler function or None to disable the
 								handler. (default=None)
 		"""
-		
+
 		self.focusOutHandler = focusOutHandler
-	
+
 	def setHandler(self, handler=None):
-		
+
 		"""
 		Sets the handler function, i.e. the function that is called when the
 		editor loses focus and changes need to be processed.
-		
+
 		Keyword arguments:
 		handler		--	A handler function or None to disable the handler.
 						(default=None)
 		"""
-		
+
 		self.handler = handler
 
 	def setLang(self, lang=u'text'):
@@ -191,7 +191,7 @@ class QProgEdit(QtGui.QWidget):
 
 		"""
 		Retrieves the editor contents.
-		
+
 		Returns:
 		The editor contents.
 		"""
@@ -233,6 +233,7 @@ class QProgEdit(QtGui.QWidget):
 		"""
 
 		self.toggle(self.find, visible)
+		self.tabManager.cornerWidget().findButton.setChecked(visible)
 		if visible:
 			self.find.ui.lineEditFind.setFocus()
 		else:
@@ -248,5 +249,6 @@ class QProgEdit(QtGui.QWidget):
 		"""
 
 		if visible:
+			self.prefs.ui.fontComboBoxFontFamily.setFocus()
 			self.prefs.refresh()
 		self.toggle(self.prefs, visible)

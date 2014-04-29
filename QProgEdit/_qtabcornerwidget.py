@@ -39,9 +39,7 @@ class QTabCornerWidget(QtGui.QWidget):
 		"""
 
 		super(QTabCornerWidget, self).__init__()
-
 		self.tabManager = parent
-
 		# Preferences button
 		self.prefsButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(
 			u'preferences-desktop'), u'', self)
@@ -49,7 +47,6 @@ class QTabCornerWidget(QtGui.QWidget):
 		self.prefsButton.toggled.connect(self.tabManager.togglePrefs)
 		QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+Shift+P'),
 			self).activated.connect(self.prefsButton.toggle)
-
 		# Find button
 		self.findButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(
 			u'edit-find'), u'', self)
@@ -57,13 +54,11 @@ class QTabCornerWidget(QtGui.QWidget):
 		self.findButton.toggled.connect(self.tabManager.toggleFind)
 		QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+F'), self).activated.connect(
 			self.findButton.toggle)
-
 		# Language button (filled by update())
 		self.langButton = QtGui.QPushButton(self)
 		self.langButton.setMenu(QLangMenu(self))
 		QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+Shift+L'),
 			self).activated.connect(self.langButton.click)
-		
 		# Handler button
 		if handlerButtonText != None:
 			self.handlerButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(
@@ -71,15 +66,12 @@ class QTabCornerWidget(QtGui.QWidget):
 			self.handlerButton.clicked.connect(self.tabManager.handler)
 		else:
 			self.handlerButton = None
-		
 		# Editor status
-		self.statusWidget = QEditorStatus(self)		
-		
+		self.statusWidget = QEditorStatus(self)
 		# Message
 		if msg != None:
 			self.msgLabel = QtGui.QLabel(u'<small>%s</small>' % msg, parent= \
 				self)
-
 		self.hBox = QtGui.QHBoxLayout(self)
 		self.hBox.setSpacing(2)
 		self.hBox.setContentsMargins(2,2,2,2)
@@ -91,8 +83,12 @@ class QTabCornerWidget(QtGui.QWidget):
 		self.hBox.addWidget(self.langButton)
 		if self.handlerButton != None:
 			self.hBox.addWidget(self.handlerButton)
-		self.setLayout(self.hBox)		
-		
+		self.setLayout(self.hBox)
+		# Set the tab order for keyboard navigation
+		self.setTabOrder(self.prefsButton, self.findButton)
+		self.setTabOrder(self.findButton, self.langButton)
+		self.setTabOrder(self.langButton, self.handlerButton)
+
 	def update(self):
 
 		"""Update to reflect document contents"""

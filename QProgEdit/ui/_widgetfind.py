@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'resources/ui/findWidget.ui'
 #
-# Created: Thu Dec 12 14:48:46 2013
-#      by: PyQt4 UI code generator 4.10.3
+# Created: Tue Apr 29 11:53:54 2014
+#      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -71,15 +71,21 @@ class Ui_widgetFind(object):
         self.checkBoxMatchWhole.setObjectName(_fromUtf8("checkBoxMatchWhole"))
         self.horizontalLayout_2.addWidget(self.checkBoxMatchWhole)
         self.gridLayout.addWidget(self.widget_2, 3, 0, 1, 2)
-        self.lineEditReplace = QtGui.QLineEdit(widgetFind)
+        self.lineEditReplace = LineEditFind(widgetFind)
         self.lineEditReplace.setObjectName(_fromUtf8("lineEditReplace"))
         self.gridLayout.addWidget(self.lineEditReplace, 1, 1, 1, 1)
-        self.lineEditFind = QtGui.QLineEdit(widgetFind)
+        self.lineEditFind = LineEditFind(widgetFind)
         self.lineEditFind.setObjectName(_fromUtf8("lineEditFind"))
         self.gridLayout.addWidget(self.lineEditFind, 0, 1, 1, 1)
 
         self.retranslateUi(widgetFind)
         QtCore.QMetaObject.connectSlotsByName(widgetFind)
+        widgetFind.setTabOrder(self.lineEditFind, self.lineEditReplace)
+        widgetFind.setTabOrder(self.lineEditReplace, self.pushButtonFind)
+        widgetFind.setTabOrder(self.pushButtonFind, self.pushButtonReplace)
+        widgetFind.setTabOrder(self.pushButtonReplace, self.pushButtonReplaceAll)
+        widgetFind.setTabOrder(self.pushButtonReplaceAll, self.checkBoxCaseSensitive)
+        widgetFind.setTabOrder(self.checkBoxCaseSensitive, self.checkBoxMatchWhole)
 
     def retranslateUi(self, widgetFind):
         widgetFind.setWindowTitle(_translate("widgetFind", "Form", None))
@@ -91,3 +97,4 @@ class Ui_widgetFind(object):
         self.checkBoxCaseSensitive.setText(_translate("widgetFind", "Case sensitive", None))
         self.checkBoxMatchWhole.setText(_translate("widgetFind", "Match whole words", None))
 
+from QProgEdit.ui._lineeditfind import LineEditFind

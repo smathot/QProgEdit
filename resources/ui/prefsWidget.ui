@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>853</width>
+    <width>867</width>
     <height>224</height>
    </rect>
   </property>
@@ -193,6 +193,26 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>fontComboBoxFontFamily</tabstop>
+  <tabstop>spinBoxFontSize</tabstop>
+  <tabstop>spinBoxTabWidth</tabstop>
+  <tabstop>lineEditCommentShortcut</tabstop>
+  <tabstop>lineEditUncommentShortcut</tabstop>
+  <tabstop>comboBoxColorScheme</tabstop>
+  <tabstop>checkBoxHighlightCurrentLine</tabstop>
+  <tabstop>checkBoxHighlightMatchingBrackets</tabstop>
+  <tabstop>checkBoxAutoIndent</tabstop>
+  <tabstop>checkBoxWordWrap</tabstop>
+  <tabstop>checkBoxShowFolding</tabstop>
+  <tabstop>checkBoxAutoComplete</tabstop>
+  <tabstop>checkBoxLineNumbers</tabstop>
+  <tabstop>checkBoxShowEol</tabstop>
+  <tabstop>checkBoxValidate</tabstop>
+  <tabstop>checkBoxShowIndent</tabstop>
+  <tabstop>checkBoxShowWhitespace</tabstop>
+  <tabstop>checkBoxWordWrapMarker</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
