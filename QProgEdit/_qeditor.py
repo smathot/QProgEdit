@@ -268,8 +268,7 @@ class QEditor(QsciScintilla):
 					msg, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
 				if resp == QtGui.QMessageBox.Yes:
 					text = cleanText
-		self.removeSelectedText()
-		self.insert(text)
+		self.replaceSelectedText(text)
 
 	def setLang(self, lang=u'text'):
 
