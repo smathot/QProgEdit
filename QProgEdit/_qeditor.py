@@ -180,6 +180,7 @@ class QEditor(QsciScintilla):
 		self.clearIndicatorRange(0, 0, self.lines(), 0, 0)
 		if length < 3 or u'\n' in selection:
 			return
+		self.qProgEdit.find.ui.lineEditFind.setText(selection)
 		indexList = []
 		i = -1
 		line, index = self.getCursorPosition()
