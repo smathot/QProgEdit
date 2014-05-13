@@ -57,6 +57,7 @@ class QEditor(QsciScintilla):
 		self.uncommentShortcut.activated.connect(self.uncommentSelection)
 		self.applyCfg()
 		self.linesChanged.connect(self.updateMarginWidth)
+		self.selectionChanged.connect(self.highlightSelection)
 		self.cursorPositionChanged.connect(self.validate)
 		self.marginClicked.connect(self.onMarginClick)
 		self.setMarginSensitivity(1, True)
@@ -70,6 +71,11 @@ class QEditor(QsciScintilla):
 				self.qProgEdit.cfg.qProgEditColorScheme)
 		else:
 			colorScheme = QColorScheme.Default
+		# Define indicator for selection matching
+		self.indicatorDefine(self.INDIC_STRAIGHTBOX, 0)
+		indicatorColor = QtGui.QColor(colorScheme[u'Highlight'])
+		indicatorColor.setAlpha(64)
+		self.setIndicatorForegroundColor(indicatorColor, 0)
 		self.markerDefine(QsciScintilla.RightArrow, self.invalidMarker)
 		self.setMarkerBackgroundColor(QtGui.QColor( \
 			colorScheme[u'Invalid']), self.invalidMarker)
@@ -163,6 +169,29 @@ class QEditor(QsciScintilla):
 		if self.qProgEdit.tabManager.cfg.version() != self.cfgVersion:
 			self.applyCfg()
 		super(QEditor, self).focusInEvent(e)
+	
+	def highlightSelection(self):
+		
+		"""Highlights all parts of the text that match the current selection."""
+		
+		text = QtCore.QString(self.text())
+		selection = self.selectedText()
+		length = len(selection)
+		self.clearIndicatorRange(0, 0, self.lines(), 0, 0)
+		if length < 3 or u'\n' in selection:
+			return
+		indexList = []
+		i = -1
+		line, index = self.getCursorPosition()
+		currentPos = self.positionFromLineIndex(line, index)
+		while True:
+			i = text.indexOf(selection, i+1)
+			if i < 0:
+				break
+			if i <= currentPos and i+length >= currentPos:
+				continue
+			line, index = self.lineIndexFromPosition(i)
+			self.fillIndicatorRange(line, index, line, index+length, 0)
 
 	def keyPressEvent(self, event):
 
