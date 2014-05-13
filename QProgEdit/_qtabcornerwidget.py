@@ -54,6 +54,8 @@ class QTabCornerWidget(QtGui.QWidget):
 		self.findButton.toggled.connect(self.tabManager.toggleFind)
 		QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+F'), self).activated.connect(
 			self.findButton.toggle)
+		QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+R'), self).activated.connect(
+			self.findButton.toggle)
 		# Language button (filled by update())
 		self.langButton = QtGui.QPushButton(self)
 		self.langButton.setMenu(QLangMenu(self))
