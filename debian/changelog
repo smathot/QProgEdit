@@ -1,4 +1,11 @@
-python-qprogedit (1.3.0-ubuntu1) trusty; urgency=medium
+python-qprogedit (1.3.1-ubuntu1) trusty; urgency=medium
+
+  * Implement tab switching by pressing Alt+Left/ Alt+Right
+  * Fix interference between selection highlighting and find/ replace
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Wed, 14 May 2014 14:14:36 +0200
+
+python-qprogedit (1.3.0-ubuntu2) trusty; urgency=medium
 
   * Improved find/ replace behavior
   * Highlight text that matches selection
