@@ -46,6 +46,7 @@ class QEditorFind(QtGui.QWidget):
 		self.ui.pushButtonReplaceAll.clicked.connect(self.replaceAll)
 		self.bestHeight = self.height()
 		self.matchNr = None
+		self._locked = False
 		
 	def caseSensitive(self):
 		
@@ -86,6 +87,16 @@ class QEditorFind(QtGui.QWidget):
 		return self.editor().findFirst(self.findText(), False,
 			self.caseSensitive(), self.matchWhole(), True)
 	
+	def lock(self):
+		
+		"""
+		Locks the editor and find widget, so that we don't get into recursion
+		problems during replace actions.
+		"""
+		
+		self._locked = True
+		self.editor().selectionChanged.disconnect()
+	
 	def matchWhole(self):
 		
 		"""
@@ -104,20 +115,20 @@ class QEditorFind(QtGui.QWidget):
 		True if text has been replaced, False otherwise.
 		"""
 
-		selection = self.editor().selectedText()
-		findText = self.findText()
-		if not self.caseSensitive():
-			selection = selection.toLower()
-			findText = findText.toLower()
-		if selection != findText and not self.find():
-			return False
+		self.lock()
+		if self.editor().hasSelectedText():
+			row1, line1, row2, line2 = self.editor().getSelection()
+			self.editor().setCursorPosition(row1, line1)
+		self.find()
 		self.editor().replace(self.replaceText())
+		self.unlock()
 		return True
 
 	def replaceAll(self):
 
 		"""Replace all occurences in the document."""
 		
+		self.lock()
 		self.editor().beginUndoAction()
 		text = QtCore.QString(self.editor().text())
 		if self.caseSensitive():
@@ -126,8 +137,10 @@ class QEditorFind(QtGui.QWidget):
 			cs = QtCore.Qt.CaseInsensitive
 		n = text.count(self.findText(), cs)
 		for i in range(n):
-			self.replace()
+			self.find()
+			self.editor().replace(self.replaceText())
 		self.editor().endUndoAction()
+		self.unlock()
 		
 	def replaceText(self):
 		
@@ -137,6 +150,28 @@ class QEditorFind(QtGui.QWidget):
 		"""
 		
 		return self.ui.lineEditReplace.text()
+	
+	def setFindText(self, txt=u''):
+		
+		"""
+		Sets the text of the find widget.
+		
+		Keyword arguments:
+		txt		--	The text to set. (default=u'')
+		"""
+		
+		if self._locked:
+			return
+		self.ui.lineEditFind.setText(txt)
+		
+	def unlock(self):
+		
+		"""
+		Unlocks the editor and find widget, to resume normal operations.
+		"""
+		
+		self._locked = False
+		self.editor().selectionChanged.connect(self.editor().highlightSelection)
 
 	def unshow(self):
 
