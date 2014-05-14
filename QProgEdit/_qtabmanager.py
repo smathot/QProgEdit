@@ -73,6 +73,10 @@ class QTabManager(QtGui.QTabWidget):
 		self.setMovable(tabsMovable)		
 		self.currentChanged.connect(self.tabChanged)
 		self.tabCloseRequested.connect(self.closeTab)
+		QtGui.QShortcut(QtGui.QKeySequence(u'Alt+Left'), self).activated \
+			.connect(self.switchTabLeft)
+		QtGui.QShortcut(QtGui.QKeySequence(u'Alt+Right'), self).activated \
+			.connect(self.switchTabRight)
 		self.setHandler(handler)
 		self.setFocusOutHandler(focusOutHandler)
 		self.setCornerWidget(QTabCornerWidget(self, msg=msg, \
@@ -248,6 +252,20 @@ class QTabManager(QtGui.QTabWidget):
 			self.currentWidget().setText(txt)
 		elif index >= 0 and index < self.count():
 			self.widget(index).setText(txt)
+
+	def switchTabLeft(self):
+		
+		"""Switches to the tab on the left."""
+		
+		newIndex = (self.currentIndex() - 1) % self.count()
+		self.setCurrentIndex(newIndex)
+
+	def switchTabRight(self):
+		
+		"""Switches to the tab on the left."""
+		
+		newIndex = (self.currentIndex() + 1) % self.count()
+		self.setCurrentIndex(newIndex)
 
 	def text(self, index=None):
 
