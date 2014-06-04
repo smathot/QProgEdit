@@ -359,6 +359,7 @@ class QEditor(QsciScintilla):
 
 		"""Validates the text."""
 
+		self.highlightSelection()
 		cl = self.getCursorPosition()[0]
 		validateCurrentLine = cl in self.validationErrors
 		self.validationErrors = {}
