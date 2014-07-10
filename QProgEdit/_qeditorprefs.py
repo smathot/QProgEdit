@@ -52,7 +52,7 @@ class QEditorPrefs(QtGui.QWidget):
 		self.lock = False
 
 		# Make connections
-		self.ui.fontComboBoxFontFamily.currentIndexChanged.connect(self.apply)
+		self.ui.fontComboBoxFontFamily.currentFontChanged.connect(self.apply)
 		self.ui.lineEditCommentShortcut.editingFinished.connect(self.apply)
 		self.ui.lineEditUncommentShortcut.editingFinished.connect(self.apply)
 		self.ui.comboBoxColorScheme.currentIndexChanged.connect(self.apply)
@@ -94,7 +94,7 @@ class QEditorPrefs(QtGui.QWidget):
 			checkBox.setChecked(checked)
 		self.lock = False
 
-	def apply(self):
+	def apply(self, dummy=None):
 
 		"""Apply the controls"""
 

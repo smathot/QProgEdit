@@ -169,11 +169,11 @@ class QEditor(QsciScintilla):
 		if self.qProgEdit.tabManager.cfg.version() != self.cfgVersion:
 			self.applyCfg()
 		super(QEditor, self).focusInEvent(e)
-	
+
 	def highlightSelection(self):
-		
+
 		"""Highlights all parts of the text that match the current selection."""
-		
+
 		text = QtCore.QString(self.text())
 		selection = self.selectedText()
 		length = len(selection)

@@ -1,3 +1,15 @@
+python-qprogedit (1.3.3-ubuntu1) trusty; urgency=medium
+
+  * Fix a bug that caused interference between QtWebKit and QProgEdit
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Thu, 10 Jul 2014 10:12:07 +0200
+
+python-qprogedit (1.3.2-ubuntu1) trusty; urgency=medium
+
+  * Also update selection highlight when moving or typing
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Wed, 04 Jun 2014 18:37:37 +0200
+
 python-qprogedit (1.3.1-ubuntu1) trusty; urgency=medium
 
   * Implement tab switching by pressing Alt+Left/ Alt+Right
