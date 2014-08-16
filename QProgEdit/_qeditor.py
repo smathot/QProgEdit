@@ -481,17 +481,32 @@ class QEditor(QsciScintilla):
 			parser is available for the langauage.
 		"""
 
-		if self.symbolTree == None or not hasattr(symbols, self.lang().lower()):
+		if self.symbolTree == None:
 			return
-		parser = getattr(symbols, self.lang().lower())
-		_symbols = parser(self.text())
+		_symbols = self.symbols()
 		if _symbols == self._symbols:
 			return
 		self.symbolTree.takeChildren()
-		for lineNo, _type, name, argSpec in _symbols:
+		for lineNo, _type, name, argSpec in self.symbols():
 			self.symbolTree.addChild(self.symbolTreeWidgetItemClass(self,
 				lineNo, _type, name, argSpec))
 		self._symbols = _symbols
+
+	def symbols(self):
+
+		"""
+		desc:
+			Returns an up-to-date list of symbols.
+
+		returns:
+			desc:	A list of symbols.
+			type:	list
+		"""
+
+		if not hasattr(symbols, self.lang().lower()):
+			return []
+		parser = getattr(symbols, self.lang().lower())
+		return parser(self.text())
 
 	def validate(self):
 

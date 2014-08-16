@@ -115,6 +115,14 @@ class QProgEdit(QtGui.QWidget):
 		return self.editor.setText
 
 	@property
+	def setCursorPosition(self):
+		return self.editor.setCursorPosition
+
+	@property
+	def symbols(self):
+		return self.editor.symbols
+
+	@property
 	def updateSymbolTree(self):
 		return self.editor.updateSymbolTree
 
@@ -156,6 +164,7 @@ class QProgEdit(QtGui.QWidget):
 		"""
 
 		self.tabManager.setCurrentWidget(self)
+		self.editor.setFocus()
 
 	def tabIndex(self):
 

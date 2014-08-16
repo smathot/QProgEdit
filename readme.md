@@ -20,16 +20,88 @@ Copyright (2013) Sebastiaan Mathôt
 - [Dependencies](#dependencies)
 - [Example](#example)
 - [*class* QProgEdit.QEditor](#class-qprogeditqeditor)
+	- [*function* QProgEdit.QEditor.\_\_init\_\_(qProgEdit)](#function-qprogeditqeditor__init__qprogedit)
+	- [*function* QProgEdit.QEditor.applyCfg()](#function-qprogeditqeditorapplycfg)
+	- [*function* QProgEdit.QEditor.commentSelection()](#function-qprogeditqeditorcommentselection)
+	- [*function* QProgEdit.QEditor.cursorMoved()](#function-qprogeditqeditorcursormoved)
+	- [*function* QProgEdit.QEditor.focusInEvent(e)](#function-qprogeditqeditorfocusinevente)
+	- [*function* QProgEdit.QEditor.focusOutEvent(e)](#function-qprogeditqeditorfocusoutevente)
+	- [*function* QProgEdit.QEditor.highlightSelection()](#function-qprogeditqeditorhighlightselection)
+	- [*function* QProgEdit.QEditor.keyPressEvent(event)](#function-qprogeditqeditorkeypresseventevent)
+	- [*function* QProgEdit.QEditor.lang()](#function-qprogeditqeditorlang)
+	- [*function* QProgEdit.QEditor.onMarginClick(margin, line, state)](#function-qprogeditqeditoronmarginclickmargin-line-state)
+	- [*function* QProgEdit.QEditor.paste()](#function-qprogeditqeditorpaste)
+	- [*function* QProgEdit.QEditor.setLang(lang=u'text')](#function-qprogeditqeditorsetlanglangutext)
+	- [*function* QProgEdit.QEditor.setSymbolTree(symbolTree, symbolTreeWidgetItemClass=<class 'QProgEdit._qsymboltreewidgetitem.QSymbolTreeWidgetItem'>)](#function-qprogeditqeditorsetsymboltreesymboltree-symboltreewidgetitemclassclass-qprogedit_qsymboltreewidgetitemqsymboltreewidgetitem)
+	- [*function* QProgEdit.QEditor.setText(text)](#function-qprogeditqeditorsettexttext)
+	- [*function* QProgEdit.QEditor.symbols()](#function-qprogeditqeditorsymbols)
+	- [*function* QProgEdit.QEditor.text()](#function-qprogeditqeditortext)
+	- [*function* QProgEdit.QEditor.uncommentSelection()](#function-qprogeditqeditoruncommentselection)
+	- [*function* QProgEdit.QEditor.updateMarginWidth()](#function-qprogeditqeditorupdatemarginwidth)
+	- [*function* QProgEdit.QEditor.updateSymbolTree()](#function-qprogeditqeditorupdatesymboltree)
+	- [*function* QProgEdit.QEditor.validate()](#function-qprogeditqeditorvalidate)
+	- [*function* QProgEdit.QEditor.wheelEvent(event)](#function-qprogeditqeditorwheeleventevent)
 - [*class* QProgEdit.QEditorCfg](#class-qprogeditqeditorcfg)
+	- [*function* QProgEdit.QEditorCfg.\_\_init\_\_(parent=None)](#function-qprogeditqeditorcfg__init__parentnone)
+	- [*function* QProgEdit.QEditorCfg.version()](#function-qprogeditqeditorcfgversion)
 - [*class* QProgEdit.QEditorFind](#class-qprogeditqeditorfind)
+	- [*function* QProgEdit.QEditorFind.\_\_init\_\_(qProgEdit)](#function-qprogeditqeditorfind__init__qprogedit)
+	- [*function* QProgEdit.QEditorFind.caseSensitive()](#function-qprogeditqeditorfindcasesensitive)
+	- [*function* QProgEdit.QEditorFind.find()](#function-qprogeditqeditorfindfind)
+	- [*function* QProgEdit.QEditorFind.findText()](#function-qprogeditqeditorfindfindtext)
+	- [*function* QProgEdit.QEditorFind.lock()](#function-qprogeditqeditorfindlock)
+	- [*function* QProgEdit.QEditorFind.matchWhole()](#function-qprogeditqeditorfindmatchwhole)
+	- [*function* QProgEdit.QEditorFind.replace()](#function-qprogeditqeditorfindreplace)
+	- [*function* QProgEdit.QEditorFind.replaceAll()](#function-qprogeditqeditorfindreplaceall)
+	- [*function* QProgEdit.QEditorFind.replaceText()](#function-qprogeditqeditorfindreplacetext)
+	- [*function* QProgEdit.QEditorFind.setFindText(txt=u'')](#function-qprogeditqeditorfindsetfindtexttxtu)
+	- [*function* QProgEdit.QEditorFind.unlock()](#function-qprogeditqeditorfindunlock)
+	- [*function* QProgEdit.QEditorFind.unshow()](#function-qprogeditqeditorfindunshow)
 - [*class* QProgEdit.QEditorPrefs](#class-qprogeditqeditorprefs)
+	- [*function* QProgEdit.QEditorPrefs.\_\_init\_\_(qProgEdit)](#function-qprogeditqeditorprefs__init__qprogedit)
+	- [*function* QProgEdit.QEditorPrefs.apply(dummy=None)](#function-qprogeditqeditorprefsapplydummynone)
+	- [*function* QProgEdit.QEditorPrefs.refresh()](#function-qprogeditqeditorprefsrefresh)
 - [*class* QProgEdit.QEditorStatus](#class-qprogeditqeditorstatus)
+	- [*function* QProgEdit.QEditorStatus.\_\_init\_\_(qProgEdit)](#function-qprogeditqeditorstatus__init__qprogedit)
+	- [*function* QProgEdit.QEditorStatus.updateCursorPos(index=0, line=0)](#function-qprogeditqeditorstatusupdatecursorposindex0-line0)
 - [*class* QProgEdit.QLangMenu](#class-qprogeditqlangmenu)
+	- [*function* QProgEdit.QLangMenu.\_\_init\_\_(tabCornerWidget)](#function-qprogeditqlangmenu__init__tabcornerwidget)
+	- [*function* QProgEdit.QLangMenu.setLang(action)](#function-qprogeditqlangmenusetlangaction)
 - [*class* QProgEdit.QLexer](#class-qprogeditqlexer)
+	- [*function* QProgEdit.QLexer.\_\_init\_\_(editor, lang=u'text', colorScheme=u'Default')](#function-qprogeditqlexer__init__editor-langutext-colorschemeudefault)
+	- [*function* QProgEdit.QLexer.description(style)](#function-qprogeditqlexerdescriptionstyle)
 - [*class* QProgEdit.QProgEdit](#class-qprogeditqprogedit)
+	- [*function* QProgEdit.QProgEdit.\_\_init\_\_(tabManager, title=u'Empty document', dPrint=None, \*\*editorParams)](#function-qprogeditqprogedit__init__tabmanager-titleuempty-document-dprintnone-editorparams)
+	- [*function* QProgEdit.QProgEdit.dPrint(msg)](#function-qprogeditqprogeditdprintmsg)
+	- [*function* QProgEdit.QProgEdit.focusTab()](#function-qprogeditqprogeditfocustab)
+	- [*function* QProgEdit.QProgEdit.tabIndex()](#function-qprogeditqprogedittabindex)
+	- [*function* QProgEdit.QProgEdit.toggle(widget, visible)](#function-qprogeditqprogedittogglewidget-visible)
+	- [*function* QProgEdit.QProgEdit.toggleFind(visible)](#function-qprogeditqprogedittogglefindvisible)
+	- [*function* QProgEdit.QProgEdit.togglePrefs(visible)](#function-qprogeditqprogedittoggleprefsvisible)
 - [*class* QProgEdit.QSymbolTreeWidgetItem](#class-qprogeditqsymboltreewidgetitem)
+	- [*function* QProgEdit.QSymbolTreeWidgetItem.\_\_init\_\_(editor, lineNo, _type, name, argSpec)](#function-qprogeditqsymboltreewidgetitem__init__editor-lineno-_type-name-argspec)
+	- [*function* QProgEdit.QSymbolTreeWidgetItem.activate()](#function-qprogeditqsymboltreewidgetitemactivate)
 - [*class* QProgEdit.QTabCornerWidget](#class-qprogeditqtabcornerwidget)
+	- [*function* QProgEdit.QTabCornerWidget.\_\_init\_\_(tabManager, msg=None, handlerButtonText=None)](#function-qprogeditqtabcornerwidget__init__tabmanager-msgnone-handlerbuttontextnone)
+	- [*function* QProgEdit.QTabCornerWidget.handlerButtonClicked()](#function-qprogeditqtabcornerwidgethandlerbuttonclicked)
+	- [*function* QProgEdit.QTabCornerWidget.update()](#function-qprogeditqtabcornerwidgetupdate)
 - [*class* QProgEdit.QTabManager](#class-qprogeditqtabmanager)
+	- [*function* QProgEdit.QTabManager.\_\_init\_\_(tabsClosable=False, handlerButtonText=None, parent=None, cfg=<QProgEdit._qeditorcfg.QEditorCfg object at 0x7f56df4a6c30>, msg=None, tabsMovable=False)](#function-qprogeditqtabmanager__init__tabsclosablefalse-handlerbuttontextnone-parentnone-cfgqprogedit_qeditorcfgqeditorcfg-object-at-0x7f56df4a6c30-msgnone-tabsmovablefalse)
+	- [*function* QProgEdit.QTabManager.addTab(select=True, title=u'Empty document')](#function-qprogeditqtabmanageraddtabselecttrue-titleuempty-document)
+	- [*function* QProgEdit.QTabManager.applyCfg()](#function-qprogeditqtabmanagerapplycfg)
+	- [*function* QProgEdit.QTabManager.closeTab(index=None)](#function-qprogeditqtabmanagerclosetabindexnone)
+	- [*function* QProgEdit.QTabManager.isAnyModified()](#function-qprogeditqtabmanagerisanymodified)
+	- [*function* QProgEdit.QTabManager.selectTab(index)](#function-qprogeditqtabmanagerselecttabindex)
+	- [*function* QProgEdit.QTabManager.setText(text, index=None)](#function-qprogeditqtabmanagersettexttext-indexnone)
+	- [*function* QProgEdit.QTabManager.switchTabLeft()](#function-qprogeditqtabmanagerswitchtableft)
+	- [*function* QProgEdit.QTabManager.switchTabRight()](#function-qprogeditqtabmanagerswitchtabright)
+	- [*function* QProgEdit.QTabManager.tab(index=None)](#function-qprogeditqtabmanagertabindexnone)
+	- [*function* QProgEdit.QTabManager.tabChanged(index)](#function-qprogeditqtabmanagertabchangedindex)
+	- [*function* QProgEdit.QTabManager.tabIndex(index=None)](#function-qprogeditqtabmanagertabindexindexnone)
+	- [*function* QProgEdit.QTabManager.tabs()](#function-qprogeditqtabmanagertabs)
+	- [*function* QProgEdit.QTabManager.text(index=None)](#function-qprogeditqtabmanagertextindexnone)
+	- [*function* QProgEdit.QTabManager.toggleFind(visible)](#function-qprogeditqtabmanagertogglefindvisible)
+	- [*function* QProgEdit.QTabManager.togglePrefs(visible)](#function-qprogeditqtabmanagertoggleprefsvisible)
 - [*module* QProgEdit.py3](#module-qprogeditpy3)
 
 
@@ -87,7 +159,7 @@ def handlerButtonClicked(index):
 
 def activateSymbolTree(treeWidgetItem):
 
-	treeWidgetItem.activated()
+	treeWidgetItem.activate()
 
 def main():
 	
@@ -113,19 +185,21 @@ def main():
 	tabManager.focusReceived.connect(focusReceived)
 	tabManager.handlerButtonClicked.connect(handlerButtonClicked)
 
-	tabManager.addTab(u'Tab 1')
-	tabManager.tab().setLang(u'Python')
-	tabManager.tab().setSymbolTree(treeWidgetItem1)
-	tabManager.tab().setText(open(__file__).read())
+	tab = tabManager.addTab(u'Tab 1')
+	tab.setLang(u'Python')
+	tab.setSymbolTree(treeWidgetItem1)
+	tab.setText(open(__file__).read())
+	print tab.symbols()
 
-	tabManager.addTab(u'Tab 2')
-	tabManager.tab(1).setText(u'Some plain text')
+	tab = tabManager.addTab(u'Tab 2')
+	tab.setText(u'Some plain text')
 
-	tabManager.addTab(u'Tab 3')
-	tabManager.tab(u'Tab 3').setLang(u'Python')
-	tabManager.tab(u'Tab 3').setSymbolTree(treeWidgetItem3)
-	tabManager.tab(u'Tab 3').setText(
+	tab = tabManager.addTab(u'Tab 3')
+	tab.setLang(u'Python')
+	tab.setSymbolTree(treeWidgetItem3)
+	tab.setText(
 		u'def test():\n\tprint undefined_var\n\tbuiltin_var\n\ntest()\n')
+	print tab.symbols()
 
 	layout = QtGui.QHBoxLayout()
 	layout.addWidget(symbolTree)
@@ -414,6 +488,27 @@ __Arguments:__
 [QProgEdit.QEditor.setText]: #QProgEdit-QEditor-setText
 [QEditor.setText]: #QProgEdit-QEditor-setText
 [setText]: #QProgEdit-QEditor-setText
+<span class="FunctionDoc YAMLDoc" id="QProgEdit-QEditor-symbols" markdown="1">
+
+### *function* QProgEdit.QEditor.symbols()
+
+Returns an up-to-date list of symbols.
+
+__Returns:__
+
+A list of symbols.
+
+- Type: list
+
+
+
+
+</span>
+
+
+[QProgEdit.QEditor.symbols]: #QProgEdit-QEditor-symbols
+[QEditor.symbols]: #QProgEdit-QEditor-symbols
+[symbols]: #QProgEdit-QEditor-symbols
 <span class="FunctionDoc YAMLDoc" id="QProgEdit-QEditor-text" markdown="1">
 
 ### *function* QProgEdit.QEditor.text()
@@ -1257,9 +1352,9 @@ __Arguments:__
 [QProgEdit.QSymbolTreeWidgetItem.__init__]: #QProgEdit-QSymbolTreeWidgetItem-__init__
 [QSymbolTreeWidgetItem.__init__]: #QProgEdit-QSymbolTreeWidgetItem-__init__
 [__init__]: #QProgEdit-QSymbolTreeWidgetItem-__init__
-<span class="FunctionDoc YAMLDoc" id="QProgEdit-QSymbolTreeWidgetItem-activated" markdown="1">
+<span class="FunctionDoc YAMLDoc" id="QProgEdit-QSymbolTreeWidgetItem-activate" markdown="1">
 
-### *function* QProgEdit.QSymbolTreeWidgetItem.activated()
+### *function* QProgEdit.QSymbolTreeWidgetItem.activate()
 
 Is called when the symbol is activated, to focus the symbol in the editor.
 
@@ -1269,9 +1364,9 @@ Is called when the symbol is activated, to focus the symbol in the editor.
 </span>
 
 
-[QProgEdit.QSymbolTreeWidgetItem.activated]: #QProgEdit-QSymbolTreeWidgetItem-activated
-[QSymbolTreeWidgetItem.activated]: #QProgEdit-QSymbolTreeWidgetItem-activated
-[activated]: #QProgEdit-QSymbolTreeWidgetItem-activated
+[QProgEdit.QSymbolTreeWidgetItem.activate]: #QProgEdit-QSymbolTreeWidgetItem-activate
+[QSymbolTreeWidgetItem.activate]: #QProgEdit-QSymbolTreeWidgetItem-activate
+[activate]: #QProgEdit-QSymbolTreeWidgetItem-activate
 
 
 </span>
@@ -1361,7 +1456,7 @@ A tab manager that contains multiple QProgEdit tabs.
 
 <span class="FunctionDoc YAMLDoc" id="QProgEdit-QTabManager-__init__" markdown="1">
 
-### *function* QProgEdit.QTabManager.\_\_init\_\_(tabsClosable=False, handlerButtonText=None, parent=None, cfg=<QProgEdit._qeditorcfg.QEditorCfg object at 0x7ff383e0ac30>, msg=None, tabsMovable=False)
+### *function* QProgEdit.QTabManager.\_\_init\_\_(tabsClosable=False, handlerButtonText=None, parent=None, cfg=<QProgEdit._qeditorcfg.QEditorCfg object at 0x7f56df4a6c30>, msg=None, tabsMovable=False)
 
 Constructor.
 
@@ -1380,7 +1475,7 @@ __Keywords:__
 	- Default: None
 	- Type: str, unicode, NoneType
 - `cfg` -- A configuration backend. By default QEditorCfg is used. Custom backends must have the same API for getting and setting options.
-	- Default: <QProgEdit._qeditorcfg.QEditorCfg object at 0x7ff383e0ac30>
+	- Default: <QProgEdit._qeditorcfg.QEditorCfg object at 0x7f56df4a6c30>
 - `tabsMovable` -- Indicates whether tabs can be re-ordered.
 	- Default: False
 	- Type: bool
@@ -1408,6 +1503,12 @@ __Keywords:__
 - `title` -- A tab title.
 	- Default: u'Empty document'
 	- Type: unicode, str
+
+__Returns:__
+
+The newly added tab widget.
+
+- Type: QProgEdit
 
 
 
@@ -1474,6 +1575,49 @@ True if (one of) the tab(s) is modified, False otherwise.
 [QProgEdit.QTabManager.isAnyModified]: #QProgEdit-QTabManager-isAnyModified
 [QTabManager.isAnyModified]: #QProgEdit-QTabManager-isAnyModified
 [isAnyModified]: #QProgEdit-QTabManager-isAnyModified
+<span class="FunctionDoc YAMLDoc" id="QProgEdit-QTabManager-selectTab" markdown="1">
+
+### *function* QProgEdit.QTabManager.selectTab(index)
+
+Switches to a specific tab.
+
+__Arguments:__
+
+- `index` -- A tab index, as understood by [tabIndex].
+
+
+
+
+</span>
+
+
+[QProgEdit.QTabManager.selectTab]: #QProgEdit-QTabManager-selectTab
+[QTabManager.selectTab]: #QProgEdit-QTabManager-selectTab
+[selectTab]: #QProgEdit-QTabManager-selectTab
+<span class="FunctionDoc YAMLDoc" id="QProgEdit-QTabManager-setText" markdown="1">
+
+### *function* QProgEdit.QTabManager.setText(text, index=None)
+
+Sets the text on a specific tab.
+
+__Arguments:__
+
+- `text` -- The new text.
+
+__Keywords:__
+
+- `index` -- A tab index, as understood by [tabIndex].
+	- Default: None
+
+
+
+
+</span>
+
+
+[QProgEdit.QTabManager.setText]: #QProgEdit-QTabManager-setText
+[QTabManager.setText]: #QProgEdit-QTabManager-setText
+[setText]: #QProgEdit-QTabManager-setText
 <span class="FunctionDoc YAMLDoc" id="QProgEdit-QTabManager-switchTabLeft" markdown="1">
 
 ### *function* QProgEdit.QTabManager.switchTabLeft()
@@ -1599,6 +1743,31 @@ A list of all tab widgets.
 [QProgEdit.QTabManager.tabs]: #QProgEdit-QTabManager-tabs
 [QTabManager.tabs]: #QProgEdit-QTabManager-tabs
 [tabs]: #QProgEdit-QTabManager-tabs
+<span class="FunctionDoc YAMLDoc" id="QProgEdit-QTabManager-text" markdown="1">
+
+### *function* QProgEdit.QTabManager.text(index=None)
+
+Gets the text on a specific tab.
+
+__Keywords:__
+
+- `index` -- A tab index, as understood by [tabIndex].
+	- Default: None
+
+__Returns:__
+
+The text or None if the tab does not exist.
+
+
+
+
+
+</span>
+
+
+[QProgEdit.QTabManager.text]: #QProgEdit-QTabManager-text
+[QTabManager.text]: #QProgEdit-QTabManager-text
+[text]: #QProgEdit-QTabManager-text
 <span class="FunctionDoc YAMLDoc" id="QProgEdit-QTabManager-toggleFind" markdown="1">
 
 ### *function* QProgEdit.QTabManager.toggleFind(visible)
@@ -1671,14 +1840,86 @@ This modules defines some built-ins that are not available in Python 3, but are 
 [Dependencies]: #dependencies
 [Example]: #example
 [*class* QProgEdit.QEditor]: #class-qprogeditqeditor
+[*function* QProgEdit.QEditor.\_\_init\_\_(qProgEdit)]: #function-qprogeditqeditor__init__qprogedit
+[*function* QProgEdit.QEditor.applyCfg()]: #function-qprogeditqeditorapplycfg
+[*function* QProgEdit.QEditor.commentSelection()]: #function-qprogeditqeditorcommentselection
+[*function* QProgEdit.QEditor.cursorMoved()]: #function-qprogeditqeditorcursormoved
+[*function* QProgEdit.QEditor.focusInEvent(e)]: #function-qprogeditqeditorfocusinevente
+[*function* QProgEdit.QEditor.focusOutEvent(e)]: #function-qprogeditqeditorfocusoutevente
+[*function* QProgEdit.QEditor.highlightSelection()]: #function-qprogeditqeditorhighlightselection
+[*function* QProgEdit.QEditor.keyPressEvent(event)]: #function-qprogeditqeditorkeypresseventevent
+[*function* QProgEdit.QEditor.lang()]: #function-qprogeditqeditorlang
+[*function* QProgEdit.QEditor.onMarginClick(margin, line, state)]: #function-qprogeditqeditoronmarginclickmargin-line-state
+[*function* QProgEdit.QEditor.paste()]: #function-qprogeditqeditorpaste
+[*function* QProgEdit.QEditor.setLang(lang=u'text')]: #function-qprogeditqeditorsetlanglangutext
+[*function* QProgEdit.QEditor.setSymbolTree(symbolTree, symbolTreeWidgetItemClass=<class 'QProgEdit._qsymboltreewidgetitem.QSymbolTreeWidgetItem'>)]: #function-qprogeditqeditorsetsymboltreesymboltree-symboltreewidgetitemclassclass-qprogedit_qsymboltreewidgetitemqsymboltreewidgetitem
+[*function* QProgEdit.QEditor.setText(text)]: #function-qprogeditqeditorsettexttext
+[*function* QProgEdit.QEditor.symbols()]: #function-qprogeditqeditorsymbols
+[*function* QProgEdit.QEditor.text()]: #function-qprogeditqeditortext
+[*function* QProgEdit.QEditor.uncommentSelection()]: #function-qprogeditqeditoruncommentselection
+[*function* QProgEdit.QEditor.updateMarginWidth()]: #function-qprogeditqeditorupdatemarginwidth
+[*function* QProgEdit.QEditor.updateSymbolTree()]: #function-qprogeditqeditorupdatesymboltree
+[*function* QProgEdit.QEditor.validate()]: #function-qprogeditqeditorvalidate
+[*function* QProgEdit.QEditor.wheelEvent(event)]: #function-qprogeditqeditorwheeleventevent
 [*class* QProgEdit.QEditorCfg]: #class-qprogeditqeditorcfg
+[*function* QProgEdit.QEditorCfg.\_\_init\_\_(parent=None)]: #function-qprogeditqeditorcfg__init__parentnone
+[*function* QProgEdit.QEditorCfg.version()]: #function-qprogeditqeditorcfgversion
 [*class* QProgEdit.QEditorFind]: #class-qprogeditqeditorfind
+[*function* QProgEdit.QEditorFind.\_\_init\_\_(qProgEdit)]: #function-qprogeditqeditorfind__init__qprogedit
+[*function* QProgEdit.QEditorFind.caseSensitive()]: #function-qprogeditqeditorfindcasesensitive
+[*function* QProgEdit.QEditorFind.find()]: #function-qprogeditqeditorfindfind
+[*function* QProgEdit.QEditorFind.findText()]: #function-qprogeditqeditorfindfindtext
+[*function* QProgEdit.QEditorFind.lock()]: #function-qprogeditqeditorfindlock
+[*function* QProgEdit.QEditorFind.matchWhole()]: #function-qprogeditqeditorfindmatchwhole
+[*function* QProgEdit.QEditorFind.replace()]: #function-qprogeditqeditorfindreplace
+[*function* QProgEdit.QEditorFind.replaceAll()]: #function-qprogeditqeditorfindreplaceall
+[*function* QProgEdit.QEditorFind.replaceText()]: #function-qprogeditqeditorfindreplacetext
+[*function* QProgEdit.QEditorFind.setFindText(txt=u'')]: #function-qprogeditqeditorfindsetfindtexttxtu
+[*function* QProgEdit.QEditorFind.unlock()]: #function-qprogeditqeditorfindunlock
+[*function* QProgEdit.QEditorFind.unshow()]: #function-qprogeditqeditorfindunshow
 [*class* QProgEdit.QEditorPrefs]: #class-qprogeditqeditorprefs
+[*function* QProgEdit.QEditorPrefs.\_\_init\_\_(qProgEdit)]: #function-qprogeditqeditorprefs__init__qprogedit
+[*function* QProgEdit.QEditorPrefs.apply(dummy=None)]: #function-qprogeditqeditorprefsapplydummynone
+[*function* QProgEdit.QEditorPrefs.refresh()]: #function-qprogeditqeditorprefsrefresh
 [*class* QProgEdit.QEditorStatus]: #class-qprogeditqeditorstatus
+[*function* QProgEdit.QEditorStatus.\_\_init\_\_(qProgEdit)]: #function-qprogeditqeditorstatus__init__qprogedit
+[*function* QProgEdit.QEditorStatus.updateCursorPos(index=0, line=0)]: #function-qprogeditqeditorstatusupdatecursorposindex0-line0
 [*class* QProgEdit.QLangMenu]: #class-qprogeditqlangmenu
+[*function* QProgEdit.QLangMenu.\_\_init\_\_(tabCornerWidget)]: #function-qprogeditqlangmenu__init__tabcornerwidget
+[*function* QProgEdit.QLangMenu.setLang(action)]: #function-qprogeditqlangmenusetlangaction
 [*class* QProgEdit.QLexer]: #class-qprogeditqlexer
+[*function* QProgEdit.QLexer.\_\_init\_\_(editor, lang=u'text', colorScheme=u'Default')]: #function-qprogeditqlexer__init__editor-langutext-colorschemeudefault
+[*function* QProgEdit.QLexer.description(style)]: #function-qprogeditqlexerdescriptionstyle
 [*class* QProgEdit.QProgEdit]: #class-qprogeditqprogedit
+[*function* QProgEdit.QProgEdit.\_\_init\_\_(tabManager, title=u'Empty document', dPrint=None, \*\*editorParams)]: #function-qprogeditqprogedit__init__tabmanager-titleuempty-document-dprintnone-editorparams
+[*function* QProgEdit.QProgEdit.dPrint(msg)]: #function-qprogeditqprogeditdprintmsg
+[*function* QProgEdit.QProgEdit.focusTab()]: #function-qprogeditqprogeditfocustab
+[*function* QProgEdit.QProgEdit.tabIndex()]: #function-qprogeditqprogedittabindex
+[*function* QProgEdit.QProgEdit.toggle(widget, visible)]: #function-qprogeditqprogedittogglewidget-visible
+[*function* QProgEdit.QProgEdit.toggleFind(visible)]: #function-qprogeditqprogedittogglefindvisible
+[*function* QProgEdit.QProgEdit.togglePrefs(visible)]: #function-qprogeditqprogedittoggleprefsvisible
 [*class* QProgEdit.QSymbolTreeWidgetItem]: #class-qprogeditqsymboltreewidgetitem
+[*function* QProgEdit.QSymbolTreeWidgetItem.\_\_init\_\_(editor, lineNo, _type, name, argSpec)]: #function-qprogeditqsymboltreewidgetitem__init__editor-lineno-_type-name-argspec
+[*function* QProgEdit.QSymbolTreeWidgetItem.activate()]: #function-qprogeditqsymboltreewidgetitemactivate
 [*class* QProgEdit.QTabCornerWidget]: #class-qprogeditqtabcornerwidget
+[*function* QProgEdit.QTabCornerWidget.\_\_init\_\_(tabManager, msg=None, handlerButtonText=None)]: #function-qprogeditqtabcornerwidget__init__tabmanager-msgnone-handlerbuttontextnone
+[*function* QProgEdit.QTabCornerWidget.handlerButtonClicked()]: #function-qprogeditqtabcornerwidgethandlerbuttonclicked
+[*function* QProgEdit.QTabCornerWidget.update()]: #function-qprogeditqtabcornerwidgetupdate
 [*class* QProgEdit.QTabManager]: #class-qprogeditqtabmanager
+[*function* QProgEdit.QTabManager.\_\_init\_\_(tabsClosable=False, handlerButtonText=None, parent=None, cfg=<QProgEdit._qeditorcfg.QEditorCfg object at 0x7f56df4a6c30>, msg=None, tabsMovable=False)]: #function-qprogeditqtabmanager__init__tabsclosablefalse-handlerbuttontextnone-parentnone-cfgqprogedit_qeditorcfgqeditorcfg-object-at-0x7f56df4a6c30-msgnone-tabsmovablefalse
+[*function* QProgEdit.QTabManager.addTab(select=True, title=u'Empty document')]: #function-qprogeditqtabmanageraddtabselecttrue-titleuempty-document
+[*function* QProgEdit.QTabManager.applyCfg()]: #function-qprogeditqtabmanagerapplycfg
+[*function* QProgEdit.QTabManager.closeTab(index=None)]: #function-qprogeditqtabmanagerclosetabindexnone
+[*function* QProgEdit.QTabManager.isAnyModified()]: #function-qprogeditqtabmanagerisanymodified
+[*function* QProgEdit.QTabManager.selectTab(index)]: #function-qprogeditqtabmanagerselecttabindex
+[*function* QProgEdit.QTabManager.setText(text, index=None)]: #function-qprogeditqtabmanagersettexttext-indexnone
+[*function* QProgEdit.QTabManager.switchTabLeft()]: #function-qprogeditqtabmanagerswitchtableft
+[*function* QProgEdit.QTabManager.switchTabRight()]: #function-qprogeditqtabmanagerswitchtabright
+[*function* QProgEdit.QTabManager.tab(index=None)]: #function-qprogeditqtabmanagertabindexnone
+[*function* QProgEdit.QTabManager.tabChanged(index)]: #function-qprogeditqtabmanagertabchangedindex
+[*function* QProgEdit.QTabManager.tabIndex(index=None)]: #function-qprogeditqtabmanagertabindexindexnone
+[*function* QProgEdit.QTabManager.tabs()]: #function-qprogeditqtabmanagertabs
+[*function* QProgEdit.QTabManager.text(index=None)]: #function-qprogeditqtabmanagertextindexnone
+[*function* QProgEdit.QTabManager.toggleFind(visible)]: #function-qprogeditqtabmanagertogglefindvisible
+[*function* QProgEdit.QTabManager.togglePrefs(visible)]: #function-qprogeditqtabmanagertoggleprefsvisible
 [*module* QProgEdit.py3]: #module-qprogeditpy3

@@ -180,6 +180,8 @@ class QTabManager(QtGui.QTabWidget):
 
 		arguments:
 			text:	The new text.
+
+		keywords:
 			index:	A tab index, as understood by [tabIndex].
 		"""
 
@@ -279,7 +281,7 @@ class QTabManager(QtGui.QTabWidget):
 		desc:
 			Gets the text on a specific tab.
 
-		arguments:
+		keywords:
 			index:	A tab index, as understood by [tabIndex].
 
 		returns:

@@ -69,19 +69,21 @@ def main():
 	tabManager.focusReceived.connect(focusReceived)
 	tabManager.handlerButtonClicked.connect(handlerButtonClicked)
 
-	tabManager.addTab(u'Tab 1')
-	tabManager.tab().setLang(u'Python')
-	tabManager.tab().setSymbolTree(treeWidgetItem1)
-	tabManager.tab().setText(open(__file__).read())
+	tab = tabManager.addTab(u'Tab 1')
+	tab.setLang(u'Python')
+	tab.setSymbolTree(treeWidgetItem1)
+	tab.setText(open(__file__).read())
+	print tab.symbols()
 
-	tabManager.addTab(u'Tab 2')
-	tabManager.tab(1).setText(u'Some plain text')
+	tab = tabManager.addTab(u'Tab 2')
+	tab.setText(u'Some plain text')
 
-	tabManager.addTab(u'Tab 3')
-	tabManager.tab(u'Tab 3').setLang(u'Python')
-	tabManager.tab(u'Tab 3').setSymbolTree(treeWidgetItem3)
-	tabManager.tab(u'Tab 3').setText(
+	tab = tabManager.addTab(u'Tab 3')
+	tab.setLang(u'Python')
+	tab.setSymbolTree(treeWidgetItem3)
+	tab.setText(
 		u'def test():\n\tprint undefined_var\n\tbuiltin_var\n\ntest()\n')
+	print tab.symbols()
 
 	layout = QtGui.QHBoxLayout()
 	layout.addWidget(symbolTree)

@@ -34,7 +34,7 @@ desc: |
 	%--
 	toc:
 		mindepth: 2
-		maxdepth: 2
+		maxdepth: 3
 		exclude: [Overview]
 	--%
 
