@@ -57,10 +57,10 @@ class QEditorPrefs(QtGui.QWidget, QUiLoader):
 		self.bestHeight = self.height()
 		self.lock = False
 		# Make connections
-		self.ui.fontComboBoxFontFamily.currentFontChanged.connect(self.apply)
+		self.ui.fontComboBoxFontFamily.activated.connect(self.apply)
 		self.ui.lineEditCommentShortcut.editingFinished.connect(self.apply)
 		self.ui.lineEditUncommentShortcut.editingFinished.connect(self.apply)
-		self.ui.comboBoxColorScheme.currentIndexChanged.connect(self.apply)
+		self.ui.comboBoxColorScheme.activated.connect(self.apply)
 		self.ui.spinBoxFontSize.valueChanged.connect(self.apply)
 		self.ui.spinBoxTabWidth.valueChanged.connect(self.apply)
 		self.ui.checkBoxWordWrapMarker.toggled.connect(self.apply)

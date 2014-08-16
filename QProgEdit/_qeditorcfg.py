@@ -39,7 +39,7 @@ class QEditorCfg(QtCore.QObject):
 		"""
 
 		super(QEditorCfg, self).__init__(parent)
-		self.qProgEditFontFamily = u'Monospace'
+		self.qProgEditFontFamily = u'Courier New'
 		self.qProgEditFontSize = 10
 		self.qProgEditLineNumbers = True
 		self.qProgEditHighlightCurrentLine = False
