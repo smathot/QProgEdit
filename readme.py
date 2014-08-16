@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
 """
@@ -17,5 +18,13 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from _widgetfind import Ui_widgetFind
-from _widgetprefs import Ui_widgetPrefs
+import yamldoc
+import QProgEdit
+from academicmarkdown import build
+
+df = yamldoc.DocFactory(QProgEdit)
+s = unicode(df)
+print s
+build.setStyle('modern')
+build.MD(s, u'readme.md')
+build.PDF(s, u'readme.pdf')

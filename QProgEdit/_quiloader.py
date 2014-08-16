@@ -17,4 +17,13 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from QProgEdit.clean._python import python
+import os
+from PyQt4 import QtCore, uic
+
+class QUiLoader(QtCore.QObject):
+
+	def loadUi(self, name):
+
+		path = os.path.join(os.path.dirname(__file__), u'ui', u'%s.ui' % name)
+		self.ui = uic.loadUi(path, self)
+

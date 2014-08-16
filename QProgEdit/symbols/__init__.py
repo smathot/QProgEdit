@@ -17,39 +17,4 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from PyQt4 import QtGui, QtCore
-
-class LineEditFind(QtGui.QLineEdit):
-
-	"""
-	Implements a line-edit widget that closes the find box on Escape presses
-	and selects the highlighted text when receiving focus.
-	"""
-
-	def focusInEvent(self, e):
-
-		"""
-		Selects the contents on focus.
-
-		Arguments:
-		e	--	A QFocusEvent.
-		"""
-
-		self.selectAll()
-		e.accept()
-
-	def keyPressEvent(self, e):
-
-		"""
-		Handles key presses to deal with Escape.
-
-		Arguments:
-		e	--	A QKeyEvent.
-		"""
-
-		if e.key() == QtCore.Qt.Key_Escape:
-			e.accept()
-			self.parent().unshow()
-		else:
-			e.ignore()
-			QtGui.QLineEdit.keyPressEvent(self, e)
+from QProgEdit.symbols._python import python

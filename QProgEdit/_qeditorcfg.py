@@ -1,4 +1,3 @@
-
 #-*- coding:utf-8 -*-
 
 """
@@ -22,15 +21,21 @@ from PyQt4 import QtGui, QtCore
 
 class QEditorCfg(QtCore.QObject):
 
-	"""A non-persistent configuration object."""
+	"""
+	desc:
+		A non-persistent configuration object.
+	"""
 
 	def __init__(self, parent=None):
 
 		"""
-		Constructor
+		desc:
+			Constructor.
 
-		Keyword arguments:
-		parent	--	a QWidget
+		keywords:
+			parent:
+				desc:	The parent widget.
+				type:	[QWidget, NoneType]
 		"""
 
 		super(QEditorCfg, self).__init__(parent)
@@ -52,8 +57,15 @@ class QEditorCfg(QtCore.QObject):
 		self.qProgEditColorScheme = u'SolarizedDark'
 		self.qProgEditCommentShortcut = u'Ctrl+M'
 		self.qProgEditUncommentShortcut = u'Ctrl+Shift+M'
-		
-	def version(self):
-		
-		return 0
+		self.qProgEditSwitchLeftShortcut = u'Alt+Left'
+		self.qProgEditSwitchRightShortcut = u'Alt+Right'
+		self.qProgEditSymbolTreeWidgetItemIcon = u'text-x-script'
 
+	def version(self):
+
+		"""
+		desc:
+			Returns the config version.
+		"""
+
+		return 0

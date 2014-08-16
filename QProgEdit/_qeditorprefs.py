@@ -21,12 +21,16 @@ import os
 from PyQt4 import QtGui, QtCore
 from PyQt4 import Qsci
 from PyQt4.Qsci import QsciScintilla
-from QProgEdit.ui import Ui_widgetPrefs
+from QProgEdit.py3 import *
 from QProgEdit import QColorScheme
+from QProgEdit import QUiLoader
 
-class QEditorPrefs(QtGui.QWidget):
+class QEditorPrefs(QtGui.QWidget, QUiLoader):
 
-	"""A single editor widget"""
+	"""
+	desc:
+		An editor preferences widget.
+	"""
 
 	# These options correspond to the names of checkboxes in the prefsWidget
 	# UI definition.
@@ -35,22 +39,23 @@ class QEditorPrefs(QtGui.QWidget):
 		u'ShowEol', u'ShowFolding', u'ShowIndent', u'ShowWhitespace',
 		u'WordWrap', u'Validate']
 
-	def __init__(self, parent=None):
+	def __init__(self, qProgEdit):
 
 		"""
-		Constructor
+		desc:
+			Constructor.
 
-		Keyword arguments:
-		parent		-- 	the parent QWidget (default=None)
+		arguments:
+			qProgEdit:
+				desc:	The parent QProgEdit.
+				type:	QProgEdit
 		"""
 
-		super(QEditorPrefs, self).__init__(parent)
-		self.qProgEdit = parent
-		self.ui = Ui_widgetPrefs()
-		self.ui.setupUi(self)
+		super(QEditorPrefs, self).__init__(qProgEdit)
+		self.qProgEdit = qProgEdit
+		self.loadUi(u'prefsWidget')
 		self.bestHeight = self.height()
 		self.lock = False
-
 		# Make connections
 		self.ui.fontComboBoxFontFamily.currentFontChanged.connect(self.apply)
 		self.ui.lineEditCommentShortcut.editingFinished.connect(self.apply)
@@ -65,15 +70,18 @@ class QEditorPrefs(QtGui.QWidget):
 
 	def refresh(self):
 
-		"""Refresh the controls"""
+		"""
+		desc:
+			Refreshes the controls.
+		"""
 
 		self.lock = True
-		index = self.ui.fontComboBoxFontFamily.findText( \
+		index = self.ui.fontComboBoxFontFamily.findText(
 			self.qProgEdit.cfg.qProgEditFontFamily)
 		# Fill the shortcut fields
-		self.ui.lineEditCommentShortcut.setText( \
+		self.ui.lineEditCommentShortcut.setText(
 			self.qProgEdit.cfg.qProgEditCommentShortcut)
-		self.ui.lineEditUncommentShortcut.setText( \
+		self.ui.lineEditUncommentShortcut.setText(
 			self.qProgEdit.cfg.qProgEditUncommentShortcut)
 		# Fill the color scheme combobox and select the current color scheme
 		self.ui.comboBoxColorScheme.clear()
@@ -96,17 +104,20 @@ class QEditorPrefs(QtGui.QWidget):
 
 	def apply(self, dummy=None):
 
-		"""Apply the controls"""
+		"""
+		desc:
+			Applies the controls.
+		"""
 
 		if self.lock:
 			return
-		self.qProgEdit.cfg.qProgEditFontFamily = unicode( \
+		self.qProgEdit.cfg.qProgEditFontFamily = unicode(
 			self.ui.fontComboBoxFontFamily.currentText())
-		self.qProgEdit.cfg.qProgEditColorScheme = unicode( \
+		self.qProgEdit.cfg.qProgEditColorScheme = unicode(
 			self.ui.comboBoxColorScheme.currentText())
-		self.qProgEdit.cfg.qProgEditCommentShortcut = unicode( \
+		self.qProgEdit.cfg.qProgEditCommentShortcut = unicode(
 			self.ui.lineEditCommentShortcut.text())
-		self.qProgEdit.cfg.qProgEditUncommentShortcut = unicode( \
+		self.qProgEdit.cfg.qProgEditUncommentShortcut = unicode(
 			self.ui.lineEditUncommentShortcut.text())
 		self.qProgEdit.cfg.qProgEditFontSize = self.ui.spinBoxFontSize.value()
 		self.qProgEdit.cfg.qProgEditTabWidth = self.ui.spinBoxTabWidth.value()
@@ -122,4 +133,3 @@ class QEditorPrefs(QtGui.QWidget):
 			self.qProgEdit.tabManager.applyCfg()
 		else:
 			self.qProgEdit.applyCfg()
-

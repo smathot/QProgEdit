@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
 """
@@ -15,6 +16,19 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
+
+---
+desc:
+	This modules defines some built-ins that are not available in Python 3, but
+	are assumed to exist by QProgEdit.
+---
 """
 
-from QProgEdit.clean._python import python
+try:
+	unicode
+except:
+	unicode = str
+try:
+	basestring
+except:
+	basestring = str

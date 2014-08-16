@@ -18,45 +18,43 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from PyQt4 import QtGui, QtCore
-from QProgEdit.py3 import *
-from QProgEdit import QEditorConst
 
-class QLangMenu(QtGui.QMenu):
+class QLineEditFind(QtGui.QLineEdit):
 
 	"""
 	desc:
-		The language selection menu.
+		Implements a line-edit widget that closes the find box on Escape presses
+		and selects the highlighted text when receiving focus.
 	"""
 
-	def __init__(self, tabCornerWidget):
+	def focusInEvent(self, e):
 
 		"""
 		desc:
-			Constructor.
+			Selects the contents on focus.
 
 		arguments:
-			tabCornerWidget:
-				desc:	The parent QTabCornerWidget.
-				type:	QTabCornerWidget
+			e:
+				type:	QFocusEvent
 		"""
 
-		super(QLangMenu, self).__init__(tabCornerWidget)
-		self.tabCornerWidget = tabCornerWidget
-		for lang in QEditorConst.languages:
-			self.addAction(QtGui.QIcon.fromTheme(u'text-x-%s' % lang.lower(),
-				QtGui.QIcon.fromTheme(u'text-plain')), lang)
-		self.triggered.connect(self.setLang)
+		self.selectAll()
+		e.accept()
 
-	def setLang(self, action):
+	def keyPressEvent(self, e):
 
 		"""
 		desc:
-			Select a new language for the selected tab.
+			Handles key presses to deal with Escape.
 
 		arguments:
-			action:
-				type:	QAction
+			e:
+				type:	QKeyEvent
 		"""
 
-		self.tabCornerWidget.tabManager.setLang(unicode(action.text()))
-		self.tabCornerWidget.update()
+		if e.key() == QtCore.Qt.Key_Escape:
+			e.accept()
+			self.parent().unshow()
+		else:
+			e.ignore()
+			QtGui.QLineEdit.keyPressEvent(self, e)

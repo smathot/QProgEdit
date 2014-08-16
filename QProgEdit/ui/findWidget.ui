@@ -106,18 +106,18 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="LineEditFind" name="lineEditReplace"/>
+    <widget class="QLineEditFind" name="lineEditReplace"/>
    </item>
    <item row="0" column="1">
-    <widget class="LineEditFind" name="lineEditFind"/>
+    <widget class="QLineEditFind" name="lineEditFind"/>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>LineEditFind</class>
+   <class>QLineEditFind</class>
    <extends>QLineEdit</extends>
-   <header>QProgEdit/ui/_lineeditfind.h</header>
+   <header>QProgEdit/_qlineeditfind.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

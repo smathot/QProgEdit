@@ -21,104 +21,105 @@ import os
 import sys
 from PyQt4 import QtGui, QtCore
 from PyQt4.Qsci import QsciScintilla, QsciScintillaBase, QsciLexerPython
+from QProgEdit.py3 import *
 from QProgEdit import QEditorCfg, QProgEdit, QTabCornerWidget, _
 
 class QTabManager(QtGui.QTabWidget):
 
-	"""A widget that contains multiple document tabs"""
+	"""
+	desc:
+		A tab manager that contains multiple QProgEdit tabs.
+	"""
 
-	def __init__(self, parent=None, defaultLang=u'text', cfg=QEditorCfg(),
-		createTab=False, tabsClosable=False, tabsMovable=False, handler=None,
-		focusOutHandler=None, msg=None, handlerButtonText=None, \
-		**deprecatedArgs):
+	cursorRowChanged = QtCore.pyqtSignal(int, int, int)
+	focusLost = QtCore.pyqtSignal(int)
+	focusReceived = QtCore.pyqtSignal(int)
+	handlerButtonClicked = QtCore.pyqtSignal(int)
+
+	def __init__(self, parent=None, cfg=QEditorCfg(), tabsClosable=False,
+		tabsMovable=False, msg=None, handlerButtonText=None):
 
 		"""
-		Constructor
+		desc:
+			Constructor.
 
-		Keyword arguments:
-		parent			-- 	the parent QWidget (default=None)
-		defaultlang		-- 	default language, used to select a lexer for syntax
-							highlighting. If an appropriate lexer isn't found, no
-							error is generated, but syntax highlighting is
-							disabled. For a list of available lexers, refer to
-							the QsciScintilla documentation. (default=u'text')
-		cfg				--	a configuration backend. By default QEditorCfg is
-							used. Custom backends must have the same API for
-							getting and setting options (default=QEditorCfg())
-		createTab		--	Indicates whether an empty tab should be created upon
-							initialization. (default=False)
-		tabsClosable	--	Indicates whether a close button should be shown on
-							each tab. (default=False)
-		tabsMovable		--	Indicates whether tabs can be re-ordered.
-							(default=False)
-		handler			--	The handler function that is called when the handler
-							button is clicked. (default=None)
-		focusOutHandler	--	The handler function that is called when focus is
-							lost. (default=None)
-		msg				--	An informative message for the corner widget, or
-							None for auto-detect. (default=None)
-		handlerButtonText	--	Text for a top-right button, which can be
-								clicked to call the handler, or None for no
-								button. (default=None)
+		keywords:
+			parent:
+				desc:	The parent widget.
+				type:	QWidget
+			cfg:
+				desc:	A configuration backend. By default QEditorCfg is used.
+						Custom backends must have the same API for getting and
+						setting options.
+			tabsClosable:
+				desc:	Indicates whether a close button should be shown on
+						tabs.
+				type:	bool
+			tabsMovable:
+				desc:	Indicates whether tabs can be re-ordered.
+				type:	bool
+			msg:
+				desc:	An informative message for the corner widget.
+				type:	[str, unicode, NoneType]
+			handlerButtonText:
+				desc:	Text for a top-right button, which can be clicked to
+						call the handler, or None for no button.
+				type:	[str, unicode, NoneType]
 		"""
 
 		super(QTabManager, self).__init__(parent)		
-		self.defaultLang = defaultLang
-		if defaultLang == u'Python' and msg == None:
-			msg = u'Python %d.%d.%d' % (sys.version_info[0], \
-				sys.version_info[1], sys.version_info[2])
 		self.cfg = cfg
 		self.setDocumentMode(True)
 		self.setTabsClosable(tabsClosable)
 		self.setMovable(tabsMovable)		
 		self.currentChanged.connect(self.tabChanged)
 		self.tabCloseRequested.connect(self.closeTab)
-		QtGui.QShortcut(QtGui.QKeySequence(u'Alt+Left'), self).activated \
+		QtGui.QShortcut(QtGui.QKeySequence(
+			self.cfg.qProgEditSwitchLeftShortcut), self).activated \
 			.connect(self.switchTabLeft)
-		QtGui.QShortcut(QtGui.QKeySequence(u'Alt+Right'), self).activated \
+		QtGui.QShortcut(QtGui.QKeySequence(
+			self.cfg.qProgEditSwitchRightShortcut), self).activated \
 			.connect(self.switchTabRight)
-		self.setHandler(handler)
-		self.setFocusOutHandler(focusOutHandler)
-		self.setCornerWidget(QTabCornerWidget(self, msg=msg, \
+		self.setCornerWidget(QTabCornerWidget(self, msg=msg,
 			handlerButtonText=handlerButtonText))
-		if createTab:
-			self.addTab(_(u'Empty document'))
 		# Under Windows, the tab bar is too small for the icons. Forcing the
 		# tab-bar height looks funny on Linux. Mac OS not tested.
 		if os.name == u'nt':
 			self.setStyleSheet(u'QTabBar::tab { min-height: 32px; }')
-			
-		if len(deprecatedArgs) > 0:
-			print \
-				u'QProgEdit.QTabManager.__init__(): deprecated keyword arguments received'
 
-	def addTab(self, title, lang=None, select=True):
+	def addTab(self, title=u'Empty document', select=True):
 
 		"""
-		Adds an empty document tab
+		desc:
+			Adds an empty document tab.
 
-		Arguments:
-		title	--	the title of the tabs
+		keywords:
+			title:
+				desc:	A tab title.
+				type:	[unicode, str]
+			select:
+				desc:	Indicates whether the newly created tab should be
+						selected.
+				type:	bool
 
-		Keyword arguments:
-		lang		--	a language, if different from the default language
-					(default=None)
-		select	-- 	indicates whether the newly created tab should be selected
-					(default=True)
+		returns:
+			desc:	The newly added tab widget.
+			type:	QProgEdit
 		"""
 
-		if lang == None:
-			lang = self.defaultLang
-		progEdit = QProgEdit(self, lang=lang, cfg=self.cfg, title=title, \
-			handler=self.handler, focusOutHandler=self.focusOutHandler)
+		progEdit = QProgEdit(self, title=title)
 		index = super(QTabManager, self).addTab(progEdit, progEdit.title)
 		if select:
 			self.setCurrentIndex(index)
 			self.cornerWidget().update()
+		return progEdit
 
 	def applyCfg(self):
 
-		"""Apply the configuration"""
+		"""
+		desc:
+			Applies the configuration.
+		"""
 
 		for index in range(self.count()):
 			progEdit = self.widget(index)
@@ -127,174 +128,179 @@ class QTabManager(QtGui.QTabWidget):
 	def closeTab(self, index=None):
 
 		"""
-		Closes a tab
+		desc:
+			Closes a tab.
 
-		Arguments:
-		index	--	the index of the tab to be closed, or None to close the
-					current tab (default=None)
+		keywords:
+			index:	A tab index (see [tabIndex]).
 		"""
 
+		index = self.tabIndex(index)
 		if index == None:
-			index = self.currentIndex()
+			return
 		self.removeTab(index)
 		if self.count() == 0:
 			self.addTab(_(u'Empty document'))
 
-	def isModified(self, index=None):
+	def isAnyModified(self):
 		
 		"""
-		Returns the modified status for one or all tabs.
+		desc:
+			Checks if one or more of the tabs have been modified.
 		
-		Keyword arguments:
-		index	--	The index for a tab, or None to check all tabs.
-					(default=None)
-		
-		Returns:
-		True if (one of) the tab(s) is modified, False otherwise.
-		"""
-		
-		if index == None:
-			for i in range(self.count()):
-				if self.widget(i).isModified():
-					return True
-			return False
-		return self.widget(i).isModified()
-
-	def lang(self, index=None):
-
-		"""
-		Gets the language of a tab
-
-		Keyword arguments:
-		index	--	the index of the tab, or None for current tab (default=None)
-
-		Returns:
-		A string with the language (e.g., 'text', or 'python'). If an invalid tab
-		has been specified, None is returned.
+		returns:
+			desc:	True if (one of) the tab(s) is modified, False otherwise.
+			type:	bool
 		"""
 
-		if self.count() == 0:
-			return None
-		if index == None:
-			return self.currentWidget().lang()
-		elif index >= 0 and index < self.count():
-			return self.widget(index).lang()
-		return None
-	
-	def setFocusOutHandler(self, focusOutHandler=None):
-		
-		"""
-		Set the handler function, i.e. the function that is called when the
-		editor loses focus.
-		
-		Keyword arguments:
-		focusOutHandler		--	A handler function or None to disable the
-								handler. (default=None)
-		"""
-		
-		self.focusOutHandler = focusOutHandler
-		for i in range(self.count()):
-			self.widget(i).setFocusOutHandler(focusOutHandler)
-	
-	def setHandler(self, handler=None):
-		
-		"""
-		Set the handler function, i.e. the function that is called when the
-		handler button is pressed.
-		
-		Keyword arguments:
-		handler		--	A handler function or None to disable the handler.
-						(default=None)
-		"""
-		
-		self.handler = handler
-		for i in range(self.count()):
-			self.widget(i).setHandler(handler)
+		for tab in self.tabs():
+			if tab.isModified():
+				return True
+		return False
 
-	def setLang(self, lang=u'text', index=None):
+	def selectTab(self, index):
 
 		"""
-		Sets the language
+		desc:
+			Switches to a specific tab.
 
-		Keyword arguments:
-		lang	-- 	language, used to select a lexer for syntax highlighting.
-					If an appropriate lexer isn't found, no error is
-					generated, but syntax highlighting is disabled. For a
-					list of available lexers, refer to the QsciScintilla
-					documentation. (default='text')
-		index	--	the index of the tab, or None for all tabs (default=None)
+		arguments:
+			index:	A tab index, as understood by [tabIndex].
 		"""
 
-		if self.count() == 0:
-			return
-		elif index == None:
-			for i in range(self.count()):
-				self.widget(i).setLang(lang)
-		elif index >= 0 and index < self.count():
-			self.widget(index).setLang(lang)
+		index = self.tabIndex(index)
+		if index != None:
+			self.setCurrentIndex(index)
 
-	def setText(self, txt, index=None):
+	def setText(self, text, index=None):
 
 		"""
-		Sets the document text for a given tab. If the tab is not available, the
-		function will fail silently.
+		desc:
+			Sets the text on a specific tab.
 
-		Arguments:
-		txt		--	the text to set
-
-		Keyword arguments:
-		index	--	the index of the tab, or None for current tab (default=None)
+		arguments:
+			text:	The new text.
+			index:	A tab index, as understood by [tabIndex].
 		"""
 
-		if self.count() == 0:
-			return
-		elif index == None:
-			self.currentWidget().setText(txt)
-		elif index >= 0 and index < self.count():
-			self.widget(index).setText(txt)
+		tab = self.tab(index)
+		if tab != None:
+			tab.setText(text)
 
 	def switchTabLeft(self):
 		
-		"""Switches to the tab on the left."""
+		"""
+		desc:
+			Switches to the tab on the left.
+		"""
 		
 		newIndex = (self.currentIndex() - 1) % self.count()
 		self.setCurrentIndex(newIndex)
 
 	def switchTabRight(self):
 		
-		"""Switches to the tab on the left."""
+		"""
+		desc:
+			Switches to the tab on the left.
+		"""
 		
 		newIndex = (self.currentIndex() + 1) % self.count()
 		self.setCurrentIndex(newIndex)
 
+	def tab(self, index=None):
+
+		"""
+		desc:
+			Returns the QProgEdit instance for a given tab.
+
+		keywords:
+			index:
+				desc:	Specifies the tab, either by a name (i.e. the name on a
+						tab), an index, or None to get the current tab.
+				type:	[int, str, unicode, NoneType]
+
+		returns:
+			desc:		A tab, or None if no matching tab was found.
+			type:		[QProgEdit, NoneType]
+		"""
+
+		index = self.tabIndex(index)
+		if index == None:
+			return None
+		return self.widget(index)
+
+	def tabIndex(self, index=None):
+
+		"""
+		desc:
+			Returns the index for a given tab.
+
+		keywords:
+			index:
+				desc:	Specifies the tab, either by a name (i.e. the name on a
+						tab), an index, or None to get the current tab.
+				type:	[int, str, unicode, NoneType]
+
+		returns:
+			desc:		A tab index, or None if no matching tab was found.
+			type:		[int, NoneType]
+		"""
+
+		if isinstance(index, int):
+			if index >= 0 and index < self.count():
+				return index
+		elif isinstance(index, basestring):
+			for i in range(self.count()):
+				if self.tabText(i) == index:
+					return i
+		elif index == None:
+			if self.count() > 0:
+				return self.currentIndex()
+		else:
+			raise Exception(u'index should be int, str, unicode, or None')
+		return None
+
+	def tabs(self):
+
+		"""
+		desc:
+			Gets all tabs.
+
+		returns:
+			desc:	A list of all tab widgets.
+			type:	list
+		"""
+
+		return [self.widget(i) for i in range(self.count())]
+
 	def text(self, index=None):
 
 		"""
-		Returns the text for a given tab
+		desc:
+			Gets the text on a specific tab.
 
-		Arguments:
-		index	--	the index of the tab, or None for current tab (default=None)
+		arguments:
+			index:	A tab index, as understood by [tabIndex].
 
-		Returns:
-		A unicode string with the tab contents or None if the specified tab does
-		not exist.
+		returns:
+			The text or None if the tab does not exist.
 		"""
 
-		if self.count() == 0:
+		tab = self.tab(index)
+		if tab == None:
 			return None
-		if index == None:
-			return unicode(self.currentWidget().text())
-		if index >= 0 and index < self.count():
-			return unicode(self.widget(index).text())
-		return None
+		return tab.text()
 
 	def toggleFind(self, visible):
 
 		"""
-		Toggle the visibility of the find widget
+		desc:
+			Toggle the visibility of the find widget.
 
-		Arguments:
-		visible		--	a boolean
+		arguments:
+			visible:
+				desc:	Visibility status.
+				type:	bool
 		"""
 
 		self.currentWidget().toggleFind(visible)
@@ -302,10 +308,13 @@ class QTabManager(QtGui.QTabWidget):
 	def togglePrefs(self, visible):
 
 		"""
-		Toggle the visibility of the preferences widget
+		desc:
+			Toggle the visibility of the preferences widget.
 
-		Arguments:
-		visible		--	a boolean
+		arguments:
+			visible:
+				desc:	Visibility status.
+				type:	bool
 		"""
 
 		self.currentWidget().togglePrefs(visible)
@@ -313,11 +322,14 @@ class QTabManager(QtGui.QTabWidget):
 	def tabChanged(self, index):
 
 		"""
-		Is called when the current tab must be updated, for example because a
-		new tab is selected.
+		desc:
+			Is called when the current tab must be updated, for example because
+			a new tab is selected.
 
-		Arguments:
-		index	--	the index of the newly selected tabs
+		arguments:
+			index:
+				desc:	The index of the newly selected tab.
+				type:	int
 		"""
 
 		if self.count() == 0:

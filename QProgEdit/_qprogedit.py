@@ -25,53 +25,50 @@ from QProgEdit import QEditor, QEditorCfg, QEditorPrefs, QEditorFind
 class QProgEdit(QtGui.QWidget):
 
 	"""
-	A single editor window, with preferences widget and search functionality.
+	desc:
+		A single editor window, with preferences widget and search
+		functionality.
 	"""
 
-	def __init__(self, parent=None, lang=u'text', cfg=None, dPrint=None,
-		title=u'Empty document', handler=None, focusOutHandler=None):
+	cursorRowChanged = QtCore.pyqtSignal()
+	focusLost = QtCore.pyqtSignal()
+	focusReceived = QtCore.pyqtSignal()
+	handlerButtonClicked = QtCore.pyqtSignal()
+
+	def __init__(self, tabManager, dPrint=None, title=u'Empty document',
+		**editorParams):
 
 		"""
-		Constructor.
+		desc:
+			Constructor.
 
-		Keyword arguments:
-		parent		--	A parent QWidget, typically a QTabManager.
-						(default=None)
-		lang		--	The language to be used for syntax highlighting.
-						(default=u'text')
-		cfg			--	The configuration back-end or None to use a
-						non-persistent back-end. (default=None)
-		dPrint		--	A function to be used for debug printing. Should
+		arguments:
+			tabManager:
+				desc:	A tab manager.
+				type:	QTabManager
+
+		keywords:
+			dPrint:		A function to be used for debug printing. Should
 						accept a single parameter, which is the debug message.
 						If no debug function is specified, the standard output
-						is used. (default=None)
-		title		--	A title for the document. (default=u'Empty document')
-		handler		--	A function that is called when the editor loses focus,
-						typically to respond to changes in the content.
-						(default=None)
-		focusOutHandler	--	The handler function that is called when focus is
-							lost. (default=None)
+						is used.
+			title:		A title for the document.
+
+		keyword-dict:
+			editorParams:
+						A dictionary with keywords to be passed to QEditor.
 		"""
 
-		super(QProgEdit, self).__init__(parent)
-
-		self.tabManager = parent
+		super(QProgEdit, self).__init__(tabManager)
+		self.tabManager = tabManager
 		self.title = title
-		self.handler = handler
-		self.focusOutHandler = focusOutHandler
 		if dPrint != None:
 			self.dPrint = dPrint
-		if cfg == None:
-			self.cfg = QEditorCfg(self)
-		else:
-			self.cfg = cfg
-
-		self.editor = QEditor(self, lang=lang)
+		self.editor = QEditor(self, **editorParams)
 		self.prefs = QEditorPrefs(self)
 		self.prefs.hide()
 		self.find = QEditorFind(self)
 		self.find.hide()
-
 		self.mainBox = QtGui.QVBoxLayout(self)
 		self.mainBox.setContentsMargins(4,4,4,4)
 		self.mainBox.setSpacing(4)
@@ -79,133 +76,109 @@ class QProgEdit(QtGui.QWidget):
 		self.mainBox.addWidget(self.find)
 		self.mainBox.addWidget(self.editor)
 		self.setLayout(self.mainBox)
-
 		if self.tabManager != None:
-			self.editor.cursorPositionChanged.connect( \
+			self.editor.cursorPositionChanged.connect(
 				self.tabManager.cornerWidget().statusWidget.updateCursorPos)
 
+	# Properties provide direct access to the relevant editor functions.
+
+	@property
+	def cfg(self):
+		return self.tabManager.cfg
+
+	@property
 	def applyCfg(self):
+		return self.editor.applyCfg
 
-		"""Applies the configuration."""
+	@property
+	def isModified(self):
+		return self.editor.isModified
 
-		self.editor.applyCfg()
+	@property
+	def lang(self):
+		return self.editor.lang
 
-	def callFocusOutHandler(self):
+	@property
+	def text(self):
+		return self.editor.text
 
-		"""Calls the focus-out handler."""
+	@property
+	def setLang(self):
+		return self.editor.setLang
 
-		if self.focusOutHandler != None:
-			self.focusOutHandler()
+	@property
+	def setSymbolTree(self):
+		return self.editor.setSymbolTree
 
-	def callHandler(self):
+	@property
+	def setText(self):
+		return self.editor.setText
 
-		"""Calls the handler."""
+	@property
+	def updateSymbolTree(self):
+		return self.editor.updateSymbolTree
 
-		if self.handler != None:
-			self.handler()
+	@property
+	def cursorPositionChanged(self):
+		return self.editor.cursorPositionChanged
+
+	@property
+	def focusLost(self):
+		return self.editor.focusLost
+
+	@property
+	def focusReceived(self):
+		return self.editor.focusReceived
+
+	@property
+	def handlerButtonClicked(self):
+		return self.editor.handlerButtonClicked
 
 	def dPrint(self, msg):
 
-		print u'debug: %s' % msg
-
-	def isModified(self):
-
 		"""
-		Returns the modified status.
+		desc:
+			Prints a debug message.
 
-		Returns:
-		True if the editor is modified, False otherwise.
-		"""
-
-		return self.editor.isModified()
-
-	def lang(self):
-
-		"""
-		Returns the language used for syntax highlighting.
-
-		Returns:
-		The language.
+		arguments:
+			msg:
+				desc:	A debug message.
+				type:	[unicode, str]
 		"""
 
-		return self.editor.lang()
+		print(u'debug: %s' % msg)
 
-	def setFocusOutHandler(self, focusOutHandler=None):
-
-		"""
-		Set the handler function, i.e. the function that is called when the
-		editor loses focus.
-
-		Keyword arguments:
-		focusOutHandler		--	A handler function or None to disable the
-								handler. (default=None)
-		"""
-
-		self.focusOutHandler = focusOutHandler
-
-	def setHandler(self, handler=None):
+	def focusTab(self):
 
 		"""
-		Sets the handler function, i.e. the function that is called when the
-		editor loses focus and changes need to be processed.
-
-		Keyword arguments:
-		handler		--	A handler function or None to disable the handler.
-						(default=None)
+		desc:
+			Focuses the current tab.
 		"""
 
-		self.handler = handler
+		self.tabManager.setCurrentWidget(self)
 
-	def setLang(self, lang=u'text'):
-
-		"""
-		Sets the language.
-
-		Keyword arguments:
-		lang		-- 	language, used to select a lexer for syntax highlighting.
-					if an appropriate lexer isn't found, no error is
-					generated, but syntax highlighting is disabled. For a
-					list of available lexers, refer to the QsciScintilla
-					documentation. (default=u'text')
-		"""
-
-		self.editor.setLang(lang=lang)
-
-	def setText(self, txt):
+	def tabIndex(self):
 
 		"""
-		Sets the content of the editor.
+		desc:
+			Gets the index of the current tab.
 
-		Arguments
-		txt		--	The new editor content.
+		returns:
+			desc:	The tab index.
+			type:	int
 		"""
 
-		# Unicode is preferred, so give a warning if a str is passed.
-		if isinstance(txt, str):
-			self.dPrint( \
-				u'Warning: QProgEdit.setText() received str (utf-8 assumed)')
-			txt = txt.decode('utf-8', 'ignore')
-		self.editor.setText(txt)
-
-	def text(self):
-
-		"""
-		Retrieves the editor contents.
-
-		Returns:
-		The editor contents.
-		"""
-
-		return self.editor.text()
+		return self.tabManager.indexOf(self)
 
 	def toggle(self, widget, visible):
 
 		"""
-		Toggles the visibility of a widget with a smooth animation.
+		desc:
+			Toggles the visibility of a widget with a smooth animation.
 
-		Arguments:
-		widget		--	A QWidget.
-		visible		--	A boolean indicating the visibility of the widget.
+		arguments:
+			widget:		A QWidget.
+			visible:	A boolean indicating the visibility of the widget.
 		"""
 
 		if not visible:
@@ -226,10 +199,11 @@ class QProgEdit(QtGui.QWidget):
 	def toggleFind(self, visible):
 
 		"""
-		Toggles the visibility of the find widget
+		desc:
+			Toggles the visibility of the find widget.
 
-		Arguments:
-		visible		--	A boolean indicating the visibility of the widget.
+		arguments:
+			visible:	A boolean indicating the visibility of the widget.
 		"""
 
 		self.toggle(self.find, visible)
@@ -242,10 +216,11 @@ class QProgEdit(QtGui.QWidget):
 	def togglePrefs(self, visible):
 
 		"""
-		Toggles the visibility of the preferences widget
+		desc:
+			Toggles the visibility of the preferences widget
 
-		Arguments:
-		visible		--	A boolean indicating the visibility of the widget.
+		arguments:
+			visible:	A boolean indicating the visibility of the widget.
 		"""
 
 		if visible:

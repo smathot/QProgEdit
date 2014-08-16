@@ -15,23 +15,65 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
+
+---
+desc: |
+	# QProgEdit
+
+	v%--python: from QProgEdit import __version__; print __version__--%
+
+	QProgEdit is a PyQt4 widget that implements a full-featured text editor
+	component. It's primary target at the moment is
+	[OpenSesame](http://osdoc.cogsci.nl), a graphical experiment builder.
+
+	Copyright (2013) Sebastiaan Mathôt
+	<http://www.cogsci.nl/smathot>
+
+	## Overview
+
+	%--
+	toc:
+		mindepth: 2
+		maxdepth: 2
+		exclude: [Overview]
+	--%
+
+	## Dependencies
+
+	- `PyQt4`
+	- `Qscintilla2`
+
+	## Example
+
+	~~~ python
+	%--include: example.py--%
+	~~~
+
+license: |
+	`QProgEdit` is released under the terms of the
+	[General Public License v3](http://www.gnu.org/licenses/gpl-3.0.txt).
+---
 """
 
-version = u'1.3.3'
+version = __version__ = u'2.0.0'
+
+from QProgEdit.py3 import *
 
 # A simple wrapper around the translate function
 from PyQt4.QtCore import QCoreApplication
 _ = lambda s: unicode(QCoreApplication.translate(u'qprogedit', s))
 
-import _qeditorconst as QEditorConst
-import _qcolorscheme as QColorScheme
-from _qeditorcfg import QEditorCfg
-from _qlexer import QLexer
-from _qlangmenu import QLangMenu
-from _qeditor import QEditor
-from _qeditorprefs import QEditorPrefs
-from _qeditorfind import QEditorFind
-from _qeditorstatus import QEditorStatus
-from _qprogedit import QProgEdit
-from _qtabcornerwidget import QTabCornerWidget
-from _qtabmanager import QTabManager
+import QProgEdit._qeditorconst as QEditorConst
+import QProgEdit._qcolorscheme as QColorScheme
+from QProgEdit._quiloader import QUiLoader
+from QProgEdit._qsymboltreewidgetitem import QSymbolTreeWidgetItem
+from QProgEdit._qeditorcfg import QEditorCfg
+from QProgEdit._qlexer import QLexer
+from QProgEdit._qlangmenu import QLangMenu
+from QProgEdit._qeditor import QEditor
+from QProgEdit._qeditorprefs import QEditorPrefs
+from QProgEdit._qeditorfind import QEditorFind
+from QProgEdit._qeditorstatus import QEditorStatus
+from QProgEdit._qprogedit import QProgEdit
+from QProgEdit._qtabcornerwidget import QTabCornerWidget
+from QProgEdit._qtabmanager import QTabManager

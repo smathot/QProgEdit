@@ -21,36 +21,45 @@ import os
 from PyQt4 import QtGui, QtCore
 
 class QEditorStatus(QtGui.QLabel):
-	
+
 	"""
-	A simple widget that indicates the editor status, which currently
-	corresponds only to the cursor position.
+	desc:
+		A simple widget that indicates the editor status, which currently
+		corresponds only to the cursor position.
 	"""
 
-	def __init__(self, parent):
-		
+	def __init__(self, qProgEdit):
+
 		"""
-		Constructor.
-		
-		Arguments:
-		parent		--	A QProgEdit widget.
+		desc:
+			Constructor.
+
+		arguments:
+			qProgEdit:
+				desc:	The parent QProgEdit.
+				type:	QProgEdit
 		"""
 
-		super(QEditorStatus, self).__init__(parent)
-		self.qProgEdit = parent
+		super(QEditorStatus, self).__init__(qProgEdit)
+		self.qProgEdit = qProgEdit
 		if os.name == u'nt':
 			self.setFont(QtGui.QFont(u'courier new', pointSize=8))
 		else:
 			self.setFont(QtGui.QFont(u'monospace', pointSize=8))
 
 	def updateCursorPos(self, line=0, index=0):
-		
+
 		"""
-		Updates the cursor position.		
-		
-		Keyword arguments:
-		line	--	The line number. (default=0)
-		index	--	The column number. (default=0)
+		desc:
+			Updates the cursor position.
+
+		keywords:
+			line:
+				desc:	The line number.
+				type:	int
+			index:
+				desc:	The column number.
+				type:	int
 		"""
 
 		self.setText(u'(%.3d, %.3d)' % (index+1, line+1))

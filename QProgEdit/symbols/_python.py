@@ -17,4 +17,31 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from QProgEdit.clean._python import python
+import re
+
+def python(script):
+
+	"""
+	desc:
+		Extracts the symbols from a Python script.
+
+	arguments:
+		script:
+			desc:	A Python script.
+			type:	unicode
+
+	returns:
+		desc:		A list of symbols, where each symbol is a (lineNr,
+					type, name, argSpec) tuple. Type is always 'class' or 'def'.
+		type:		list
+	"""
+
+	regexp = \
+		r'\s*(?P<type>def|class)\s+(?P<name>\w+)\((?P<argspec>[^\)]*)\)\s*:'
+	symbols = []
+	for lineNo, line in enumerate(script.split(u'\n')):
+		m = re.match(regexp, line)
+		if m != None:
+			symbols.append( (lineNo+1, m.group(u'type'), m.group(u'name'),
+				m.group(u'argspec')) )
+	return symbols

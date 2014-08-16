@@ -23,23 +23,34 @@ from QProgEdit import QLangMenu, QEditorStatus
 
 class QTabCornerWidget(QtGui.QWidget):
 
-	"""Contains a number of buttons that are displayed in the tab bar"""
+	"""
+	desc:
+		Contains a number of buttons that are displayed in the tab bar.
+	"""
 
-	def __init__(self, parent=None, msg=None, handlerButtonText=None):
+	def __init__(self, tabManager, msg=None, handlerButtonText=None):
 
 		"""
-		Constructor
+		desc:
+			Constructor.
 
-		Keyword arguments:
-		parent				-- 	The parent QWidget. (default=None)
-		msg					--	An informative text message. (default=None)
-		handlerButtonText	--	Text for a top-right button, which can be
-								clicked to call the handler, or None for no
-								button. (default=None)
+		arguments:
+			tabManager:
+				desc:	A tab manager.
+				type:	QTabManager
+
+		keywords:
+			msg:
+				desc:	An informative text message.
+				type:	[str, unicode, NoneType]
+			handlerButtonText:
+				desc:	Text for a top-right button, which can be clicked to
+						call the handler, or None for no button.
+				type:	[str, unicode, NoneType]
 		"""
 
-		super(QTabCornerWidget, self).__init__()
-		self.tabManager = parent
+		super(QTabCornerWidget, self).__init__(tabManager)
+		self.tabManager = tabManager
 		# Preferences button
 		self.prefsButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(
 			u'preferences-desktop'), u'', self)
@@ -65,7 +76,7 @@ class QTabCornerWidget(QtGui.QWidget):
 		if handlerButtonText != None:
 			self.handlerButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(
 				u'document-save'), handlerButtonText, self)
-			self.handlerButton.clicked.connect(self.tabManager.handler)
+			self.handlerButton.clicked.connect(self.handlerButtonClicked)
 		else:
 			self.handlerButton = None
 		# Editor status
@@ -91,12 +102,27 @@ class QTabCornerWidget(QtGui.QWidget):
 		self.setTabOrder(self.findButton, self.langButton)
 		self.setTabOrder(self.langButton, self.handlerButton)
 
+	def handlerButtonClicked(self):
+
+		"""
+		desc:
+			Is called when the handler button is clicked and emits the relevant
+			signals.
+		"""
+
+		self.tabManager.handlerButtonClicked.emit(
+			self.tabManager.currentIndex())
+		self.tabManager.tab().handlerButtonClicked.emit()
+
 	def update(self):
 
-		"""Update to reflect document contents"""
+		"""
+		desc:
+			Updates widget to reflect document contents.
+		"""
 
-		self.langButton.setIcon(QtGui.QIcon.fromTheme(u'text-x-%s' % \
-			self.tabManager.lang().lower(), \
+		self.langButton.setIcon(QtGui.QIcon.fromTheme(
+			u'text-x-%s' % self.tabManager.tab().lang().lower(),
 			QtGui.QIcon.fromTheme(u'text-plain')))
 		self.findButton.setChecked(False)
 		self.prefsButton.setChecked(False)

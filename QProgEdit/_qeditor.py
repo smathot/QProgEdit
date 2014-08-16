@@ -21,54 +21,85 @@ import os
 from PyQt4 import QtGui, QtCore
 from PyQt4 import Qsci
 from PyQt4.Qsci import QsciScintilla, QsciScintillaBase
-from QProgEdit import QLexer, QColorScheme, validate, clean, _
+from QProgEdit.py3 import *
+from QProgEdit import QLexer, QColorScheme, QSymbolTreeWidgetItem, symbols, \
+	validate, clean, _
 
 class QEditor(QsciScintilla):
 
-	"""A single editor widget."""
+	"""
+	desc:
+		A single editor widget, which is embedded in a QProgEdit widget.
+	"""
 
 	invalidMarker = 8
 
-	def __init__(self, parent=None, lang=u'text'):
+	cursorRowChanged = QtCore.pyqtSignal(int, int) # (Old row, new row)
+	focusLost = QtCore.pyqtSignal()
+	focusReceived = QtCore.pyqtSignal()
+	handlerButtonClicked = QtCore.pyqtSignal()
+
+	def __init__(self, qProgEdit):
 
 		"""
-		Constructor.
+		desc:
+			Constructor.
 
-		Keyword arguments:
-		parent		-- 	The parent QWidget (default=None)
-		lang		-- 	Language used to select a lexer for syntax highlighting.
-						If an appropriate lexer isn't found, no error is
-						generated, but syntax highlighting is disabled. For a
-						list of available lexers, refer to the QsciScintilla
-						documentation. (default='text')
+		arguments:
+			qProgEdit:
+				desc:	The parent QProgEdit.
+				type:	QProgEdit
 		"""
 
-		super(QEditor, self).__init__(parent)
+		super(QEditor, self).__init__(qProgEdit)
 		self.setEolMode(self.EolUnix)
 		self.setUtf8(True)
-		self.qProgEdit = parent
+		self.qProgEdit = qProgEdit
 		self.validationErrors = {}
-		self.setLang(lang)
-		self.commentShortcut = QtGui.QShortcut(QtGui.QKeySequence( \
-			self.qProgEdit.cfg.qProgEditCommentShortcut), self)
-		self.uncommentShortcut = QtGui.QShortcut(QtGui.QKeySequence( \
-			self.qProgEdit.cfg.qProgEditUncommentShortcut), self)
+		self.setLang()
+		self.commentShortcut = QtGui.QShortcut(QtGui.QKeySequence(
+			self.cfg.qProgEditCommentShortcut), self)
+		self.uncommentShortcut = QtGui.QShortcut(QtGui.QKeySequence(
+			self.cfg.qProgEditUncommentShortcut), self)
 		self.commentShortcut.activated.connect(self.commentSelection)
 		self.uncommentShortcut.activated.connect(self.uncommentSelection)
 		self.applyCfg()
 		self.linesChanged.connect(self.updateMarginWidth)
 		self.selectionChanged.connect(self.highlightSelection)
-		self.cursorPositionChanged.connect(self.validate)
+		self.cursorPositionChanged.connect(self.cursorMoved)
 		self.marginClicked.connect(self.onMarginClick)
 		self.setMarginSensitivity(1, True)
+		self.cursorRow = 0
+		self.symbolTree = None
+		self.symbolTreeWidgetItemClass = QSymbolTreeWidgetItem
+		self._symbols = []
+
+	@property
+	def tabManager(self):
+		return self.qProgEdit.tabManager
+
+	@property
+	def cfg(self):
+		return self.qProgEdit.cfg
+
+	@property
+	def focusTab(self):
+		return self.qProgEdit.focusTab
+
+	@property
+	def tabIndex(self):
+		return self.qProgEdit.tabIndex
 
 	def applyCfg(self):
 
-		"""Apply the configuration"""
+		"""
+		desc:
+			Applies the configuration.
+		"""
 
-		if hasattr(QColorScheme, self.qProgEdit.cfg.qProgEditColorScheme):
+		if hasattr(QColorScheme, self.cfg.qProgEditColorScheme):
 			colorScheme = getattr(QColorScheme, \
-				self.qProgEdit.cfg.qProgEditColorScheme)
+				self.cfg.qProgEditColorScheme)
 		else:
 			colorScheme = QColorScheme.Default
 		# Define indicator for selection matching
@@ -77,55 +108,58 @@ class QEditor(QsciScintilla):
 		indicatorColor.setAlpha(64)
 		self.setIndicatorForegroundColor(indicatorColor, 0)
 		self.markerDefine(QsciScintilla.RightArrow, self.invalidMarker)
-		self.setMarkerBackgroundColor(QtGui.QColor( \
+		self.setMarkerBackgroundColor(QtGui.QColor(
 			colorScheme[u'Invalid']), self.invalidMarker)
-		self.setMarkerForegroundColor(QtGui.QColor( \
+		self.setMarkerForegroundColor(QtGui.QColor(
 			colorScheme[u'Invalid']), self.invalidMarker)
-		self.commentShortcut.setKey(QtGui.QKeySequence( \
-			self.qProgEdit.cfg.qProgEditCommentShortcut))
-		self.uncommentShortcut.setKey(QtGui.QKeySequence( \
-			self.qProgEdit.cfg.qProgEditUncommentShortcut))
-		font = QtGui.QFont(self.qProgEdit.cfg.qProgEditFontFamily,
-			self.qProgEdit.cfg.qProgEditFontSize)
+		self.commentShortcut.setKey(QtGui.QKeySequence(
+			self.cfg.qProgEditCommentShortcut))
+		self.uncommentShortcut.setKey(QtGui.QKeySequence(
+			self.cfg.qProgEditUncommentShortcut))
+		font = QtGui.QFont(self.cfg.qProgEditFontFamily,
+			self.cfg.qProgEditFontSize)
 		self.setFont(font)
-		self.setTabWidth(self.qProgEdit.cfg.qProgEditTabWidth)
-		self.setAutoIndent(self.qProgEdit.cfg.qProgEditAutoIndent)
-		self.setEolVisibility(self.qProgEdit.cfg.qProgEditShowEol)
-		self.setIndentationGuides(self.qProgEdit.cfg.qProgEditShowIndent)
+		self.setTabWidth(self.cfg.qProgEditTabWidth)
+		self.setAutoIndent(self.cfg.qProgEditAutoIndent)
+		self.setEolVisibility(self.cfg.qProgEditShowEol)
+		self.setIndentationGuides(self.cfg.qProgEditShowIndent)
 		self.setCaretLineVisible(
-			self.qProgEdit.cfg.qProgEditHighlightCurrentLine)
-		if self.qProgEdit.cfg.qProgEditShowFolding:
+			self.cfg.qProgEditHighlightCurrentLine)
+		if self.cfg.qProgEditShowFolding:
 			self.setFolding(QsciScintilla.PlainFoldStyle)
 		else:
 			self.setFolding(QsciScintilla.NoFoldStyle)
-		self.setMarginLineNumbers(0, self.qProgEdit.cfg.qProgEditLineNumbers)
-		if self.qProgEdit.cfg.qProgEditShowWhitespace:
+		self.setMarginLineNumbers(0, self.cfg.qProgEditLineNumbers)
+		if self.cfg.qProgEditShowWhitespace:
 			self.setWhitespaceVisibility(QsciScintilla.WsVisible)
 		else:
 			self.setWhitespaceVisibility(QsciScintilla.WsInvisible)
-		if self.qProgEdit.cfg.qProgEditWordWrap:
+		if self.cfg.qProgEditWordWrap:
 			self.setWrapMode(QsciScintilla.WrapWord)
 		else:
 			self.setWrapMode(QsciScintilla.WrapNone)
-		if self.qProgEdit.cfg.qProgEditWordWrapMarker != None:
-			self.setEdgeColumn(self.qProgEdit.cfg.qProgEditWordWrapMarker)
+		if self.cfg.qProgEditWordWrapMarker != None:
+			self.setEdgeColumn(self.cfg.qProgEditWordWrapMarker)
 			self.setEdgeMode(QsciScintilla.EdgeLine)
 		else:
 			self.setEdgeMode(QsciScintilla.EdgeNone)
-		if self.qProgEdit.cfg.qProgEditAutoComplete:
+		if self.cfg.qProgEditAutoComplete:
 			self.setAutoCompletionSource(QsciScintilla.AcsAll)
 		else:
 			self.setAutoCompletionSource(QsciScintilla.AcsNone)
-		if self.qProgEdit.cfg.qProgEditHighlightMatchingBrackets:
+		if self.cfg.qProgEditHighlightMatchingBrackets:
 			self.setBraceMatching(QsciScintilla.StrictBraceMatch)
 		else:
 			self.setBraceMatching(QsciScintilla.NoBraceMatch)
 		self.setLang(self.lang())
-		self.cfgVersion = self.qProgEdit.cfg.version()
+		self.cfgVersion = self.cfg.version()
 
 	def commentSelection(self):
 
-		"""Comments out the currently selected text."""
+		"""
+		desc:
+			Comments out the currently selected text.
+		"""
 
 		self.beginUndoAction()
 		cl, ci = self.getCursorPosition()
@@ -150,29 +184,61 @@ class QEditor(QsciScintilla):
 			self.setSelection(fl, fi, tl, ti)
 		self.endUndoAction()
 
+	def cursorMoved(self):
+
+		"""
+		desc:
+			Is called whenever the cursor moves, checks whether the cursor has
+			jumped from one line to the next, and, if so, calls the relevant
+			functions.
+		"""
+
+		row, col = self.getCursorPosition()
+		if self.cursorRow != row:
+			self.validate()
+			self.updateSymbolTree()
+			self.cursorRowChanged.emit(self.cursorRow, row)
+			self.tabManager.cursorRowChanged.emit(self.tabIndex(),
+				self.cursorRow, row)
+		self.cursorRow = row
+
 	def focusOutEvent(self, e):
 
-		"""Lets the qProgEdit call the handler when we lose focus."""
+		"""
+		desc:
+			Called when the editor loses focus.
+		"""
 
 		if e.reason() == QtCore.Qt.PopupFocusReason:
 			e.ignore()
 			return
+		self.validate()
+		self.updateSymbolTree()
 		if self.isModified():
-			self.qProgEdit.callFocusOutHandler()
 			self.setModified(False)
 		super(QEditor, self).focusOutEvent(e)
+		self.focusLost.emit()
+		self.tabManager.focusLost.emit(self.tabIndex())
 
 	def focusInEvent(self, e):
 
-		"""Apply the current configuration when we receive focus."""
+		"""
+		desc:
+			Called when the editor receives focus.
+		"""
 
-		if self.qProgEdit.tabManager.cfg.version() != self.cfgVersion:
+		if self.tabManager.cfg.version() != self.cfgVersion:
 			self.applyCfg()
 		super(QEditor, self).focusInEvent(e)
+		self.focusReceived.emit()
+		self.tabManager.focusReceived.emit(self.tabIndex())
 
 	def highlightSelection(self):
 
-		"""Highlights all parts of the text that match the current selection."""
+		"""
+		desc:
+			Highlights all parts of the text that match the current selection.
+		"""
 
 		text = QtCore.QString(self.text())
 		selection = self.selectedText()
@@ -197,11 +263,13 @@ class QEditor(QsciScintilla):
 	def keyPressEvent(self, event):
 
 		"""
-		Intercepts certain keypress events to implement custom copy-pasting and
-		zoomin.
+		desc:
+			Intercepts certain keypress events to implement custom copy-pasting
+			and zooming.
 
-		Arguments:
-		event	--	A QKeyPressEvent.
+		arguments:
+			event:
+				type:	QKeyPressEvent
 		"""
 
 		key = event.key()
@@ -224,12 +292,19 @@ class QEditor(QsciScintilla):
 	def onMarginClick(self, margin, line, state):
 
 		"""
-		Show validation errors when the margin symbol is clicked.
+		desc:
+			Shows validation errors when the margin symbol is clicked.
 
-		Arguments:
-		margin		--	The margin number.
-		line		--	The line number.
-		state		--	The keyboard state.
+		arguments:
+			margin:
+				desc:	The margin number.
+				type:	int
+			line:
+				desc:	The line number.
+				type:	int
+			state:
+				desc:	The keyboard state.
+				type:	int
 		"""
 
 		if margin != 1:
@@ -240,7 +315,10 @@ class QEditor(QsciScintilla):
 
 	def uncommentSelection(self):
 
-		"""Uncomments the currently selected text."""
+		"""
+		desc:
+			Uncomments the currently selected text.
+		"""
 
 		self.beginUndoAction()
 		cl, ci = self.getCursorPosition()
@@ -278,8 +356,9 @@ class QEditor(QsciScintilla):
 	def lang(self):
 
 		"""
-		Returns:
-		The language of the editor
+		returns:
+			desc:	The language of the editor.
+			type:	unicode
 		"""
 
 		return self._lang
@@ -287,7 +366,9 @@ class QEditor(QsciScintilla):
 	def paste(self):
 
 		"""
-		Re-implements the paste method to allow modification of paste content.
+		desc:
+			Re-implements the paste method to allow modification of paste
+			content.
 		"""
 
 		text = unicode(QtGui.QApplication.clipboard().text())
@@ -303,68 +384,128 @@ class QEditor(QsciScintilla):
 	def setLang(self, lang=u'text'):
 
 		"""
-		Sets the language
+		desc:
+			Sets the editor language.
 
-		Keyword arguments:
-		lang	-- 	language, used to select a lexer for syntax highlighting.
-					if an appropriate lexer isn't found, no error is
-					generated, but syntax highlighting is disabled. For a
-					list of available lexers, refer to the QsciScintilla
-					documentation. (default=u'text')
+		keywords:
+			lang:
+				desc:	A language, used to select a lexer for syntax
+						highlighting, validation, cleaning, etc.
+						if an appropriate lexer isn't found, no error is
+						generated, but syntax highlighting is disabled. For a
+						list of available lexers, refer to the QsciScintilla
+						documentation.
 		"""
 
-		self._lexer = QLexer(self, lang=lang, colorScheme= \
-			self.qProgEdit.cfg.qProgEditColorScheme)
+		self._lexer = QLexer(self, lang=lang,
+			colorScheme=self.cfg.qProgEditColorScheme)
 		self._lang = lang
 		self.SendScintilla(QsciScintillaBase.SCI_CLEARDOCUMENTSTYLE)
 		self.setLexer(self._lexer)
 		self.validate()
 
+	def setSymbolTree(self, symbolTree,
+		symbolTreeWidgetItemClass=QSymbolTreeWidgetItem):
+
+		"""
+		desc:
+			Sets the symbol-tree widget.
+
+		arguments:
+			symbolTree:
+				desc:	A symbol-tree widget.
+				type:	QTreeWidgetItem
+
+		keywords:
+			symbolTreeWidgetItemClass:
+				desc:	The class to use for symbol-tree widgets. This should
+						derive from QSymbolTreeWidgetItem.
+				type:	type
+		"""
+
+		self.symbolTree = symbolTree
+		self.symbolTreeWidgetItemClass = symbolTreeWidgetItemClass
+		self.updateSymbolTree()
+
 	def setText(self, text):
 
 		"""
-		Sets the editor contents.
+		desc:
+			Sets the editor contents.
 
-		Arguments:
-		text	--	A text string. This can be a str object, which is assumed
-					to be in utf-8 encoding, a Unicode object, or a QString.
+		arguments:
+			text:
+				desc:	A text string. This can be a str object, which is
+						assumed to be in utf-8 encoding, a Unicode object, or a
+						QString.
+				type:	[str, unicode, QString]
 		"""
 
-		if isinstance(text, str):
+		if isinstance(text, str) and hasattr(text, u'decode'):
 			text = text.decode(u'utf-8')
 		elif not isinstance(text, unicode) and not isinstance(text, \
 			QtCore.QString):
 			raise Exception(u'Expecting a str, unicode, or QString object')
 		super(QEditor, self).setText(text)
 		self.setModified(False)
+		self.updateSymbolTree()
+		self.validate()
 
 	def text(self):
 
 		"""
-		Retrieves the editor contents.
+		desc:
+			Retrieves the editor contents.
 
-		Returns:
-		A unicode object.
+		returns:
+			desc:	The editor contents.
+			type:	unicode
 		"""
 
 		return unicode(super(QEditor, self).text())
 
 	def updateMarginWidth(self):
 
-		"""Updates the width of the margin containing the line numbers"""
+		"""
+		desc:
+			Updates the width of the margin containing the line numbers.
+		"""
 
 		self.setMarginWidth(0, u' %s' % self.lines())
 
+	def updateSymbolTree(self):
+
+		"""
+		desc:
+			Updates the symbol tree, if any has been specified and a symbol
+			parser is available for the langauage.
+		"""
+
+		if self.symbolTree == None or not hasattr(symbols, self.lang().lower()):
+			return
+		parser = getattr(symbols, self.lang().lower())
+		_symbols = parser(self.text())
+		if _symbols == self._symbols:
+			return
+		self.symbolTree.takeChildren()
+		for lineNo, _type, name, argSpec in _symbols:
+			self.symbolTree.addChild(self.symbolTreeWidgetItemClass(self,
+				lineNo, _type, name, argSpec))
+		self._symbols = _symbols
+
 	def validate(self):
 
-		"""Validates the text."""
+		"""
+		desc:
+			Validates the content.
+		"""
 
 		self.highlightSelection()
 		cl = self.getCursorPosition()[0]
 		validateCurrentLine = cl in self.validationErrors
 		self.validationErrors = {}
 		self.markerDeleteAll()
-		if not self.qProgEdit.cfg.qProgEditValidate or not hasattr(validate, \
+		if not self.cfg.qProgEditValidate or not hasattr(validate, \
 			self.lang().lower()):
 			return
 		validator = getattr(validate, self.lang().lower())
@@ -379,10 +520,12 @@ class QEditor(QsciScintilla):
 	def wheelEvent(self, event):
 
 		"""
-		Implements scroll-to-zoom functionality.
+		desc:
+			Implements scroll-to-zoom functionality.
 
-		Arguments:
-		event	--	A QWheelEvent.
+		arguments:
+			event:
+				type:	QWheelEvent
 		"""
 
 		if QtCore.Qt.ControlModifier == event.modifiers():
@@ -393,4 +536,3 @@ class QEditor(QsciScintilla):
 				self.zoomOut()
 		else:
 			super(QEditor, self).wheelEvent(event)
-

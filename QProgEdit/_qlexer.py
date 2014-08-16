@@ -23,32 +23,44 @@ from QProgEdit import QColorScheme
 
 class QLexer(Qsci.QsciLexer):
 
-	"""A themeable wrapper around the standard Lexer system"""
+	"""
+	desc:
+		A themeable wrapper around the standard Lexer system.
+	"""
 
-	def __init__(self, parent=None, lang=u'text', colorScheme=u'Default'):
+	def __init__(self, editor, lang=u'text', colorScheme=u'Default'):
 
 		"""
-		Constructor.
+		desc:
+			Constructor.
 
-		Keyword arguments:
-		parent			--	A QEditor.
-		lang			--	The language. (default='text')
-		colorScheme		--	The color scheme. (default='default')
+		arguments:
+			editor:
+				desc:	The parent QEditor.
+				type:	QEditor
+
+		keywords:
+			lang:
+				desc:	The language.
+				type:	unicode
+			colorScheme:
+				desc:	The color scheme.
+				type:	unicode
 		"""
 
-		self.editor = parent
+		self.editor = editor
 
 		# If the language matches an existing Lexer, morph into that
 		# pre-existing lexer class
 		lexerClass = u'QsciLexer%s' % lang.capitalize()
 		if hasattr(Qsci, lexerClass):
 			self.__class__ = getattr(Qsci, lexerClass)
-			getattr(Qsci, lexerClass).__init__(self, parent)
+			getattr(Qsci, lexerClass).__init__(self, editor)
 		elif lang.lower() == 'opensesame':
 			self.__class__ = Qsci.QsciLexerPython
-			Qsci.QsciLexerPython.__init__(self, parent)
+			Qsci.QsciLexerPython.__init__(self, editor)
 		else:
-			super(QLexer, self).__init__(parent)
+			super(QLexer, self).__init__(editor)
 
 		# Set the font based on the configuration
 		font = QtGui.QFont(self.editor.qProgEdit.cfg.qProgEditFontFamily,
@@ -84,17 +96,21 @@ class QLexer(Qsci.QsciLexer):
 	def description(self, style):
 
 		"""
-		Gives a style description for the generic Lexer
+		desc:
+			Gives a style description for the generic Lexer.
 
-		Arguments:
-		style	--	the style number
+		arguments:
+			style:
+				desc:	The style number.
+				type:	int
 
-		Returns:
-		The 'Default' QString for style 0 and empty QStrings for all other styles
+		returns:
+			desc:	The 'Default' QString for style 0 and empty QStrings for all
+					other styles.
+			type:	QString
 		"""
 
 		if style == 0:
 			return QtCore.QString(u'Default')
 		else:
 			return QtCore.QString()
-

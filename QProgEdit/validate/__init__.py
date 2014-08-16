@@ -17,4 +17,4 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from _python import python, addPythonBuiltins
+from QProgEdit.validate._python import python, addPythonBuiltins
