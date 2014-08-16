@@ -26,7 +26,8 @@ desc: |
 	component. It's primary target at the moment is
 	[OpenSesame](http://osdoc.cogsci.nl), a graphical experiment builder.
 
-	Copyright (2013) Sebastiaan Mathôt
+	Copyright (2013-2014) Sebastiaan Mathôt
+	
 	<http://www.cogsci.nl/smathot>
 
 	## Overview
