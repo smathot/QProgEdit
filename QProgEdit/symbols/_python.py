@@ -37,7 +37,7 @@ def python(script):
 	"""
 
 	regexp = \
-		r'\s*(?P<type>def|class)\s+(?P<name>\w+)\((?P<argspec>[^\)]*)\)\s*:'
+		r'\s*(?P<type>def|class)\s+(?P<name>\w+)\((?P<argspec>[^\)]*)\){0,1}\s*:{0,1}'
 	symbols = []
 	for lineNo, line in enumerate(script.split(u'\n')):
 		m = re.match(regexp, line)
