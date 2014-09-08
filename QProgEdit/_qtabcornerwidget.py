@@ -63,10 +63,14 @@ class QTabCornerWidget(QtGui.QWidget):
 			u'edit-find'), u'', self)
 		self.findButton.setCheckable(True)
 		self.findButton.toggled.connect(self.tabManager.toggleFind)
-		QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+F'), self).activated.connect(
-			self.findButton.toggle)
-		QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+R'), self).activated.connect(
-			self.findButton.toggle)
+		# Keyboard shortcuts for find widget
+		self.findShortcut = QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+F'),
+			self.tabManager, context=QtCore.Qt.WidgetWithChildrenShortcut)
+		self.findShortcut.activated.connect(self.findButton.toggle)
+		self.replaceShortcut = QtGui.QShortcut(
+			QtGui.QKeySequence(u'Ctrl+Shift+R'), self.tabManager,
+			context=QtCore.Qt.WidgetWithChildrenShortcut)
+		self.replaceShortcut.activated.connect(self.findButton.toggle)
 		# Language button (filled by update())
 		self.langButton = QtGui.QPushButton(self)
 		self.langButton.setMenu(QLangMenu(self))
