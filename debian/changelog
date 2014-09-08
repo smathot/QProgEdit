@@ -1,3 +1,22 @@
+python-qprogedit (2.0.1-ubuntu1) trusty; urgency=medium
+
+  * Catch multiline defs in Python symbols
+  * Avoid shortcut clashes when multiple instances are visible
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Mon, 08 Sep 2014 21:08:38 +0200
+
+python-qprogedit (2.0.0-ubuntu1) trusty; urgency=medium
+
+  * Not backwards compatible with 1.X
+  * Simplified and more conistent API
+  * Compatible with Python 3
+  * Add symbol-tree browser
+  * Use yamldoc-style docstrings
+  * Use signals instead of callback functions
+  * Dynamically load UI
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Sat, 16 Aug 2014 18:27:20 +0200
+
 python-qprogedit (1.4.0-ubuntu1) trusty; urgency=medium
 
   * Add symbol-tree browser
