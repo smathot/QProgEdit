@@ -1,3 +1,9 @@
+python-qprogedit (2.0.2-ubuntu1) trusty; urgency=medium
+
+  * Avoid (more) shortcut clashes when multiple instances are visible
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Tue, 09 Sep 2014 17:22:25 +0200
+
 python-qprogedit (2.0.1-ubuntu1) trusty; urgency=medium
 
   * Catch multiline defs in Python symbols

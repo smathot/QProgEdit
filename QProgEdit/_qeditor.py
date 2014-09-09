@@ -58,9 +58,11 @@ class QEditor(QsciScintilla):
 		self.validationErrors = {}
 		self.setLang()
 		self.commentShortcut = QtGui.QShortcut(QtGui.QKeySequence(
-			self.cfg.qProgEditCommentShortcut), self)
+			self.cfg.qProgEditCommentShortcut), self,
+			context=QtCore.Qt.WidgetWithChildrenShortcut)
 		self.uncommentShortcut = QtGui.QShortcut(QtGui.QKeySequence(
-			self.cfg.qProgEditUncommentShortcut), self)
+			self.cfg.qProgEditUncommentShortcut), self,
+			context=QtCore.Qt.WidgetWithChildrenShortcut)
 		self.commentShortcut.activated.connect(self.commentSelection)
 		self.uncommentShortcut.activated.connect(self.uncommentSelection)
 		self.applyCfg()

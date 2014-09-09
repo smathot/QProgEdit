@@ -56,8 +56,10 @@ class QTabCornerWidget(QtGui.QWidget):
 			u'preferences-desktop'), u'', self)
 		self.prefsButton.setCheckable(True)
 		self.prefsButton.toggled.connect(self.tabManager.togglePrefs)
-		QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+Shift+P'),
-			self).activated.connect(self.prefsButton.toggle)
+		self.prefsShortcut = QtGui.QShortcut(
+			QtGui.QKeySequence(u'Ctrl+Shift+P'), self.tabManager,
+			context=QtCore.Qt.WidgetWithChildrenShortcut)
+		self.prefsShortcut.activated.connect(self.prefsButton.toggle)
 		# Find button
 		self.findButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(
 			u'edit-find'), u'', self)
@@ -74,8 +76,9 @@ class QTabCornerWidget(QtGui.QWidget):
 		# Language button (filled by update())
 		self.langButton = QtGui.QPushButton(self)
 		self.langButton.setMenu(QLangMenu(self))
-		QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+Shift+L'),
-			self).activated.connect(self.langButton.click)
+		self.langShortcut = QtGui.QShortcut(QtGui.QKeySequence(u'Ctrl+Shift+L'),
+			self.tabManager, context=QtCore.Qt.WidgetWithChildrenShortcut)
+		self.langShortcut.activated.connect(self.langButton.click)
 		# Handler button
 		if handlerButtonText != None:
 			self.handlerButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(
