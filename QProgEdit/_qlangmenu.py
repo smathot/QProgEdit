@@ -47,6 +47,10 @@ class QLangMenu(QtGui.QMenu):
 				QtGui.QIcon.fromTheme(u'text-plain')), lang)
 		self.triggered.connect(self.setLang)
 
+	@property
+	def tabManager(self):
+		return self.tabCornerWidget.tabManager
+
 	def setLang(self, action):
 
 		"""
@@ -58,5 +62,5 @@ class QLangMenu(QtGui.QMenu):
 				type:	QAction
 		"""
 
-		self.tabCornerWidget.tabManager.setLang(unicode(action.text()))
+		self.tabManager.tab().setLang(unicode(action.text()))
 		self.tabCornerWidget.update()

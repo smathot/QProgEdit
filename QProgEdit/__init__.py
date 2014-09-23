@@ -27,7 +27,7 @@ desc: |
 	[OpenSesame](http://osdoc.cogsci.nl), a graphical experiment builder.
 
 	Copyright (2013-2014) Sebastiaan Mathôt
-	
+
 	<http://www.cogsci.nl/smathot>
 
 	## Overview
@@ -56,7 +56,7 @@ license: |
 ---
 """
 
-version = __version__ = u'2.0.2'
+version = __version__ = u'2.0.3'
 
 from QProgEdit.py3 import *
 
