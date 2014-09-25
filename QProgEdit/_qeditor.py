@@ -427,6 +427,7 @@ class QEditor(QsciScintilla):
 
 		self.symbolTree = symbolTree
 		self.symbolTreeWidgetItemClass = symbolTreeWidgetItemClass
+		self._symbols = []
 		self.updateSymbolTree()
 
 	def setText(self, text):

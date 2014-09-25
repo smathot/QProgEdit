@@ -1,3 +1,9 @@
+python-qprogedit (2.0.4-ubuntu1) trusty; urgency=medium
+
+  * Always rebuild symbol tree when a new symbol tree is set
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Thu, 25 Sep 2014 18:40:11 +0200
+
 python-qprogedit (2.0.3-ubuntu1) trusty; urgency=medium
 
   * Fix crash when changing language through language menu
