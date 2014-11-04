@@ -132,6 +132,9 @@ class QEditor(QsciScintilla):
 		else:
 			self.setFolding(QsciScintilla.NoFoldStyle)
 		self.setMarginLineNumbers(0, self.cfg.qProgEditLineNumbers)
+		if u'Fold margin' in colorScheme:
+			color = QtGui.QColor(colorScheme[u'Fold margin'])
+			self.setFoldMarginColors(color, color)
 		if self.cfg.qProgEditShowWhitespace:
 			self.setWhitespaceVisibility(QsciScintilla.WsVisible)
 		else:

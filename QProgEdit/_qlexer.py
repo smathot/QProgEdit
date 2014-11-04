@@ -63,8 +63,8 @@ class QLexer(Qsci.QsciLexer):
 			super(QLexer, self).__init__(editor)
 
 		# Set the font based on the configuration
-		font = QtGui.QFont(self.editor.qProgEdit.cfg.qProgEditFontFamily,
-				self.editor.qProgEdit.cfg.qProgEditFontSize)
+		font = QtGui.QFont(self.editor.cfg.qProgEditFontFamily,
+				self.editor.cfg.qProgEditFontSize)
 		self.setFont(font)
 
 		# Apply the color theme
@@ -91,7 +91,16 @@ class QLexer(Qsci.QsciLexer):
 		for style in range(50):
 			styleName = str(self.description(style))
 			if styleName != u'' and styleName in colorScheme:
-				self.setColor(QtGui.QColor(colorScheme[styleName]), style)
+				if isinstance(colorScheme[styleName], tuple):
+					color, bold, italic = colorScheme[styleName]
+					self.setColor(QtGui.QColor(colorScheme[styleName]), style)
+					_font = QtGui.QFont(font)
+					_font.setBold(bold)
+					_font.setItalic(italic)
+					self.setFont(_font, style)
+				else:
+					color = colorScheme[styleName]
+				self.setColor(QtGui.QColor(color), style)
 
 	def description(self, style):
 

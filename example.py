@@ -21,6 +21,7 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 import sip
 sip.setapi('QString', 1)
 
+import os
 import sys
 from PyQt4 import QtGui, QtCore
 from QProgEdit import QTabManager, validate
@@ -81,8 +82,8 @@ def main():
 	tab = tabManager.addTab(u'Tab 3')
 	tab.setLang(u'Python')
 	tab.setSymbolTree(treeWidgetItem3)
-	tab.setText(
-		u'def test():\n\tprint undefined_var\n\tbuiltin_var\n\ntest()\n')
+	if os.path.exists(u'content.txt'):
+		tab.setText(open(u'content.txt').read().decode(u'utf-8'))
 	print tab.symbols()
 
 	layout = QtGui.QHBoxLayout()
@@ -92,7 +93,10 @@ def main():
 	container.setLayout(layout)
 	container.show()
 
-	sys.exit(app.exec_())
+	res = app.exec_()
+	open(u'content.txt', u'w').write(tab.text().encode(u'utf-8'))
+	sys.exit(res)
+
 
 if __name__ == '__main__':
 	main()

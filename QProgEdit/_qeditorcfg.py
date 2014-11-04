@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+import os
 from PyQt4 import QtGui, QtCore
 
 class QEditorCfg(QtCore.QObject):
@@ -39,8 +40,11 @@ class QEditorCfg(QtCore.QObject):
 		"""
 
 		super(QEditorCfg, self).__init__(parent)
-		self.qProgEditFontFamily = u'Courier New'
-		self.qProgEditFontSize = 10
+		if os.name == u'nt':
+			self.qProgEditFontFamily = u'Courier New'
+		else:
+			self.qProgEditFontFamily = u'Ubuntu Mono'
+		self.qProgEditFontSize = 13
 		self.qProgEditLineNumbers = True
 		self.qProgEditHighlightCurrentLine = False
 		self.qProgEditHighlightMatchingBrackets = True
@@ -54,7 +58,7 @@ class QEditorCfg(QtCore.QObject):
 		self.qProgEditShowFolding = True
 		self.qProgEditAutoComplete = True
 		self.qProgEditValidate = True
-		self.qProgEditColorScheme = u'SolarizedDark'
+		self.qProgEditColorScheme = u'CogsciBright'
 		self.qProgEditCommentShortcut = u'Ctrl+M'
 		self.qProgEditUncommentShortcut = u'Ctrl+Shift+M'
 		self.qProgEditSwitchLeftShortcut = u'Alt+Left'

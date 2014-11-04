@@ -17,30 +17,99 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+black = u'#000000'
+white = u'#FFFFFF'
+
+# Tango colors
+butter = ['#fce94f', '#edd400', '#c4a000']
+orange = ['#fcaf3e', '#f57900', '#ce5c00']
+chocolate = ['#e9b96e', '#c17d11', '#8f5902']
+chameleon = ['#8ae234', '#73d216', '#4e9a06']
+skyBlue = ['#729fcf', '#3465a4', '#204a87']
+plum = ['#ad7fa8', '#75507b', '#5c3566']
+scarletRed = ['#ef2929', '#cc0000', '#a40000']
+aluminium = ['#eeeeec', '#d3d7cf', '#babdb6', '#888a85', '#555753', '#2e3436']
+
+CogsciBright = {
+	u'Background'					: white,
+	u'Default'						: black,
+	u'Selection background'			: skyBlue[0],
+	u'Selection foreground'			: white,
+	u'Caret-line background'		: aluminium[0],
+	u'Identifier'					: black,
+	u'Number'						: chameleon[2],
+	u'Double-quoted string'			: skyBlue[2],
+	u'Single-quoted string'			: skyBlue[2],
+	u'Triple-quoted string'			: skyBlue[2],
+	u'Triple single-quoted string'	: (chocolate[1], False, True),
+	u'Triple double-quoted string'	: (chocolate[1], False, True),
+	u'Comment'						: (chocolate[1], False, True),
+	u'Comment block'				: (chocolate[1], False, True),
+	u'Keyword'						: (black, True, False),
+	u'Operator'						: aluminium[5],
+	u'Class name'					: (plum[2], True, False),
+	u'Function or method name'		: (orange[2], True, False),
+	u'Unclosed string'				: scarletRed[0],
+	u'Highlighted identifier'		: scarletRed[1],
+	u'Decorator'					: butter[2],
+	u'Invalid'						: scarletRed[0],
+	u'Highlight'					: butter[2],
+	u'Fold margin'					: aluminium[0],
+	}
+
+CogsciDark = {
+	u'Background'					: black,
+	u'Default'						: white,
+	u'Selection background'			: skyBlue[2],
+	u'Selection foreground'			: white,
+	u'Caret-line background'		: aluminium[5],
+	u'Identifier'					: white,
+	u'Number'						: chameleon[0],
+	u'Double-quoted string'			: skyBlue[0],
+	u'Single-quoted string'			: skyBlue[0],
+	u'Triple-quoted string'			: skyBlue[0],
+	u'Triple single-quoted string'	: (chocolate[1], False, True),
+	u'Triple double-quoted string'	: (chocolate[1], False, True),
+	u'Comment'						: (chocolate[1], False, True),
+	u'Comment block'				: (chocolate[1], False, True),
+	u'Keyword'						: (white, True, False),
+	u'Operator'						: aluminium[0],
+	u'Class name'					: (plum[0], True, False),
+	u'Function or method name'		: (orange[0], True, False),
+	u'Unclosed string'				: scarletRed[2],
+	u'Highlighted identifier'		: scarletRed[1],
+	u'Decorator'					: butter[0],
+	u'Invalid'						: scarletRed[2],
+	u'Highlight'					: butter[0],
+	u'Fold margin'					: aluminium[2],
+	}
+
+
+
 TangoDark = {
-	u'Background'					: u'#2e3436',
-	u'Default'						: u'#d3d7cf',
-	u'Selection background'			: u'#204a87',
-	u'Selection foreground'			: u'#d3d7cf',
-	u'Caret-line background'		: u'#555753',
-	u'Identifier'					: u'#eeeeec',
-	u'Comment'						: u'#ef2929',
-	u'Comment block'				: u'#ef2929',
-	u'Number'						: u'#8ae234',
-	u'Double-quoted string'			: u'#729fcf',
-	u'Single-quoted string'			: u'#729fcf',
-	u'Triple-quoted string'			: u'#729fcf',
-	u'Triple single-quoted string'	: u'#729fcf',
-	u'Triple double-quoted string'	: u'#729fcf',
-	u'Keyword'						: u'#ad7fa8',
-	u'Operator'						: u'#ad7fa8',
-	u'Class name'					: u'#e9b96e',
-	u'Function or method name'		: u'#e9b96e',
-	u'Unclosed string'				: u'#ef2929',
-	u'Highlighted identifier'		: u'#ef2929',
-	u'Decorator'					: u'#ef2929',
-	u'Invalid'						: u'#cc0000',
-	u'Highlight'					: u'#fce94f',
+	u'Background'					: aluminium[5],
+	u'Default'						: aluminium[1],
+	u'Selection background'			: skyBlue[2],
+	u'Selection foreground'			: aluminium[1],
+	u'Caret-line background'		: aluminium[4],
+	u'Identifier'					: aluminium[0],
+	u'Comment'						: scarletRed[0],
+	u'Comment block'				: scarletRed[0],
+	u'Number'						: chameleon[0],
+	u'Double-quoted string'			: skyBlue[0],
+	u'Single-quoted string'			: skyBlue[0],
+	u'Triple-quoted string'			: skyBlue[0],
+	u'Triple single-quoted string'	: skyBlue[0],
+	u'Triple double-quoted string'	: skyBlue[0],
+	u'Keyword'						: plum[0],
+	u'Operator'						: plum[0],
+	u'Class name'					: chocolate[0],
+	u'Function or method name'		: chocolate[0],
+	u'Unclosed string'				: scarletRed[0],
+	u'Highlighted identifier'		: scarletRed[0],
+	u'Decorator'					: scarletRed[0],
+	u'Invalid'						: scarletRed[1],
+	u'Highlight'					: butter[0],
 	}
 
 SolarizedPalette = {
@@ -91,4 +160,4 @@ SolarizedDark = {
 Default = {u'Invalid' : u'red', u'Highlight' : u'yellow'}
 
 # A list of available themes
-schemes = ['Default', 'TangoDark', 'SolarizedDark']
+schemes = ['Default', 'CogsciBright', 'CogsciDark', 'TangoDark', 'SolarizedDark']
