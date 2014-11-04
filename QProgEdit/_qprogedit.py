@@ -111,6 +111,10 @@ class QProgEdit(QtGui.QWidget):
 		return self.editor.setSymbolTree
 
 	@property
+	def setFocus(self):
+		return self.editor.setFocus
+
+	@property
 	def setText(self):
 		return self.editor.setText
 

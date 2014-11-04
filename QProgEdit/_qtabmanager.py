@@ -172,6 +172,20 @@ class QTabManager(QtGui.QTabWidget):
 		if index != None:
 			self.setCurrentIndex(index)
 
+	def setFocus(self, index=None):
+
+		"""
+		desc:
+			Focuses a specific tab.
+			
+		keywords:
+			index:	A tab index, as understood by [tabIndex].
+		"""
+
+		tab = self.tab(index)
+		tab.setFocus()
+
+
 	def setText(self, text, index=None):
 
 		"""
