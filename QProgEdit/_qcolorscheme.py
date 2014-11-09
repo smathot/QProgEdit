@@ -50,7 +50,7 @@ CogsciBright = {
 	u'Class name'					: (plum[2], True, False),
 	u'Function or method name'		: (orange[2], True, False),
 	u'Unclosed string'				: scarletRed[0],
-	u'Highlighted identifier'		: scarletRed[1],
+	u'Highlighted identifier'		: (chameleon[2], True, False),
 	u'Decorator'					: butter[2],
 	u'Invalid'						: scarletRed[0],
 	u'Highlight'					: butter[2],

@@ -21,52 +21,33 @@ from PyQt4 import QtGui, QtCore
 from PyQt4 import Qsci
 from QProgEdit import QColorScheme
 
-class QLexer(Qsci.QsciLexer):
+class QBaseLexer(object):
 
 	"""
 	desc:
-		A themeable wrapper around the standard Lexer system.
+		A base object for custom lexers.
 	"""
 
-	def __init__(self, editor, lang=u'text', colorScheme=u'Default'):
+	def setTheme(self, editor, colorScheme):
 
 		"""
 		desc:
-			Constructor.
+			Applies the colorscheme to the lexer.
 
 		arguments:
 			editor:
-				desc:	The parent QEditor.
-				type:	QEditor
-
-		keywords:
-			lang:
-				desc:	The language.
-				type:	unicode
+				desc:	An editor object.
+				type:	QsciScintilla
 			colorScheme:
-				desc:	The color scheme.
-				type:	unicode
+				desc:	A colorscheme.
+				type:	dict
 		"""
 
 		self.editor = editor
-
-		# If the language matches an existing Lexer, morph into that
-		# pre-existing lexer class
-		lexerClass = u'QsciLexer%s' % lang.capitalize()
-		if hasattr(Qsci, lexerClass):
-			self.__class__ = getattr(Qsci, lexerClass)
-			getattr(Qsci, lexerClass).__init__(self, editor)
-		elif lang.lower() == 'opensesame':
-			self.__class__ = Qsci.QsciLexerPython
-			Qsci.QsciLexerPython.__init__(self, editor)
-		else:
-			super(QLexer, self).__init__(editor)
-
 		# Set the font based on the configuration
 		font = QtGui.QFont(self.editor.cfg.qProgEditFontFamily,
-				self.editor.cfg.qProgEditFontSize)
+			self.editor.cfg.qProgEditFontSize)
 		self.setFont(font)
-
 		# Apply the color theme
 		if hasattr(QColorScheme, colorScheme):
 			colorScheme = getattr(QColorScheme, colorScheme)
@@ -102,6 +83,72 @@ class QLexer(Qsci.QsciLexer):
 					color = colorScheme[styleName]
 				self.setColor(QtGui.QColor(color), style)
 
+class QPythonLexer(QBaseLexer, Qsci.QsciLexerPython):
+
+	"""
+	desc:
+		A custom Python lexer.
+	"""
+
+	def keywords(self, keyset):
+
+		"""
+		desc:
+			Specifies keywords.
+
+		arguments:
+			keyset:
+				desc:	The keyword set.
+				type:	int
+
+		returns:
+			desc:	A space-separated list of keywords.
+			type:	str
+		"""
+
+		if keyset == 1:
+			return Qsci.QsciLexerPython.keywords(self, keyset).replace(
+				b' None', b'') + b' exp win self set widget'
+		elif keyset == 2:
+			return 'None True False'
+		return Qsci.QsciLexerPython.keywords(self, keyset)
+
+class QOpenSesameLexer(QBaseLexer, Qsci.QsciLexerPython):
+
+	"""
+	desc:
+		A lexer for OpenSesame script.
+	"""
+
+	def keywords(self, keyset):
+
+		"""
+		desc:
+			Specifies keywords.
+
+		arguments:
+			keyset:
+				desc:	The keyword set.
+				type:	int
+
+		returns:
+			desc:	A space-separated list of keywords.
+			type:	str
+		"""
+
+		if keyset == 1:
+			return (b'set define draw setcycle log run widget ellipse circle '
+				b'line arrow textline image gabore noise fixdot label checkbox '
+				b'button image image_button rating_scale text_input')
+		return Qsci.QsciLexerPython.keywords(self, keyset)
+
+class QFallbackLexer(QBaseLexer, Qsci.QsciLexer):
+
+	"""
+	desc:
+		A fallback lexer for plain text.
+	"""
+
 	def description(self, style):
 
 		"""
@@ -123,3 +170,32 @@ class QLexer(Qsci.QsciLexer):
 			return QtCore.QString(u'Default')
 		else:
 			return QtCore.QString()
+
+def QLexer(editor, lang=u'text', colorScheme=u'Default'):
+
+	"""
+	desc:
+		A factory for a lexer.
+
+	arguments:
+		editor:
+			desc:	The parent QEditor.
+			type:	QEditor
+
+	keywords:
+		lang:
+			desc:	The language.
+			type:	unicode
+		colorScheme:
+			desc:	The color scheme.
+			type:	unicode
+	"""
+
+	if lang.lower() == u'opensesame':
+		lexer = QOpenSesameLexer(editor)
+	elif lang.lower() == u'python':
+		lexer = QPythonLexer(editor)
+	else:
+		lexer = QFallbackLexer(editor)
+	lexer.setTheme(editor, colorScheme)
+	return lexer
