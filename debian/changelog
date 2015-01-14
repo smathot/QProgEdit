@@ -1,4 +1,4 @@
-python-qprogedit (2.1.0-ubuntu1) trusty; urgency=medium
+python-qprogedit (2.1.0-ubuntu2) trusty; urgency=medium
 
   * Add OpenSesame-script lexer
   * Improve keywords in Python lexer
