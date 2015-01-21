@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from PyQt4 import QtGui, QtCore
+from QProgEdit.qt import QtGui, QtCore
 
 class QLineEditFind(QtGui.QLineEdit):
 

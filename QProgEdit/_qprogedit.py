@@ -18,8 +18,8 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os
-from PyQt4 import QtGui, QtCore
-from PyQt4.Qsci import QsciScintilla, QsciScintillaBase, QsciLexerPython
+from QProgEdit.qt import QtGui, QtCore
+from QProgEdit.qt.Qsci import QsciScintilla, QsciScintillaBase, QsciLexerPython
 from QProgEdit import QEditor, QEditorCfg, QEditorPrefs, QEditorFind
 
 class QProgEdit(QtGui.QWidget):

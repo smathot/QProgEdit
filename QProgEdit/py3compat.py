@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
 """
@@ -16,19 +15,30 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
-
----
-desc:
-	This modules defines some built-ins that are not available in Python 3, but
-	are assumed to exist by QProgEdit.
----
 """
 
-try:
-	unicode
-except:
-	unicode = str
-try:
-	basestring
-except:
+import sys
+
+if sys.version_info >= (3,0,0):
+	py3 = True
 	basestring = str
+else:
+	bytes = str
+	str = unicode
+	py3 = False
+
+def safe_decode(s, enc='utf-8', errors='strict'):
+	if isinstance(s, str):
+		return s
+	return s.decode(enc, errors)
+
+def safe_encode(s, enc='utf-8', errors='strict'):
+	if isinstance(s, bytes):
+		return s
+	return s.encode(enc, errors)
+
+__all__ = ['py3', 'safe_decode', 'safe_encode']
+if not py3:
+	__all__ += ['str', 'bytes']
+else:
+	__all__ += ['basestring']

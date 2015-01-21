@@ -18,10 +18,10 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os
-from PyQt4 import QtGui, QtCore
-from PyQt4 import Qsci
-from PyQt4.Qsci import QsciScintilla, QsciScintillaBase
-from QProgEdit.py3 import *
+from QProgEdit.qt import QtGui, QtCore
+from QProgEdit.qt import Qsci
+from QProgEdit.qt.Qsci import QsciScintilla, QsciScintillaBase
+from QProgEdit.py3compat import *
 from QProgEdit import QLexer, QColorScheme, QSymbolTreeWidgetItem, symbols, \
 	validate, clean, _
 
@@ -245,7 +245,7 @@ class QEditor(QsciScintilla):
 			Highlights all parts of the text that match the current selection.
 		"""
 
-		text = QtCore.QString(self.text())
+		text = self.text()
 		selection = self.selectedText()
 		length = len(selection)
 		self.clearIndicatorRange(0, 0, self.lines(), 0, 0)
@@ -257,7 +257,7 @@ class QEditor(QsciScintilla):
 		line, index = self.getCursorPosition()
 		currentPos = self.positionFromLineIndex(line, index)
 		while True:
-			i = text.indexOf(selection, i+1)
+			i = text.find(selection, i+1)
 			if i < 0:
 				break
 			if i <= currentPos and i+length >= currentPos:
@@ -345,7 +345,7 @@ class QEditor(QsciScintilla):
 			if len(_s) == 0 or _s[0] != u'#':
 				continue
 			stripped = True
-			i = s.indexOf(u'#')
+			i = s.find(u'#')
 			s = s.remove(i, 1)
 			self.replaceSelectedText(s)
 		# If a comment character has been stripped, we need to jump back one
@@ -376,7 +376,7 @@ class QEditor(QsciScintilla):
 			content.
 		"""
 
-		text = unicode(QtGui.QApplication.clipboard().text())
+		text = str(QtGui.QApplication.clipboard().text())
 		if hasattr(clean, self.lang().lower()):
 			msg, cleanText = getattr(clean, self.lang().lower())(text)
 			if msg != None:
@@ -441,17 +441,15 @@ class QEditor(QsciScintilla):
 
 		arguments:
 			text:
-				desc:	A text string. This can be a str object, which is
-						assumed to be in utf-8 encoding, a Unicode object, or a
-						QString.
-				type:	[str, unicode, QString]
+				desc:	A text string. This can be a str object or unicode
+						object.
+				type:	[str, unicode]
 		"""
 
-		if isinstance(text, str) and hasattr(text, u'decode'):
-			text = text.decode(u'utf-8')
-		elif not isinstance(text, unicode) and not isinstance(text, \
-			QtCore.QString):
-			raise Exception(u'Expecting a str, unicode, or QString object')
+		if isinstance(text, basestring):
+			text = safe_decode(text)
+		else:
+			raise Exception(u'Expecting a str or unicode object')
 		super(QEditor, self).setText(text)
 		self.setModified(False)
 		self.updateSymbolTree()
@@ -468,7 +466,7 @@ class QEditor(QsciScintilla):
 			type:	unicode
 		"""
 
-		return unicode(super(QEditor, self).text())
+		return str(super(QEditor, self).text())
 
 	def updateMarginWidth(self):
 

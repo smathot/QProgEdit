@@ -17,8 +17,8 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from PyQt4 import QtGui, QtCore
-from PyQt4 import Qsci
+from QProgEdit.qt import QtGui, QtCore
+from QProgEdit.qt import Qsci
 from QProgEdit import QColorScheme
 
 class QBaseLexer(object):
@@ -108,7 +108,7 @@ class QPythonLexer(QBaseLexer, Qsci.QsciLexerPython):
 
 		if keyset == 1:
 			return Qsci.QsciLexerPython.keywords(self, keyset).replace(
-				b' None', b'') + b' exp win self set widget'
+				' None', '') + ' exp win self set widget'
 		elif keyset == 2:
 			return 'None True False'
 		return Qsci.QsciLexerPython.keywords(self, keyset)
@@ -161,15 +161,15 @@ class QFallbackLexer(QBaseLexer, Qsci.QsciLexer):
 				type:	int
 
 		returns:
-			desc:	The 'Default' QString for style 0 and empty QStrings for all
+			desc:	The 'Default' str for style 0 and empty str for all
 					other styles.
-			type:	QString
+			type:	str
 		"""
 
 		if style == 0:
-			return QtCore.QString(u'Default')
+			return u'Default'
 		else:
-			return QtCore.QString()
+			return u''
 
 def QLexer(editor, lang=u'text', colorScheme=u'Default'):
 

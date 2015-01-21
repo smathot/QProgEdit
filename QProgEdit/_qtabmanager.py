@@ -19,9 +19,9 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import sys
-from PyQt4 import QtGui, QtCore
-from PyQt4.Qsci import QsciScintilla, QsciScintillaBase, QsciLexerPython
-from QProgEdit.py3 import *
+from QProgEdit.qt import QtGui, QtCore
+from QProgEdit.qt.Qsci import QsciScintilla, QsciScintillaBase, QsciLexerPython
+from QProgEdit.py3compat import *
 from QProgEdit import QEditorCfg, QProgEdit, QTabCornerWidget, _
 
 class QTabManager(QtGui.QTabWidget):
@@ -67,11 +67,11 @@ class QTabManager(QtGui.QTabWidget):
 				type:	[str, unicode, NoneType]
 		"""
 
-		super(QTabManager, self).__init__(parent)		
+		super(QTabManager, self).__init__(parent)
 		self.cfg = cfg
 		self.setDocumentMode(True)
 		self.setTabsClosable(tabsClosable)
-		self.setMovable(tabsMovable)		
+		self.setMovable(tabsMovable)
 		self.currentChanged.connect(self.tabChanged)
 		self.tabCloseRequested.connect(self.closeTab)
 		QtGui.QShortcut(QtGui.QKeySequence(
@@ -143,11 +143,11 @@ class QTabManager(QtGui.QTabWidget):
 			self.addTab(_(u'Empty document'))
 
 	def isAnyModified(self):
-		
+
 		"""
 		desc:
 			Checks if one or more of the tabs have been modified.
-		
+
 		returns:
 			desc:	True if (one of) the tab(s) is modified, False otherwise.
 			type:	bool
@@ -177,7 +177,7 @@ class QTabManager(QtGui.QTabWidget):
 		"""
 		desc:
 			Focuses a specific tab.
-			
+
 		keywords:
 			index:	A tab index, as understood by [tabIndex].
 		"""
@@ -204,22 +204,22 @@ class QTabManager(QtGui.QTabWidget):
 			tab.setText(text)
 
 	def switchTabLeft(self):
-		
+
 		"""
 		desc:
 			Switches to the tab on the left.
 		"""
-		
+
 		newIndex = (self.currentIndex() - 1) % self.count()
 		self.setCurrentIndex(newIndex)
 
 	def switchTabRight(self):
-		
+
 		"""
 		desc:
 			Switches to the tab on the left.
 		"""
-		
+
 		newIndex = (self.currentIndex() + 1) % self.count()
 		self.setCurrentIndex(newIndex)
 

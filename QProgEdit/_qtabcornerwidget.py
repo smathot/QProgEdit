@@ -18,7 +18,7 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os
-from PyQt4 import QtGui, QtCore
+from QProgEdit.qt import QtGui, QtCore
 from QProgEdit import QLangMenu, QEditorStatus
 
 class QTabCornerWidget(QtGui.QWidget):
