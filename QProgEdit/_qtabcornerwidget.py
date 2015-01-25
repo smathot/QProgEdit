@@ -80,7 +80,7 @@ class QTabCornerWidget(QtGui.QWidget):
 			self.tabManager, context=QtCore.Qt.WidgetWithChildrenShortcut)
 		self.langShortcut.activated.connect(self.langButton.click)
 		# Handler button
-		if handlerButtonText != None:
+		if handlerButtonText is not None:
 			self.handlerButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(
 				u'document-save'), handlerButtonText, self)
 			self.handlerButton.clicked.connect(self.handlerButtonClicked)
@@ -89,19 +89,19 @@ class QTabCornerWidget(QtGui.QWidget):
 		# Editor status
 		self.statusWidget = QEditorStatus(self)
 		# Message
-		if msg != None:
+		if msg is not None:
 			self.msgLabel = QtGui.QLabel(u'<small>%s</small>' % msg, parent= \
 				self)
 		self.hBox = QtGui.QHBoxLayout(self)
 		self.hBox.setSpacing(2)
 		self.hBox.setContentsMargins(2,2,2,2)
-		if msg != None:
+		if msg is not None:
 			self.hBox.addWidget(self.msgLabel)
 		self.hBox.addWidget(self.statusWidget)
 		self.hBox.addWidget(self.prefsButton)
 		self.hBox.addWidget(self.findButton)
 		self.hBox.addWidget(self.langButton)
-		if self.handlerButton != None:
+		if self.handlerButton is not None:
 			self.hBox.addWidget(self.handlerButton)
 		self.setLayout(self.hBox)
 		# Set the tab order for keyboard navigation

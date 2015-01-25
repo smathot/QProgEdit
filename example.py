@@ -77,7 +77,7 @@ def main():
 	tab.setText(u'Some plain text')
 
 	tab = tabManager.addTab(u'Tab 3')
-	tab.setLang(u'OpenSesame')
+	tab.setLang(u'Python')
 	tab.setSymbolTree(treeWidgetItem3)
 	if os.path.exists(u'content.txt'):
 		tab.setText(open(u'content.txt').read())

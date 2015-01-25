@@ -31,7 +31,9 @@ scarletRed = ['#ef2929', '#cc0000', '#a40000']
 aluminium = ['#eeeeec', '#d3d7cf', '#babdb6', '#888a85', '#555753', '#2e3436']
 
 CogsciBright = {
-	u'Background'					: white,
+	u'Prompt in'					: skyBlue[2],
+	u'Prompt out'					: scarletRed[2],
+	u'Background'					: aluminium[0],
 	u'Default'						: black,
 	u'Selection background'			: skyBlue[0],
 	u'Selection foreground'			: white,
@@ -58,12 +60,14 @@ CogsciBright = {
 	}
 
 CogsciDark = {
-	u'Background'					: black,
-	u'Default'						: white,
+	u'Prompt in'					: skyBlue[0],
+	u'Prompt out'					: scarletRed[0],
+	u'Background'					: aluminium[5],
+	u'Default'						: aluminium[0],
 	u'Selection background'			: skyBlue[2],
-	u'Selection foreground'			: white,
-	u'Caret-line background'		: aluminium[5],
-	u'Identifier'					: white,
+	u'Selection foreground'			: aluminium[1],
+	u'Caret-line background'		: aluminium[4],
+	u'Identifier'					: aluminium[0],
 	u'Number'						: chameleon[0],
 	u'Double-quoted string'			: skyBlue[0],
 	u'Single-quoted string'			: skyBlue[0],
@@ -72,21 +76,21 @@ CogsciDark = {
 	u'Triple double-quoted string'	: (chocolate[1], False, True),
 	u'Comment'						: (chocolate[1], False, True),
 	u'Comment block'				: (chocolate[1], False, True),
-	u'Keyword'						: (white, True, False),
+	u'Keyword'						: (aluminium[1], True, False),
 	u'Operator'						: aluminium[0],
 	u'Class name'					: (plum[0], True, False),
 	u'Function or method name'		: (orange[0], True, False),
-	u'Unclosed string'				: scarletRed[2],
-	u'Highlighted identifier'		: scarletRed[1],
+	u'Unclosed string'				: scarletRed[0],
+	u'Highlighted identifier'		: scarletRed[0],
 	u'Decorator'					: butter[0],
-	u'Invalid'						: scarletRed[2],
+	u'Invalid'						: scarletRed[0],
 	u'Highlight'					: butter[0],
 	u'Fold margin'					: aluminium[2],
 	}
 
-
-
 TangoDark = {
+	u'Prompt in'					: skyBlue[0],
+	u'Prompt out'					: scarletRed[0],
 	u'Background'					: aluminium[5],
 	u'Default'						: aluminium[1],
 	u'Selection background'			: skyBlue[2],
@@ -132,6 +136,8 @@ SolarizedPalette = {
 	}
 
 SolarizedDark = {
+	u'Prompt in'					: SolarizedPalette[u'Violet'],
+	u'Prompt out'					: SolarizedPalette[u'Red'],
 	u'Background'					: SolarizedPalette[u'Base02'],
 	u'Default'						: SolarizedPalette[u'Base1'],
 	u'Selection background'			: SolarizedPalette[u'Base2'],
@@ -157,7 +163,37 @@ SolarizedDark = {
 	u'Highlight'					: SolarizedPalette[u'Orange'],
 	}
 
+AtomicDark  = {
+	u'Prompt in'					: u'#96CBFE',
+	u'Prompt out'					: u'#FFD2A7',
+	u'Background'					: u'#1d1f21',
+	u'Default'						: u'#c5c8c6',
+	u'Selection background'			: u'#444',
+	u'Selection foreground'			: u'#FFFFB6',
+	u'Caret-line background'		: u'#444',
+	u'Identifier'					: u'#c5c8c6',
+	u'Number'						: u'#FF73FD',
+	u'Double-quoted string'			: u'#A8FF60',
+	u'Single-quoted string'			: u'#A8FF60',
+	u'Triple-quoted string'			: u'#A8FF60',
+	u'Triple single-quoted string'	: u'#A8FF60',
+	u'Triple double-quoted string'	: u'#A8FF60',
+	u'Comment'						: u'#7C7C7C',
+	u'Comment block'				: u'#7C7C7C',
+	u'Keyword'						: u'#DAD085',
+	u'Operator'						: u'#EDEDED',
+	u'Class name'					: u'#FFFFB6',
+	u'Function or method name'		: u'#FFD2A7',
+	u'Unclosed string'				: u'#96CBFE',
+	u'Highlighted identifier'		: u'#99CC99',
+	u'Decorator'					: u'#96CBFE',
+	u'Invalid'						: u'#751012',
+	u'Highlight'					: u'#96CBFE',
+	u'Fold margin'					: u'#c5c8c6',
+	}
+
 Default = {u'Invalid' : u'red', u'Highlight' : u'yellow'}
 
 # A list of available themes
-schemes = ['Default', 'CogsciBright', 'CogsciDark', 'TangoDark', 'SolarizedDark']
+schemes = ['Default', 'CogsciBright', 'CogsciDark', 'TangoDark',
+	'SolarizedDark', 'AtomicDark']

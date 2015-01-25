@@ -17,11 +17,9 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import os
-from QProgEdit.qt import QtGui, QtCore
-from QProgEdit.qt import Qsci
-from QProgEdit.qt.Qsci import QsciScintilla, QsciScintillaBase
 from QProgEdit.py3compat import *
+from QProgEdit.qt import QtGui, QtCore
+from QProgEdit.qt.Qsci import QsciScintilla, QsciScintillaBase
 from QProgEdit import QLexer, QColorScheme, QSymbolTreeWidgetItem, symbols, \
 	validate, clean, _
 
@@ -143,7 +141,7 @@ class QEditor(QsciScintilla):
 			self.setWrapMode(QsciScintilla.WrapWord)
 		else:
 			self.setWrapMode(QsciScintilla.WrapNone)
-		if self.cfg.qProgEditWordWrapMarker != None:
+		if self.cfg.qProgEditWordWrapMarker is not None:
 			self.setEdgeColumn(self.cfg.qProgEditWordWrapMarker)
 			self.setEdgeMode(QsciScintilla.EdgeLine)
 		else:
@@ -341,12 +339,12 @@ class QEditor(QsciScintilla):
 		for l in range(fl, tl+1):
 			l = self.setSelection(l, 0, l, self.lineLength(l))
 			s = self.selectedText()
-			_s = s.trimmed()
+			_s = s.strip()
 			if len(_s) == 0 or _s[0] != u'#':
 				continue
 			stripped = True
 			i = s.find(u'#')
-			s = s.remove(i, 1)
+			s = s[:i]+s[i+1:]
 			self.replaceSelectedText(s)
 		# If a comment character has been stripped, we need to jump back one
 		# position, but not below 0
@@ -379,8 +377,8 @@ class QEditor(QsciScintilla):
 		text = str(QtGui.QApplication.clipboard().text())
 		if hasattr(clean, self.lang().lower()):
 			msg, cleanText = getattr(clean, self.lang().lower())(text)
-			if msg != None:
-				resp = QtGui.QMessageBox.question(self, _(u'Pasting content'), \
+			if msg is not None:
+				resp = QtGui.QMessageBox.question(self, _(u'Pasting content'),
 					msg, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
 				if resp == QtGui.QMessageBox.Yes:
 					text = cleanText
@@ -485,7 +483,7 @@ class QEditor(QsciScintilla):
 			parser is available for the langauage.
 		"""
 
-		if self.symbolTree == None:
+		if self.symbolTree is None:
 			return
 		_symbols = self.symbols()
 		if _symbols == self._symbols:

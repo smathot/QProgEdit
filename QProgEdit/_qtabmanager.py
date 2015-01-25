@@ -136,7 +136,7 @@ class QTabManager(QtGui.QTabWidget):
 		"""
 
 		index = self.tabIndex(index)
-		if index == None:
+		if index is None:
 			return
 		self.removeTab(index)
 		if self.count() == 0:
@@ -169,7 +169,7 @@ class QTabManager(QtGui.QTabWidget):
 		"""
 
 		index = self.tabIndex(index)
-		if index != None:
+		if index is not None:
 			self.setCurrentIndex(index)
 
 	def setFocus(self, index=None):
@@ -200,7 +200,7 @@ class QTabManager(QtGui.QTabWidget):
 		"""
 
 		tab = self.tab(index)
-		if tab != None:
+		if tab is not None:
 			tab.setText(text)
 
 	def switchTabLeft(self):
@@ -241,7 +241,7 @@ class QTabManager(QtGui.QTabWidget):
 		"""
 
 		index = self.tabIndex(index)
-		if index == None:
+		if index is None:
 			return None
 		return self.widget(index)
 
@@ -269,7 +269,7 @@ class QTabManager(QtGui.QTabWidget):
 			for i in range(self.count()):
 				if self.tabText(i) == index:
 					return i
-		elif index == None:
+		elif index is None:
 			if self.count() > 0:
 				return self.currentIndex()
 		else:
@@ -303,7 +303,7 @@ class QTabManager(QtGui.QTabWidget):
 		"""
 
 		tab = self.tab(index)
-		if tab == None:
+		if tab is None:
 			return None
 		return tab.text()
 

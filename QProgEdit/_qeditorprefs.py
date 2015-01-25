@@ -95,7 +95,7 @@ class QEditorPrefs(QtGui.QWidget, QUiLoader):
 		self.ui.spinBoxFontSize.setValue(self.qProgEdit.cfg.qProgEditFontSize)
 		self.ui.spinBoxTabWidth.setValue(self.qProgEdit.cfg.qProgEditTabWidth)
 		self.ui.checkBoxWordWrapMarker.setChecked(
-			self.qProgEdit.cfg.qProgEditWordWrapMarker != None)
+			self.qProgEdit.cfg.qProgEditWordWrapMarker is not None)
 		for cfg in self.checkBoxCfgOptions:
 			checked = getattr(self.qProgEdit.cfg, u'qProgEdit%s' % cfg)
 			checkBox = getattr(self.ui, u'checkBox%s' % cfg)
@@ -129,7 +129,7 @@ class QEditorPrefs(QtGui.QWidget, QUiLoader):
 			checkBox = getattr(self.ui, u'checkBox%s' % cfg)
 			checked = checkBox.isChecked()
 			setattr(self.qProgEdit.cfg, u'qProgEdit%s' % cfg, checked)
-		if self.qProgEdit.tabManager != None:
+		if self.qProgEdit.tabManager is not None:
 			self.qProgEdit.tabManager.applyCfg()
 		else:
 			self.qProgEdit.applyCfg()
