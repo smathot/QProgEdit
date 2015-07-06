@@ -31,6 +31,6 @@ setup(
     license=u'GNU GPL Version 3',
     url=u'https://github.com/smathot/QProgEdit',
     packages=['QProgEdit', 'QProgEdit.validate', 'QProgEdit.clean',
-        'QProgEdit.symbols'],
+        'QProgEdit.symbols', 'QProgEdit.qt'],
     package_data={'QProgEdit' : ['ui/*.ui']}
 )
