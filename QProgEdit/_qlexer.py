@@ -74,7 +74,7 @@ class QBaseLexer(object):
 			if styleName != u'' and styleName in colorScheme:
 				if isinstance(colorScheme[styleName], tuple):
 					color, bold, italic = colorScheme[styleName]
-					self.setColor(QtGui.QColor(colorScheme[styleName]), style)
+					self.setColor(QtGui.QColor(color), style)
 					_font = QtGui.QFont(font)
 					_font.setBold(bold)
 					_font.setItalic(italic)
