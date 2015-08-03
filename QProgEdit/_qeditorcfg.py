@@ -63,6 +63,11 @@ class QEditorCfg(QtCore.QObject):
 		self.qProgEditUncommentShortcut = u'Ctrl+Shift+M'
 		self.qProgEditSwitchLeftShortcut = u'Alt+Left'
 		self.qProgEditSwitchRightShortcut = u'Alt+Right'
+		self.qProgEditShowFindShortcut = u'Ctrl+F'
+		self.qProgEditHideFindShortcut = u'Escape'
+		self.qProgEditTogglePrefsShortcut = u'Ctrl+Shift+P'
+		self.qProgEditRunSelectedShortcut = u'Alt+R'
+		self.qProgEditRunAllShortcut = u'Shift+Alt+R'
 		self.qProgEditSymbolTreeWidgetItemIcon = u'text-x-script'
 
 	def version(self):

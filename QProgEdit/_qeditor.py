@@ -19,7 +19,8 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 
 from QProgEdit.py3compat import *
 from QProgEdit.qt import QtGui, QtCore
-from QProgEdit.qt.Qsci import QsciScintilla, QsciScintillaBase
+from QProgEdit.qt.Qsci import QsciScintilla, QsciScintillaBase, QsciCommand, \
+	QsciCommandSet
 from QProgEdit import QLexer, QColorScheme, QSymbolTreeWidgetItem, symbols, \
 	validate, clean, _
 
@@ -50,6 +51,7 @@ class QEditor(QsciScintilla):
 		"""
 
 		super(QEditor, self).__init__(qProgEdit)
+		self.setKeyBindings()
 		self.setEolMode(self.EolUnix)
 		self.setUtf8(True)
 		self.qProgEdit = qProgEdit
@@ -89,6 +91,29 @@ class QEditor(QsciScintilla):
 	@property
 	def tabIndex(self):
 		return self.qProgEdit.tabIndex
+
+	def setKeyBindings(self):
+
+		"""
+		desc:
+			Sets keybindings so that they don't interfere with the default
+			keybindings of OpenSesame, and are more atom-like.
+		"""
+
+		c = self.standardCommands()
+		# Disable Ctrl+Slash and Ctrl+T
+		cmd = c.boundTo(QtCore.Qt.Key_Slash | QtCore.Qt.ControlModifier)
+		cmd.setKey(0)
+		cmd = c.boundTo(QtCore.Qt.Key_T | QtCore.Qt.ControlModifier)
+		cmd.setKey(0)
+		# Use Ctrl+Shift+D for line duplication
+		cmd = c.boundTo(QtCore.Qt.Key_D | QtCore.Qt.ControlModifier)
+		cmd.setKey(QtCore.Qt.Key_D | QtCore.Qt.ControlModifier \
+			| QtCore.Qt.ShiftModifier)
+		# Use Ctrl+Shift+K for line deletion
+		cmd = c.boundTo(QtCore.Qt.Key_L | QtCore.Qt.ControlModifier)
+		cmd.setKey(QtCore.Qt.Key_K | QtCore.Qt.ControlModifier \
+			| QtCore.Qt.ShiftModifier)
 
 	def applyCfg(self):
 
@@ -383,6 +408,29 @@ class QEditor(QsciScintilla):
 				if resp == QtGui.QMessageBox.Yes:
 					text = cleanText
 		self.replaceSelectedText(text)
+
+	def selectedText(self, currentLineFallback=False):
+
+		"""
+		desc:
+			Returns the selected text.
+
+		keywords:
+			currentLineFallback:
+				desc:	Indicates whether the current line should be returned
+						if no text has been selected. Otherwise, an empty string
+						is returned.
+				type:	bool
+
+		returns:
+			desc:	The selected text.
+			type:	str
+		"""
+
+		if self.hasSelectedText() or not currentLineFallback:
+			return super(QEditor, self).selectedText()
+		line, index = self.getCursorPosition()
+		return self.text().split(u'\n')[line]
 
 	def setLang(self, lang=u'text'):
 

@@ -44,6 +44,10 @@ def activateSymbolTree(treeWidgetItem):
 	if hasattr(treeWidgetItem, u'activate'):
 		treeWidgetItem.activate()
 
+def runSelectedText(s):
+
+	print('run:\n%s' % s)
+
 def main():
 
 	"""Runs a simple QProgEdit demonstration."""
@@ -58,7 +62,7 @@ def main():
 	symbolTree.addTopLevelItem(treeWidgetItem3)
 	symbolTree.itemActivated.connect(activateSymbolTree)
 
-	tabManager = QTabManager(handlerButtonText=u'apply')
+	tabManager = QTabManager(handlerButtonText=u'apply', runButton=True)
 	tabManager.setWindowIcon(QtGui.QIcon.fromTheme(u'accessories-text-editor'))
 	tabManager.setWindowTitle(u'QProgEdit')
 	tabManager.resize(800, 600)
@@ -67,6 +71,7 @@ def main():
 	tabManager.focusLost.connect(focusLost)
 	tabManager.focusReceived.connect(focusReceived)
 	tabManager.handlerButtonClicked.connect(handlerButtonClicked)
+	tabManager.execute.connect(runSelectedText)
 
 	tab = tabManager.addTab(u'Tab 1')
 	tab.setLang(u'Python')

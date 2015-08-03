@@ -17,26 +17,14 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+from QProgEdit.py3compat import *
 from QProgEdit.qt import QtGui, QtCore
 
-class QLineEditFind(QtGui.QLineEdit):
+class QEditorShortcut(QtGui.QShortcut):
 
-	"""
-	desc:
-		Implements a line-edit widget that selects the highlighted text when
-		receiving focus.
-	"""
+	def __init__(self, parent, keySequence, target,
+		context=QtCore.Qt.WidgetWithChildrenShortcut):
 
-	def focusInEvent(self, e):
-
-		"""
-		desc:
-			Selects the contents on focus.
-
-		arguments:
-			e:
-				type:	QFocusEvent
-		"""
-
-		self.selectAll()
-		e.accept()
+		super(QEditorShortcut, self).__init__(QtGui.QKeySequence(keySequence),
+			parent, context=context)
+		self.activated.connect(target)

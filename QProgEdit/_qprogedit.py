@@ -117,6 +117,10 @@ class QProgEdit(QtGui.QWidget):
 		return self.editor.setText
 
 	@property
+	def selectedText(self):
+		return self.editor.selectedText
+
+	@property
 	def setCursorPosition(self):
 		return self.editor.setCursorPosition
 
@@ -192,6 +196,12 @@ class QProgEdit(QtGui.QWidget):
 			visible:	A boolean indicating the visibility of the widget.
 		"""
 
+		if visible and widget.isVisible() and \
+			widget.maximumHeight() == widget.bestHeight:
+			return
+		if not visible and \
+			(not widget.isVisible() or widget.maximumHeight() == 0):
+			return
 		if not visible:
 			widget.setMaximumHeight(0)
 		else:

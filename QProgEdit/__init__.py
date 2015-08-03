@@ -56,7 +56,7 @@ license: |
 ---
 """
 
-version = __version__ = u'3.0.0~pre1'
+version = __version__ = u'3.0.0~pre2'
 
 from QProgEdit.py3compat import *
 
@@ -69,6 +69,7 @@ import QProgEdit._qcolorscheme as QColorScheme
 from QProgEdit._quiloader import QUiLoader
 from QProgEdit._qsymboltreewidgetitem import QSymbolTreeWidgetItem
 from QProgEdit._qeditorcfg import QEditorCfg
+from QProgEdit._qeditorshortcut import QEditorShortcut
 from QProgEdit._qlexer import QLexer
 from QProgEdit._qlangmenu import QLangMenu
 from QProgEdit._qeditor import QEditor
