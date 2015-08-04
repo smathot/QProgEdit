@@ -108,7 +108,7 @@ class QPythonLexer(QBaseLexer, Qsci.QsciLexerPython):
 
 		if keyset == 1:
 			return Qsci.QsciLexerPython.keywords(self, keyset).replace(
-				' None', '') + ' exp win self set widget'
+				' None', '') + ' exp win self var pool items items clock log'
 		elif keyset == 2:
 			return 'None True False'
 		return Qsci.QsciLexerPython.keywords(self, keyset)
@@ -137,9 +137,11 @@ class QOpenSesameLexer(QBaseLexer, Qsci.QsciLexerPython):
 		"""
 
 		if keyset == 1:
-			return (b'set define draw setcycle log run widget ellipse circle '
-				b'line arrow textline image gabore noise fixdot label checkbox '
-				b'button image image_button rating_scale text_input')
+			return (b'set define draw setcycle log run widget')
+		if keyset == 2:
+			return (b'ellipse circle line arrow textline image gabore noise '
+				b'fixdot label checkbox button image image_button rating_scale '
+				b'text_input')
 		return Qsci.QsciLexerPython.keywords(self, keyset)
 
 class QFallbackLexer(QBaseLexer, Qsci.QsciLexer):
