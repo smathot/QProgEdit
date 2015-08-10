@@ -1,0 +1,5 @@
+python-qprogedit (2.1.0-1) unstable; urgency=medium
+
+  * Initial debian release
+
+ -- Sebastiaan Mathot <s.mathot@cogsci.nl>  Mon, 10 Aug 2015 15:35:19 +0200
