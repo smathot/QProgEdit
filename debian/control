@@ -1,16 +1,17 @@
 Source: python-qprogedit
-Section: science
+Section: python
 Priority: extra
 Maintainer: Sebastiaan Mathot <s.mathot@cogsci.nl>
-Build-Depends: debhelper (>= 7.0.50~), python-support, python-all,
-  python-setuptools, python-qt4, python-qscintilla2
+Build-Depends: debhelper (>= 7.0.50~), python-all, python-setuptools,
+  python-qt4, python-qscintilla2
 XS-Python-Version: >= 2.6
-Standards-Version: 3.9.5
+Standards-Version: 3.9.6
 Vcs-Git: git://github.com:smathot/QProgEdit.git
 Homepage: https://github.com/smathot/QProgEdit
 
 Package: python-qprogedit
 Architecture: all
-XB-Python-Version: ${python:Versions}
 Depends: ${misc:Depends}, ${python:Depends}
 Description: A QScintilla-based text-editor component
+  QProgEdit is a PyQt4 editor widget that builds on QsciScintilla. It has been
+  developed for use within OpenSesame.
