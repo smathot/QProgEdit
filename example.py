@@ -18,12 +18,9 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import sip
-sip.setapi('QString', 1)
-
 import os
 import sys
-from PyQt4 import QtGui, QtCore
+from QProgEdit.qt import QtGui, QtCore
 from QProgEdit import QTabManager, validate
 
 def cursorRowChanged(index, rowFrom, rowTo):
@@ -31,9 +28,9 @@ def cursorRowChanged(index, rowFrom, rowTo):
 	print(u'curorRowChanged(): %d, %d, %d' % (index, rowFrom, rowTo))
 
 def focusLost(index):
-	
+
 	print(u'focusOut(): %s' % index)
-	
+
 def focusReceived(index):
 
 	print(u'focusReceived(): %s' % index)
@@ -44,10 +41,15 @@ def handlerButtonClicked(index):
 
 def activateSymbolTree(treeWidgetItem):
 
-	treeWidgetItem.activate()
+	if hasattr(treeWidgetItem, u'activate'):
+		treeWidgetItem.activate()
+
+def runSelectedText(s):
+
+	print('run:\n%s' % s)
 
 def main():
-	
+
 	"""Runs a simple QProgEdit demonstration."""
 
 	validate.addPythonBuiltins(['builtin_var'])
@@ -60,7 +62,7 @@ def main():
 	symbolTree.addTopLevelItem(treeWidgetItem3)
 	symbolTree.itemActivated.connect(activateSymbolTree)
 
-	tabManager = QTabManager(handlerButtonText=u'apply')
+	tabManager = QTabManager(handlerButtonText=u'apply', runButton=True)
 	tabManager.setWindowIcon(QtGui.QIcon.fromTheme(u'accessories-text-editor'))
 	tabManager.setWindowTitle(u'QProgEdit')
 	tabManager.resize(800, 600)
@@ -69,22 +71,21 @@ def main():
 	tabManager.focusLost.connect(focusLost)
 	tabManager.focusReceived.connect(focusReceived)
 	tabManager.handlerButtonClicked.connect(handlerButtonClicked)
+	tabManager.execute.connect(runSelectedText)
 
 	tab = tabManager.addTab(u'Tab 1')
 	tab.setLang(u'Python')
 	tab.setSymbolTree(treeWidgetItem1)
 	tab.setText(open(__file__).read())
-	print tab.symbols()
 
 	tab = tabManager.addTab(u'Tab 2')
 	tab.setText(u'Some plain text')
 
 	tab = tabManager.addTab(u'Tab 3')
-	tab.setLang(u'OpenSesame')
+	tab.setLang(u'Python')
 	tab.setSymbolTree(treeWidgetItem3)
 	if os.path.exists(u'content.txt'):
-		tab.setText(open(u'content.txt').read().decode(u'utf-8'))
-	print tab.symbols()
+		tab.setText(open(u'content.txt').read())
 
 	layout = QtGui.QHBoxLayout()
 	layout.addWidget(symbolTree)
@@ -94,9 +95,8 @@ def main():
 	container.show()
 
 	res = app.exec_()
-	open(u'content.txt', u'w').write(tab.text().encode(u'utf-8'))
+	open(u'content.txt', u'w').write(tab.text())
 	sys.exit(res)
-
 
 if __name__ == '__main__':
 	main()

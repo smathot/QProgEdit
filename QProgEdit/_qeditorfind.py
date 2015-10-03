@@ -18,9 +18,9 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os
-from PyQt4 import QtGui, QtCore, Qsci, uic
-from PyQt4.Qsci import QsciScintilla
-from QProgEdit.py3 import *
+from QProgEdit.qt import QtGui, QtCore, Qsci, uic
+from QProgEdit.qt.Qsci import QsciScintilla
+from QProgEdit.py3compat import *
 from QProgEdit import QUiLoader
 
 class QEditorFind(QtGui.QWidget, QUiLoader):
@@ -76,7 +76,7 @@ class QEditorFind(QtGui.QWidget, QUiLoader):
 			type:	unicode
 		"""
 
-		return unicode(self.ui.lineEditFind.text())
+		return str(self.ui.lineEditFind.text())
 
 	def find(self):
 
@@ -143,7 +143,7 @@ class QEditorFind(QtGui.QWidget, QUiLoader):
 
 		self.lock()
 		self.editor.beginUndoAction()
-		text = QtCore.QString(self.editor.text())
+		text = self.editor.text()
 		if self.caseSensitive():
 			cs = QtCore.Qt.CaseSensitive
 		else:
@@ -163,7 +163,7 @@ class QEditorFind(QtGui.QWidget, QUiLoader):
 			type:	unicode
 		"""
 
-		return unicode(self.ui.lineEditReplace.text())
+		return str(self.ui.lineEditReplace.text())
 
 	def setFindText(self, txt=u''):
 

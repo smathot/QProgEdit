@@ -17,10 +17,8 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import os
-from PyQt4 import QtGui, QtCore
-from PyQt4.Qsci import QsciScintilla, QsciScintillaBase, QsciLexerPython
-from QProgEdit import QEditor, QEditorCfg, QEditorPrefs, QEditorFind
+from QProgEdit.qt import QtGui, QtCore
+from QProgEdit import QEditor, QEditorPrefs, QEditorFind
 
 class QProgEdit(QtGui.QWidget):
 
@@ -62,7 +60,7 @@ class QProgEdit(QtGui.QWidget):
 		super(QProgEdit, self).__init__(tabManager)
 		self.tabManager = tabManager
 		self.title = title
-		if dPrint != None:
+		if dPrint is not None:
 			self.dPrint = dPrint
 		self.editor = QEditor(self, **editorParams)
 		self.prefs = QEditorPrefs(self)
@@ -76,7 +74,7 @@ class QProgEdit(QtGui.QWidget):
 		self.mainBox.addWidget(self.find)
 		self.mainBox.addWidget(self.editor)
 		self.setLayout(self.mainBox)
-		if self.tabManager != None:
+		if self.tabManager is not None:
 			self.editor.cursorPositionChanged.connect(
 				self.tabManager.cornerWidget().statusWidget.updateCursorPos)
 
@@ -117,6 +115,10 @@ class QProgEdit(QtGui.QWidget):
 	@property
 	def setText(self):
 		return self.editor.setText
+
+	@property
+	def selectedText(self):
+		return self.editor.selectedText
 
 	@property
 	def setCursorPosition(self):
@@ -194,6 +196,12 @@ class QProgEdit(QtGui.QWidget):
 			visible:	A boolean indicating the visibility of the widget.
 		"""
 
+		if visible and widget.isVisible() and \
+			widget.maximumHeight() == widget.bestHeight:
+			return
+		if not visible and \
+			(not widget.isVisible() or widget.maximumHeight() == 0):
+			return
 		if not visible:
 			widget.setMaximumHeight(0)
 		else:

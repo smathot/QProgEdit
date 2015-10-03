@@ -17,11 +17,10 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import os
-from PyQt4 import QtGui, QtCore
-from PyQt4 import Qsci
-from PyQt4.Qsci import QsciScintilla, QsciScintillaBase
-from QProgEdit.py3 import *
+from QProgEdit.py3compat import *
+from QProgEdit.qt import QtGui, QtCore
+from QProgEdit.qt.Qsci import QsciScintilla, QsciScintillaBase, QsciCommand, \
+	QsciCommandSet
 from QProgEdit import QLexer, QColorScheme, QSymbolTreeWidgetItem, symbols, \
 	validate, clean, _
 
@@ -52,6 +51,7 @@ class QEditor(QsciScintilla):
 		"""
 
 		super(QEditor, self).__init__(qProgEdit)
+		self.setKeyBindings()
 		self.setEolMode(self.EolUnix)
 		self.setUtf8(True)
 		self.qProgEdit = qProgEdit
@@ -91,6 +91,29 @@ class QEditor(QsciScintilla):
 	@property
 	def tabIndex(self):
 		return self.qProgEdit.tabIndex
+
+	def setKeyBindings(self):
+
+		"""
+		desc:
+			Sets keybindings so that they don't interfere with the default
+			keybindings of OpenSesame, and are more atom-like.
+		"""
+
+		c = self.standardCommands()
+		# Disable Ctrl+Slash and Ctrl+T
+		cmd = c.boundTo(QtCore.Qt.Key_Slash | QtCore.Qt.ControlModifier)
+		cmd.setKey(0)
+		cmd = c.boundTo(QtCore.Qt.Key_T | QtCore.Qt.ControlModifier)
+		cmd.setKey(0)
+		# Use Ctrl+Shift+D for line duplication
+		cmd = c.boundTo(QtCore.Qt.Key_D | QtCore.Qt.ControlModifier)
+		cmd.setKey(QtCore.Qt.Key_D | QtCore.Qt.ControlModifier \
+			| QtCore.Qt.ShiftModifier)
+		# Use Ctrl+Shift+K for line deletion
+		cmd = c.boundTo(QtCore.Qt.Key_L | QtCore.Qt.ControlModifier)
+		cmd.setKey(QtCore.Qt.Key_K | QtCore.Qt.ControlModifier \
+			| QtCore.Qt.ShiftModifier)
 
 	def applyCfg(self):
 
@@ -143,7 +166,7 @@ class QEditor(QsciScintilla):
 			self.setWrapMode(QsciScintilla.WrapWord)
 		else:
 			self.setWrapMode(QsciScintilla.WrapNone)
-		if self.cfg.qProgEditWordWrapMarker != None:
+		if self.cfg.qProgEditWordWrapMarker is not None:
 			self.setEdgeColumn(self.cfg.qProgEditWordWrapMarker)
 			self.setEdgeMode(QsciScintilla.EdgeLine)
 		else:
@@ -245,7 +268,7 @@ class QEditor(QsciScintilla):
 			Highlights all parts of the text that match the current selection.
 		"""
 
-		text = QtCore.QString(self.text())
+		text = self.text()
 		selection = self.selectedText()
 		length = len(selection)
 		self.clearIndicatorRange(0, 0, self.lines(), 0, 0)
@@ -257,7 +280,7 @@ class QEditor(QsciScintilla):
 		line, index = self.getCursorPosition()
 		currentPos = self.positionFromLineIndex(line, index)
 		while True:
-			i = text.indexOf(selection, i+1)
+			i = text.find(selection, i+1)
 			if i < 0:
 				break
 			if i <= currentPos and i+length >= currentPos:
@@ -341,12 +364,12 @@ class QEditor(QsciScintilla):
 		for l in range(fl, tl+1):
 			l = self.setSelection(l, 0, l, self.lineLength(l))
 			s = self.selectedText()
-			_s = s.trimmed()
+			_s = s.strip()
 			if len(_s) == 0 or _s[0] != u'#':
 				continue
 			stripped = True
-			i = s.indexOf(u'#')
-			s = s.remove(i, 1)
+			i = s.find(u'#')
+			s = s[:i]+s[i+1:]
 			self.replaceSelectedText(s)
 		# If a comment character has been stripped, we need to jump back one
 		# position, but not below 0
@@ -376,15 +399,38 @@ class QEditor(QsciScintilla):
 			content.
 		"""
 
-		text = unicode(QtGui.QApplication.clipboard().text())
+		text = str(QtGui.QApplication.clipboard().text())
 		if hasattr(clean, self.lang().lower()):
 			msg, cleanText = getattr(clean, self.lang().lower())(text)
-			if msg != None:
-				resp = QtGui.QMessageBox.question(self, _(u'Pasting content'), \
+			if msg is not None:
+				resp = QtGui.QMessageBox.question(self, _(u'Pasting content'),
 					msg, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
 				if resp == QtGui.QMessageBox.Yes:
 					text = cleanText
 		self.replaceSelectedText(text)
+
+	def selectedText(self, currentLineFallback=False):
+
+		"""
+		desc:
+			Returns the selected text.
+
+		keywords:
+			currentLineFallback:
+				desc:	Indicates whether the current line should be returned
+						if no text has been selected. Otherwise, an empty string
+						is returned.
+				type:	bool
+
+		returns:
+			desc:	The selected text.
+			type:	str
+		"""
+
+		if self.hasSelectedText() or not currentLineFallback:
+			return super(QEditor, self).selectedText()
+		line, index = self.getCursorPosition()
+		return self.text().split(u'\n')[line]
 
 	def setLang(self, lang=u'text'):
 
@@ -441,17 +487,15 @@ class QEditor(QsciScintilla):
 
 		arguments:
 			text:
-				desc:	A text string. This can be a str object, which is
-						assumed to be in utf-8 encoding, a Unicode object, or a
-						QString.
-				type:	[str, unicode, QString]
+				desc:	A text string. This can be a str object or unicode
+						object.
+				type:	[str, unicode]
 		"""
 
-		if isinstance(text, str) and hasattr(text, u'decode'):
-			text = text.decode(u'utf-8')
-		elif not isinstance(text, unicode) and not isinstance(text, \
-			QtCore.QString):
-			raise Exception(u'Expecting a str, unicode, or QString object')
+		if isinstance(text, basestring):
+			text = safe_decode(text)
+		else:
+			raise Exception(u'Expecting a str or unicode object')
 		super(QEditor, self).setText(text)
 		self.setModified(False)
 		self.updateSymbolTree()
@@ -468,7 +512,7 @@ class QEditor(QsciScintilla):
 			type:	unicode
 		"""
 
-		return unicode(super(QEditor, self).text())
+		return str(super(QEditor, self).text())
 
 	def updateMarginWidth(self):
 
@@ -487,7 +531,7 @@ class QEditor(QsciScintilla):
 			parser is available for the langauage.
 		"""
 
-		if self.symbolTree == None:
+		if self.symbolTree is None:
 			return
 		_symbols = self.symbols()
 		if _symbols == self._symbols:

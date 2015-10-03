@@ -19,21 +19,21 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import sys
-from PyQt4 import QtCore, uic
+from QProgEdit.qt import QtCore, uic
 
 class QUiLoader(QtCore.QObject):
-	
+
 	"""
 	desc:
 		A simple base class that implements dynamic UI loading for widgets.
 	"""
 
 	def loadUi(self, name):
-		
+
 		"""
 		desc:
 			Load a UI.
-		
+
 		arguments:
 			name:
 				desc:	The name of the UI file, without the .ui extension.
@@ -49,4 +49,5 @@ class QUiLoader(QtCore.QObject):
 		# We pass an open file object, because loadUi otherwise tries to str()
 		# the filename, which causes encoding trouble.
 		path = os.path.join(dirPath, u'ui', u'%s.ui' % name)
-		self.ui = uic.loadUi(open(path), self)
+		with open(path) as fd:
+			self.ui = uic.loadUi(fd, self)

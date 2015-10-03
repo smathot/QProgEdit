@@ -18,7 +18,7 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os
-from PyQt4 import QtGui, QtCore
+from QProgEdit.qt import QtGui, QtCore
 
 class QEditorCfg(QtCore.QObject):
 
@@ -58,11 +58,16 @@ class QEditorCfg(QtCore.QObject):
 		self.qProgEditShowFolding = True
 		self.qProgEditAutoComplete = True
 		self.qProgEditValidate = True
-		self.qProgEditColorScheme = u'CogsciBright'
+		self.qProgEditColorScheme = u'Monokai'
 		self.qProgEditCommentShortcut = u'Ctrl+M'
 		self.qProgEditUncommentShortcut = u'Ctrl+Shift+M'
 		self.qProgEditSwitchLeftShortcut = u'Alt+Left'
 		self.qProgEditSwitchRightShortcut = u'Alt+Right'
+		self.qProgEditShowFindShortcut = u'Ctrl+F'
+		self.qProgEditHideFindShortcut = u'Escape'
+		self.qProgEditTogglePrefsShortcut = u'Ctrl+Shift+P'
+		self.qProgEditRunSelectedShortcut = u'Alt+R'
+		self.qProgEditRunAllShortcut = u'Shift+Alt+R'
 		self.qProgEditSymbolTreeWidgetItemIcon = u'text-x-script'
 
 	def version(self):

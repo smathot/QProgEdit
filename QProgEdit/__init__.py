@@ -20,13 +20,13 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 desc: |
 	# QProgEdit
 
-	v%--python: from QProgEdit import __version__; print __version__--%
+	v%--python: from QProgEdit import __version__; print(__version__)--%
 
 	QProgEdit is a PyQt4 widget that implements a full-featured text editor
 	component. It's primary target at the moment is
 	[OpenSesame](http://osdoc.cogsci.nl), a graphical experiment builder.
 
-	Copyright (2013-2014) Sebastiaan Mathôt
+	Copyright (2013-2015) Sebastiaan Mathôt
 
 	<http://www.cogsci.nl/smathot>
 
@@ -56,19 +56,20 @@ license: |
 ---
 """
 
-version = __version__ = u'2.1.0'
+version = __version__ = u'3.0.1a1'
 
-from QProgEdit.py3 import *
+from QProgEdit.py3compat import *
 
 # A simple wrapper around the translate function
-from PyQt4.QtCore import QCoreApplication
-_ = lambda s: unicode(QCoreApplication.translate(u'qprogedit', s))
+from QProgEdit.qt.QtCore import QCoreApplication
+_ = lambda s: QCoreApplication.translate(u'qprogedit', s)
 
 import QProgEdit._qeditorconst as QEditorConst
 import QProgEdit._qcolorscheme as QColorScheme
 from QProgEdit._quiloader import QUiLoader
 from QProgEdit._qsymboltreewidgetitem import QSymbolTreeWidgetItem
 from QProgEdit._qeditorcfg import QEditorCfg
+from QProgEdit._qeditorshortcut import QEditorShortcut
 from QProgEdit._qlexer import QLexer
 from QProgEdit._qlangmenu import QLangMenu
 from QProgEdit._qeditor import QEditor

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
 """
@@ -16,19 +15,16 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
-
----
-desc:
-	This modules defines some built-ins that are not available in Python 3, but
-	are assumed to exist by QProgEdit.
----
 """
 
-try:
-	unicode
-except:
-	unicode = str
-try:
-	basestring
-except:
-	basestring = str
+from QProgEdit.py3compat import *
+from QProgEdit.qt import QtGui, QtCore
+
+class QEditorShortcut(QtGui.QShortcut):
+
+	def __init__(self, parent, keySequence, target,
+		context=QtCore.Qt.WidgetWithChildrenShortcut):
+
+		super(QEditorShortcut, self).__init__(QtGui.QKeySequence(keySequence),
+			parent, context=context)
+		self.activated.connect(target)

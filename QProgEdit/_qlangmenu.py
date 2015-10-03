@@ -17,8 +17,8 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from PyQt4 import QtGui, QtCore
-from QProgEdit.py3 import *
+from QProgEdit.qt import QtGui, QtCore
+from QProgEdit.py3compat import *
 from QProgEdit import QEditorConst
 
 class QLangMenu(QtGui.QMenu):
@@ -62,5 +62,5 @@ class QLangMenu(QtGui.QMenu):
 				type:	QAction
 		"""
 
-		self.tabManager.tab().setLang(unicode(action.text()))
+		self.tabManager.tab().setLang(str(action.text()))
 		self.tabCornerWidget.update()

@@ -63,7 +63,7 @@ def python(script):
 	except SyntaxError as e:
 		return [ (e.lineno-1, e.args[0]) ]
 	else:
-		if Checker == None:
+		if Checker is None:
 			return []
 		# Older version of PyFlakes don't support the builtins keyword, and
 		# we don't want to crash on that.

@@ -17,8 +17,8 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from PyQt4 import QtGui, QtCore
-from PyQt4 import Qsci
+from QProgEdit.qt import QtGui, QtCore
+from QProgEdit.qt import Qsci
 from QProgEdit import QColorScheme
 
 class QBaseLexer(object):
@@ -74,7 +74,7 @@ class QBaseLexer(object):
 			if styleName != u'' and styleName in colorScheme:
 				if isinstance(colorScheme[styleName], tuple):
 					color, bold, italic = colorScheme[styleName]
-					self.setColor(QtGui.QColor(colorScheme[styleName]), style)
+					self.setColor(QtGui.QColor(color), style)
 					_font = QtGui.QFont(font)
 					_font.setBold(bold)
 					_font.setItalic(italic)
@@ -108,7 +108,7 @@ class QPythonLexer(QBaseLexer, Qsci.QsciLexerPython):
 
 		if keyset == 1:
 			return Qsci.QsciLexerPython.keywords(self, keyset).replace(
-				b' None', b'') + b' exp win self set widget'
+				' None', '') + ' exp win self var pool items items clock log'
 		elif keyset == 2:
 			return 'None True False'
 		return Qsci.QsciLexerPython.keywords(self, keyset)
@@ -137,9 +137,11 @@ class QOpenSesameLexer(QBaseLexer, Qsci.QsciLexerPython):
 		"""
 
 		if keyset == 1:
-			return (b'set define draw setcycle log run widget ellipse circle '
-				b'line arrow textline image gabore noise fixdot label checkbox '
-				b'button image image_button rating_scale text_input')
+			return (b'set define draw setcycle log run widget')
+		if keyset == 2:
+			return (b'ellipse circle line arrow textline image gabore noise '
+				b'fixdot label checkbox button image image_button rating_scale '
+				b'text_input')
 		return Qsci.QsciLexerPython.keywords(self, keyset)
 
 class QFallbackLexer(QBaseLexer, Qsci.QsciLexer):
@@ -161,15 +163,15 @@ class QFallbackLexer(QBaseLexer, Qsci.QsciLexer):
 				type:	int
 
 		returns:
-			desc:	The 'Default' QString for style 0 and empty QStrings for all
+			desc:	The 'Default' str for style 0 and empty str for all
 					other styles.
-			type:	QString
+			type:	str
 		"""
 
 		if style == 0:
-			return QtCore.QString(u'Default')
+			return u'Default'
 		else:
-			return QtCore.QString()
+			return u''
 
 def QLexer(editor, lang=u'text', colorScheme=u'Default'):
 

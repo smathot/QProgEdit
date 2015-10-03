@@ -18,10 +18,10 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os
-from PyQt4 import QtGui, QtCore
-from PyQt4 import Qsci
-from PyQt4.Qsci import QsciScintilla
-from QProgEdit.py3 import *
+from QProgEdit.qt import QtGui, QtCore
+from QProgEdit.qt import Qsci
+from QProgEdit.qt.Qsci import QsciScintilla
+from QProgEdit.py3compat import *
 from QProgEdit import QColorScheme
 from QProgEdit import QUiLoader
 
@@ -95,7 +95,7 @@ class QEditorPrefs(QtGui.QWidget, QUiLoader):
 		self.ui.spinBoxFontSize.setValue(self.qProgEdit.cfg.qProgEditFontSize)
 		self.ui.spinBoxTabWidth.setValue(self.qProgEdit.cfg.qProgEditTabWidth)
 		self.ui.checkBoxWordWrapMarker.setChecked(
-			self.qProgEdit.cfg.qProgEditWordWrapMarker != None)
+			self.qProgEdit.cfg.qProgEditWordWrapMarker is not None)
 		for cfg in self.checkBoxCfgOptions:
 			checked = getattr(self.qProgEdit.cfg, u'qProgEdit%s' % cfg)
 			checkBox = getattr(self.ui, u'checkBox%s' % cfg)
@@ -111,13 +111,13 @@ class QEditorPrefs(QtGui.QWidget, QUiLoader):
 
 		if self.lock:
 			return
-		self.qProgEdit.cfg.qProgEditFontFamily = unicode(
+		self.qProgEdit.cfg.qProgEditFontFamily = str(
 			self.ui.fontComboBoxFontFamily.currentText())
-		self.qProgEdit.cfg.qProgEditColorScheme = unicode(
+		self.qProgEdit.cfg.qProgEditColorScheme = str(
 			self.ui.comboBoxColorScheme.currentText())
-		self.qProgEdit.cfg.qProgEditCommentShortcut = unicode(
+		self.qProgEdit.cfg.qProgEditCommentShortcut = str(
 			self.ui.lineEditCommentShortcut.text())
-		self.qProgEdit.cfg.qProgEditUncommentShortcut = unicode(
+		self.qProgEdit.cfg.qProgEditUncommentShortcut = str(
 			self.ui.lineEditUncommentShortcut.text())
 		self.qProgEdit.cfg.qProgEditFontSize = self.ui.spinBoxFontSize.value()
 		self.qProgEdit.cfg.qProgEditTabWidth = self.ui.spinBoxTabWidth.value()
@@ -129,7 +129,7 @@ class QEditorPrefs(QtGui.QWidget, QUiLoader):
 			checkBox = getattr(self.ui, u'checkBox%s' % cfg)
 			checked = checkBox.isChecked()
 			setattr(self.qProgEdit.cfg, u'qProgEdit%s' % cfg, checked)
-		if self.qProgEdit.tabManager != None:
+		if self.qProgEdit.tabManager is not None:
 			self.qProgEdit.tabManager.applyCfg()
 		else:
 			self.qProgEdit.applyCfg()

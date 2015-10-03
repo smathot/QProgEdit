@@ -41,7 +41,7 @@ def python(script):
 	symbols = []
 	for lineNo, line in enumerate(script.split(u'\n')):
 		m = re.match(regexp, line)
-		if m != None:
+		if m is not None:
 			symbols.append( (lineNo+1, m.group(u'type'), m.group(u'name'),
 				m.group(u'argspec')) )
 	return symbols

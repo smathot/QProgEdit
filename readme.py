@@ -20,11 +20,12 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 
 import yamldoc
 import QProgEdit
+from QProgEdit.py3compat import *
 from academicmarkdown import build
 
 df = yamldoc.DocFactory(QProgEdit)
-s = unicode(df)
-print s
+s = str(df)
+print(s)
 build.setStyle('modern')
 build.MD(s, u'readme.md')
 build.PDF(s, u'readme.pdf')

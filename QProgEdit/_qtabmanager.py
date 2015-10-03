@@ -19,10 +19,11 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import sys
-from PyQt4 import QtGui, QtCore
-from PyQt4.Qsci import QsciScintilla, QsciScintillaBase, QsciLexerPython
-from QProgEdit.py3 import *
-from QProgEdit import QEditorCfg, QProgEdit, QTabCornerWidget, _
+from QProgEdit.qt import QtGui, QtCore
+from QProgEdit.qt.Qsci import QsciScintilla, QsciScintillaBase, QsciLexerPython
+from QProgEdit.py3compat import *
+from QProgEdit import QEditorCfg, QProgEdit, QTabCornerWidget, \
+	QEditorShortcut, _
 
 class QTabManager(QtGui.QTabWidget):
 
@@ -35,9 +36,10 @@ class QTabManager(QtGui.QTabWidget):
 	focusLost = QtCore.pyqtSignal(int)
 	focusReceived = QtCore.pyqtSignal(int)
 	handlerButtonClicked = QtCore.pyqtSignal(int)
+	execute = QtCore.pyqtSignal(str)
 
 	def __init__(self, parent=None, cfg=QEditorCfg(), tabsClosable=False,
-		tabsMovable=False, msg=None, handlerButtonText=None):
+		tabsMovable=False, msg=None, handlerButtonText=None, runButton=False):
 
 		"""
 		desc:
@@ -65,23 +67,35 @@ class QTabManager(QtGui.QTabWidget):
 				desc:	Text for a top-right button, which can be clicked to
 						call the handler, or None for no button.
 				type:	[str, unicode, NoneType]
+			runButton:
+				desc:	Indicates whether a run-selected-text button should be
+						shown.
+				type:	bool
 		"""
 
-		super(QTabManager, self).__init__(parent)		
+		super(QTabManager, self).__init__(parent)
 		self.cfg = cfg
 		self.setDocumentMode(True)
 		self.setTabsClosable(tabsClosable)
-		self.setMovable(tabsMovable)		
+		self.setMovable(tabsMovable)
 		self.currentChanged.connect(self.tabChanged)
 		self.tabCloseRequested.connect(self.closeTab)
-		QtGui.QShortcut(QtGui.QKeySequence(
-			self.cfg.qProgEditSwitchLeftShortcut), self).activated \
-			.connect(self.switchTabLeft)
-		QtGui.QShortcut(QtGui.QKeySequence(
-			self.cfg.qProgEditSwitchRightShortcut), self).activated \
-			.connect(self.switchTabRight)
 		self.setCornerWidget(QTabCornerWidget(self, msg=msg,
-			handlerButtonText=handlerButtonText))
+			handlerButtonText=handlerButtonText, runButton=runButton))
+		# Keyboard shortcuts
+		QEditorShortcut(self, self.cfg.qProgEditSwitchLeftShortcut,
+			self.switchTabLeft)
+		QEditorShortcut(self, self.cfg.qProgEditSwitchRightShortcut,
+			self.switchTabRight)
+		QEditorShortcut(self, self.cfg.qProgEditShowFindShortcut, self.showFind)
+		QEditorShortcut(self, self.cfg.qProgEditHideFindShortcut, self.hideFind)
+		QEditorShortcut(self, self.cfg.qProgEditTogglePrefsShortcut,
+			self.togglePrefs)
+		if runButton:
+			QEditorShortcut(self, self.cfg.qProgEditRunSelectedShortcut,
+				self.runSelectedText)
+			QEditorShortcut(self, self.cfg.qProgEditRunAllShortcut,
+				self.runText)
 		# Under Windows, the tab bar is too small for the icons. Forcing the
 		# tab-bar height looks funny on Linux. Mac OS not tested.
 		if os.name == u'nt':
@@ -136,18 +150,18 @@ class QTabManager(QtGui.QTabWidget):
 		"""
 
 		index = self.tabIndex(index)
-		if index == None:
+		if index is None:
 			return
 		self.removeTab(index)
 		if self.count() == 0:
 			self.addTab(_(u'Empty document'))
 
 	def isAnyModified(self):
-		
+
 		"""
 		desc:
 			Checks if one or more of the tabs have been modified.
-		
+
 		returns:
 			desc:	True if (one of) the tab(s) is modified, False otherwise.
 			type:	bool
@@ -157,6 +171,44 @@ class QTabManager(QtGui.QTabWidget):
 			if tab.isModified():
 				return True
 		return False
+
+	def runSelectedText(self):
+
+		"""
+		desc:
+			Emits the execute signal with the selected text.
+		"""
+
+		self.execute.emit(self.selectedText(currentLineFallback=True))
+
+	def runText(self):
+
+		"""
+		desc:
+			Emits the execute signal with the current text.
+		"""
+
+		self.execute.emit(self.text())
+
+	def selectedText(self, index=None, currentLineFallback=False):
+
+		"""
+		desc:
+			Returns the selected text for a specific tab.
+
+			For details, see `QProgEdit.QEditor`.
+
+		keywords:
+			index:	A tab index, as understood by [tabIndex].
+
+		returns:
+			The selected text.
+		"""
+
+		tab = self.tab(index)
+		if tab is None:
+			return None
+		return tab.selectedText(currentLineFallback=currentLineFallback)
 
 	def selectTab(self, index):
 
@@ -169,7 +221,7 @@ class QTabManager(QtGui.QTabWidget):
 		"""
 
 		index = self.tabIndex(index)
-		if index != None:
+		if index is not None:
 			self.setCurrentIndex(index)
 
 	def setFocus(self, index=None):
@@ -177,7 +229,7 @@ class QTabManager(QtGui.QTabWidget):
 		"""
 		desc:
 			Focuses a specific tab.
-			
+
 		keywords:
 			index:	A tab index, as understood by [tabIndex].
 		"""
@@ -200,26 +252,26 @@ class QTabManager(QtGui.QTabWidget):
 		"""
 
 		tab = self.tab(index)
-		if tab != None:
+		if tab is not None:
 			tab.setText(text)
 
 	def switchTabLeft(self):
-		
+
 		"""
 		desc:
 			Switches to the tab on the left.
 		"""
-		
+
 		newIndex = (self.currentIndex() - 1) % self.count()
 		self.setCurrentIndex(newIndex)
 
 	def switchTabRight(self):
-		
+
 		"""
 		desc:
 			Switches to the tab on the left.
 		"""
-		
+
 		newIndex = (self.currentIndex() + 1) % self.count()
 		self.setCurrentIndex(newIndex)
 
@@ -241,7 +293,7 @@ class QTabManager(QtGui.QTabWidget):
 		"""
 
 		index = self.tabIndex(index)
-		if index == None:
+		if index is None:
 			return None
 		return self.widget(index)
 
@@ -269,7 +321,7 @@ class QTabManager(QtGui.QTabWidget):
 			for i in range(self.count()):
 				if self.tabText(i) == index:
 					return i
-		elif index == None:
+		elif index is None:
 			if self.count() > 0:
 				return self.currentIndex()
 		else:
@@ -303,7 +355,7 @@ class QTabManager(QtGui.QTabWidget):
 		"""
 
 		tab = self.tab(index)
-		if tab == None:
+		if tab is None:
 			return None
 		return tab.text()
 
@@ -320,6 +372,14 @@ class QTabManager(QtGui.QTabWidget):
 		"""
 
 		self.currentWidget().toggleFind(visible)
+
+	def showFind(self):
+
+		self.currentWidget().toggleFind(True)
+
+	def hideFind(self):
+
+		self.currentWidget().toggleFind(False)
 
 	def togglePrefs(self, visible):
 
