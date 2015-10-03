@@ -1,9 +1,3 @@
-python-qprogedit (3.0.1a1-ubuntu1) vivid; urgency=medium
-
-  * Major new release
-
- -- Sebastiaan Mathot <sebastiaan@mantis>  Sun, 27 Sep 2015 16:19:31 +0200
-
 python-qprogedit (2.1.0-ubuntu2) trusty; urgency=medium
 
   * Add OpenSesame-script lexer
