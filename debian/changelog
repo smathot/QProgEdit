@@ -1,3 +1,17 @@
+python-qprogedit (3.1.0-ubuntu1) vivid; urgency=medium
+
+  * Add a PyFlakes filter to ignore unwanted messages
+
+ -- Sebastiaan Mathot <sebastiaan@mantis>  Wed, 21 Oct 2015 11:05:02 +0200
+
+python-qprogedit (3.0.1release-ubuntu1) vivid; urgency=medium
+
+  * Python 3 support
+  * PyQt5 compatibility
+  * Monokai color theme 
+
+ -- Sebastiaan Mathot <sebastiaan@mantis>  Mon, 05 Oct 2015 11:04:31 +0200
+
 python-qprogedit (2.1.0-ubuntu2) trusty; urgency=medium
 
   * Add OpenSesame-script lexer

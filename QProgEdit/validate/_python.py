@@ -31,6 +31,7 @@ except:
 	Checker = None
 
 _builtins = []
+_filter = None
 
 def addPythonBuiltins(builtins):
 
@@ -44,6 +45,20 @@ def addPythonBuiltins(builtins):
 
 	global _builtins
 	_builtins += builtins
+
+def setPyFlakesFilter(func):
+
+	"""
+	Set a filter for PyFlake warning messages. This filter should be a function
+	that takes a single message, and returns False if the message should be
+	ignored (True otherwise.)
+
+	Argument:
+	func	--	The filter function.
+	"""
+
+	global _filter
+	_filter = func
 
 def python(script):
 
@@ -72,5 +87,6 @@ def python(script):
 		else:
 			messages = Checker(c).messages
 		for msg in messages:
-			l.append((msg.lineno-1, msg.message % msg.message_args))
+			if _filter is None or not _filter(msg):
+				l.append((msg.lineno-1, msg.message % msg.message_args))
 	return l

@@ -53,6 +53,7 @@ def main():
 	"""Runs a simple QProgEdit demonstration."""
 
 	validate.addPythonBuiltins(['builtin_var'])
+	validate.setPyFlakesFilter(lambda msg: msg.message == u'undefined name %r')
 	app = QtGui.QApplication(sys.argv)
 
 	treeWidgetItem1 = QtGui.QTreeWidgetItem([u'Tab 1'])
