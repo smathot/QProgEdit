@@ -582,6 +582,21 @@ class QEditor(QsciScintilla):
 			self.validationErrors[l] = s
 			self.markerAdd(l, self.invalidMarker)
 
+	def setInvalid(self, l, msg):
+
+		"""
+		desc:
+			Mark a specific line as invalid. Resets all other invalid messages.
+
+		arguments:
+			l:		The line to mark.
+			msg:	The error messsage.
+		"""
+
+		self.markerDeleteAll()
+		self.validationErrors = {l-1 : msg}
+		self.markerAdd(l-1, self.invalidMarker)
+
 	def wheelEvent(self, event):
 
 		"""

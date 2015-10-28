@@ -1,3 +1,9 @@
+python-qprogedit (3.2.0-ubuntu1) wiliy; urgency=medium
+
+  * Add setInvalid() function to manually invalidate lines
+
+ -- Sebastiaan Mathot <sebastiaan@mantis>  Wed, 28 Oct 2015 16:34:08 +0100
+
 python-qprogedit (3.1.0-ubuntu1) vivid; urgency=medium
 
   * Add a PyFlakes filter to ignore unwanted messages

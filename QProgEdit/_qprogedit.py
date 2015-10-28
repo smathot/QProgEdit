@@ -117,6 +117,10 @@ class QProgEdit(QtGui.QWidget):
 		return self.editor.setText
 
 	@property
+	def setInvalid(self):
+		return self.editor.setInvalid
+
+	@property
 	def selectedText(self):
 		return self.editor.selectedText
 

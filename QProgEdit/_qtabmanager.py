@@ -255,6 +255,24 @@ class QTabManager(QtGui.QTabWidget):
 		if tab is not None:
 			tab.setText(text)
 
+	def setInvalid(self, l, msg, index=None):
+
+		"""
+		desc:
+			Set an invalid marker on a specific tab.
+
+		arguments:
+			l:		The line to mark.
+			msg:	The error messsage.
+
+		keywords:
+			index:	A tab index, as understood by [tabIndex].
+		"""
+
+		tab = self.tab(index)
+		if tab is not None:
+			tab.setInvalid(l, msg)
+
 	def switchTabLeft(self):
 
 		"""
