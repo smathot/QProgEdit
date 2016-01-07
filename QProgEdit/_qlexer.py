@@ -17,9 +17,19 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+from QProgEdit.py3compat import *
 from QProgEdit.qt import QtGui, QtCore
 from QProgEdit.qt import Qsci
 from QProgEdit import QColorScheme
+
+python_builtins = (' abs dict help min setattr all dir hex next slice any '
+'id object sorted ascii enumerate input oct staticmethod bin eval int open str '
+'bool exec isinstance ord sum bytearray filter issubclass pow super bytes '
+'float iter print tuple callable format len property type chr frozenset list '
+'range vars classmethod getattr locals repr zip compile globals map reversed '
+'__import__ complex hasattr max round delattr hash memoryview set divmod')
+
+opensesame_builtins = ' exp win self var pool items items clock log'
 
 class QBaseLexer(object):
 
@@ -70,7 +80,7 @@ class QBaseLexer(object):
 			self.editor.setCaretLineBackgroundColor(QtGui.QColor(
 				colorScheme[u'Caret-line background']))
 		for style in range(50):
-			styleName = str(self.description(style))
+			styleName = safe_decode(self.description(style), errors=u'ignore')
 			if styleName != u'' and styleName in colorScheme:
 				if isinstance(colorScheme[styleName], tuple):
 					color, bold, italic = colorScheme[styleName]
@@ -108,7 +118,7 @@ class QPythonLexer(QBaseLexer, Qsci.QsciLexerPython):
 
 		if keyset == 1:
 			return Qsci.QsciLexerPython.keywords(self, keyset).replace(
-				' None', '') + ' exp win self var pool items items clock log'
+				' None', '') + python_builtins + opensesame_builtins
 		elif keyset == 2:
 			return 'None True False'
 		return Qsci.QsciLexerPython.keywords(self, keyset)

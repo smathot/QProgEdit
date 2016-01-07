@@ -1,4 +1,10 @@
-python-qprogedit (3.2.0-ubuntu1) wiliy; urgency=medium
+python-qprogedit (3.2.2-ubuntu1) wily; urgency=medium
+
+  * Add more Python built-ins
+
+ -- Sebastiaan Mathot <sebastiaan@mantis>  Thu, 07 Jan 2016 12:01:30 +0100
+
+python-qprogedit (3.2.0-ubuntu2) wily; urgency=medium
 
   * Add setInvalid() function to manually invalidate lines
 
