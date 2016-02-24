@@ -18,9 +18,9 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from QProgEdit.py3compat import *
-from QProgEdit.qt import QtGui, QtCore
+from qtpy import QtGui, QtCore, QtWidgets
 
-class QEditorShortcut(QtGui.QShortcut):
+class QEditorShortcut(QtWidgets.QShortcut):
 
 	def __init__(self, parent, keySequence, target,
 		context=QtCore.Qt.WidgetWithChildrenShortcut):

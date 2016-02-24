@@ -17,11 +17,11 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from QProgEdit.qt import QtGui, QtCore
+from qtpy import QtGui, QtCore, QtWidgets
 from QProgEdit.py3compat import *
 from QProgEdit import QEditorConst
 
-class QLangMenu(QtGui.QMenu):
+class QLangMenu(QtWidgets.QMenu):
 
 	"""
 	desc:

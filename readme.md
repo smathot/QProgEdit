@@ -84,11 +84,11 @@ Copyright (2013-2015) Sebastiaan Mathôt
 - [class __QProgEdit.QSymbolTreeWidgetItem__](#class-__qprogeditqsymboltreewidgetitem__)
 	- [function __QProgEdit\.QSymbolTreeWidgetItem\.\_\_init\_\___\(editor, lineNo, \_type, name, argSpec\)](#function-__qprogeditqsymboltreewidgetitem__init____editor-lineno-_type-name-argspec)
 	- [function __QProgEdit\.QSymbolTreeWidgetItem\.activate__\(\)](#function-__qprogeditqsymboltreewidgetitemactivate__)
-- [class __QProgEdit.QTabCornerWidget__](#class-__qprogeditqtabcornerwidget__)
+- [class __qtpyabCornerWidget__](#class-__qprogeditqtabcornerwidget__)
 	- [function __QProgEdit\.QTabCornerWidget\.\_\_init\_\___\(tabManager, msg=None, handlerButtonText=None, runButton=False\)](#function-__qprogeditqtabcornerwidget__init____tabmanager-msgnone-handlerbuttontextnone-runbuttonfalse)
 	- [function __QProgEdit\.QTabCornerWidget\.handlerButtonClicked__\(\)](#function-__qprogeditqtabcornerwidgethandlerbuttonclicked__)
 	- [function __QProgEdit\.QTabCornerWidget\.update__\(\)](#function-__qprogeditqtabcornerwidgetupdate__)
-- [class __QProgEdit.QTabManager__](#class-__qprogeditqtabmanager__)
+- [class __qtpyabManager__](#class-__qprogeditqtabmanager__)
 	- [function __QProgEdit\.QTabManager\.\_\_init\_\___\(parent=None, cfg=<QProgEdit\.\_qeditorcfg\.QEditorCfg object at 0x7f73885d59d0>, tabsClosable=False, tabsMovable=False, msg=None, handlerButtonText=None, runButton=False\)](#function-__qprogeditqtabmanager__init____parentnone-cfgqprogedit_qeditorcfgqeditorcfg-object-at-0x7f73885d59d0-tabsclosablefalse-tabsmovablefalse-msgnone-handlerbuttontextnone-runbuttonfalse)
 	- [function __QProgEdit\.QTabManager\.addTab__\(title=u'Empty document', select=True\)](#function-__qprogeditqtabmanageraddtab__titleuempty-document-selecttrue)
 	- [function __QProgEdit\.QTabManager\.applyCfg__\(\)](#function-__qprogeditqtabmanagerapplycfg__)
@@ -144,7 +144,7 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import sys
-from QProgEdit.qt import QtGui, QtCore
+from qtpy import QtGui, QtCore
 from QProgEdit import QTabManager, validate
 
 def cursorRowChanged(index, rowFrom, rowTo):
@@ -179,9 +179,9 @@ def main():
 	validate.addPythonBuiltins(['builtin_var'])
 	app = QtGui.QApplication(sys.argv)
 
-	treeWidgetItem1 = QtGui.QTreeWidgetItem([u'Tab 1'])
-	treeWidgetItem3 = QtGui.QTreeWidgetItem([u'Tab 3'])
-	symbolTree = QtGui.QTreeWidget()
+	treeWidgetItem1 = QtWidgets.QTreeWidgetItem([u'Tab 1'])
+	treeWidgetItem3 = QtWidgets.QTreeWidgetItem([u'Tab 3'])
+	symbolTree = QtWidgets.QTreeWidget()
 	symbolTree.addTopLevelItem(treeWidgetItem1)
 	symbolTree.addTopLevelItem(treeWidgetItem3)
 	symbolTree.itemActivated.connect(activateSymbolTree)
@@ -211,10 +211,10 @@ def main():
 	if os.path.exists(u'content.txt'):
 		tab.setText(open(u'content.txt').read())
 
-	layout = QtGui.QHBoxLayout()
+	layout = QtWidgets.QHBoxLayout()
 	layout.addWidget(symbolTree)
 	layout.addWidget(tabManager)
-	container = QtGui.QWidget()
+	container = QtWidgets.QWidget()
 	container.setLayout(layout)
 	container.show()
 
@@ -442,7 +442,7 @@ Sets the editor language.
 
 __Keywords:__
 
-- `lang` -- A language, used to select a lexer for syntax highlighting, validation, cleaning, etc. if an appropriate lexer isn't found, no error is generated, but syntax highlighting is disabled. For a list of available lexers, refer to the QsciScintilla documentation.
+- `lang` -- A language, used to select a lexer for syntax highlighting, validation, cleaning, etc. if an appropriate lexer isn't found, no error is generated, but syntax highlighting is disabled. For a list of available lexers, refer to theQsci.QsciScintilla documentation.
 	- Default: u'text'
 
 </span>
@@ -1235,7 +1235,7 @@ Is called when the symbol is activated, to focus the symbol in the editor.
 
 <span class="ClassDoc YAMLDoc" id="QProgEdit-QTabCornerWidget" markdown="1">
 
-## class __QProgEdit.QTabCornerWidget__
+## class __qtpyabCornerWidget__
 
 Contains a number of buttons that are displayed in the tab bar.
 
@@ -1264,7 +1264,7 @@ __Keywords:__
 
 </span>
 
-[QProgEdit.QTabCornerWidget.__init__]: #QProgEdit-QTabCornerWidget-__init__
+[qtpyabCornerWidget.__init__]: #QProgEdit-QTabCornerWidget-__init__
 [QTabCornerWidget.__init__]: #QProgEdit-QTabCornerWidget-__init__
 [__init__]: #QProgEdit-QTabCornerWidget-__init__
 
@@ -1276,7 +1276,7 @@ Is called when the handler button is clicked and emits the relevant signals.
 
 </span>
 
-[QProgEdit.QTabCornerWidget.handlerButtonClicked]: #QProgEdit-QTabCornerWidget-handlerButtonClicked
+[qtpyabCornerWidget.handlerButtonClicked]: #QProgEdit-QTabCornerWidget-handlerButtonClicked
 [QTabCornerWidget.handlerButtonClicked]: #QProgEdit-QTabCornerWidget-handlerButtonClicked
 [handlerButtonClicked]: #QProgEdit-QTabCornerWidget-handlerButtonClicked
 
@@ -1288,18 +1288,18 @@ Updates widget to reflect document contents.
 
 </span>
 
-[QProgEdit.QTabCornerWidget.update]: #QProgEdit-QTabCornerWidget-update
+[qtpyabCornerWidget.update]: #QProgEdit-QTabCornerWidget-update
 [QTabCornerWidget.update]: #QProgEdit-QTabCornerWidget-update
 [update]: #QProgEdit-QTabCornerWidget-update
 
 </span>
 
-[QProgEdit.QTabCornerWidget]: #QProgEdit-QTabCornerWidget
+[qtpyabCornerWidget]: #QProgEdit-QTabCornerWidget
 [QTabCornerWidget]: #QProgEdit-QTabCornerWidget
 
 <span class="ClassDoc YAMLDoc" id="QProgEdit-QTabManager" markdown="1">
 
-## class __QProgEdit.QTabManager__
+## class __qtpyabManager__
 
 A tab manager that contains multiple QProgEdit tabs.
 
@@ -1334,7 +1334,7 @@ __Keywords:__
 
 </span>
 
-[QProgEdit.QTabManager.__init__]: #QProgEdit-QTabManager-__init__
+[qtpyabManager.__init__]: #QProgEdit-QTabManager-__init__
 [QTabManager.__init__]: #QProgEdit-QTabManager-__init__
 [__init__]: #QProgEdit-QTabManager-__init__
 
@@ -1361,7 +1361,7 @@ The newly added tab widget.
 
 </span>
 
-[QProgEdit.QTabManager.addTab]: #QProgEdit-QTabManager-addTab
+[qtpyabManager.addTab]: #QProgEdit-QTabManager-addTab
 [QTabManager.addTab]: #QProgEdit-QTabManager-addTab
 [addTab]: #QProgEdit-QTabManager-addTab
 
@@ -1373,7 +1373,7 @@ Applies the configuration.
 
 </span>
 
-[QProgEdit.QTabManager.applyCfg]: #QProgEdit-QTabManager-applyCfg
+[qtpyabManager.applyCfg]: #QProgEdit-QTabManager-applyCfg
 [QTabManager.applyCfg]: #QProgEdit-QTabManager-applyCfg
 [applyCfg]: #QProgEdit-QTabManager-applyCfg
 
@@ -1390,7 +1390,7 @@ __Keywords:__
 
 </span>
 
-[QProgEdit.QTabManager.closeTab]: #QProgEdit-QTabManager-closeTab
+[qtpyabManager.closeTab]: #QProgEdit-QTabManager-closeTab
 [QTabManager.closeTab]: #QProgEdit-QTabManager-closeTab
 [closeTab]: #QProgEdit-QTabManager-closeTab
 
@@ -1408,7 +1408,7 @@ True if (one of) the tab(s) is modified, False otherwise.
 
 </span>
 
-[QProgEdit.QTabManager.isAnyModified]: #QProgEdit-QTabManager-isAnyModified
+[qtpyabManager.isAnyModified]: #QProgEdit-QTabManager-isAnyModified
 [QTabManager.isAnyModified]: #QProgEdit-QTabManager-isAnyModified
 [isAnyModified]: #QProgEdit-QTabManager-isAnyModified
 
@@ -1420,7 +1420,7 @@ Emits the execute signal with the selected text.
 
 </span>
 
-[QProgEdit.QTabManager.runSelectedText]: #QProgEdit-QTabManager-runSelectedText
+[qtpyabManager.runSelectedText]: #QProgEdit-QTabManager-runSelectedText
 [QTabManager.runSelectedText]: #QProgEdit-QTabManager-runSelectedText
 [runSelectedText]: #QProgEdit-QTabManager-runSelectedText
 
@@ -1432,7 +1432,7 @@ Emits the execute signal with the current text.
 
 </span>
 
-[QProgEdit.QTabManager.runText]: #QProgEdit-QTabManager-runText
+[qtpyabManager.runText]: #QProgEdit-QTabManager-runText
 [QTabManager.runText]: #QProgEdit-QTabManager-runText
 [runText]: #QProgEdit-QTabManager-runText
 
@@ -1448,7 +1448,7 @@ __Arguments:__
 
 </span>
 
-[QProgEdit.QTabManager.selectTab]: #QProgEdit-QTabManager-selectTab
+[qtpyabManager.selectTab]: #QProgEdit-QTabManager-selectTab
 [QTabManager.selectTab]: #QProgEdit-QTabManager-selectTab
 [selectTab]: #QProgEdit-QTabManager-selectTab
 
@@ -1472,7 +1472,7 @@ The selected text.
 
 </span>
 
-[QProgEdit.QTabManager.selectedText]: #QProgEdit-QTabManager-selectedText
+[qtpyabManager.selectedText]: #QProgEdit-QTabManager-selectedText
 [QTabManager.selectedText]: #QProgEdit-QTabManager-selectedText
 [selectedText]: #QProgEdit-QTabManager-selectedText
 
@@ -1489,7 +1489,7 @@ __Keywords:__
 
 </span>
 
-[QProgEdit.QTabManager.setFocus]: #QProgEdit-QTabManager-setFocus
+[qtpyabManager.setFocus]: #QProgEdit-QTabManager-setFocus
 [QTabManager.setFocus]: #QProgEdit-QTabManager-setFocus
 [setFocus]: #QProgEdit-QTabManager-setFocus
 
@@ -1510,7 +1510,7 @@ __Keywords:__
 
 </span>
 
-[QProgEdit.QTabManager.setText]: #QProgEdit-QTabManager-setText
+[qtpyabManager.setText]: #QProgEdit-QTabManager-setText
 [QTabManager.setText]: #QProgEdit-QTabManager-setText
 [setText]: #QProgEdit-QTabManager-setText
 
@@ -1522,7 +1522,7 @@ Switches to the tab on the left.
 
 </span>
 
-[QProgEdit.QTabManager.switchTabLeft]: #QProgEdit-QTabManager-switchTabLeft
+[qtpyabManager.switchTabLeft]: #QProgEdit-QTabManager-switchTabLeft
 [QTabManager.switchTabLeft]: #QProgEdit-QTabManager-switchTabLeft
 [switchTabLeft]: #QProgEdit-QTabManager-switchTabLeft
 
@@ -1534,7 +1534,7 @@ Switches to the tab on the left.
 
 </span>
 
-[QProgEdit.QTabManager.switchTabRight]: #QProgEdit-QTabManager-switchTabRight
+[qtpyabManager.switchTabRight]: #QProgEdit-QTabManager-switchTabRight
 [QTabManager.switchTabRight]: #QProgEdit-QTabManager-switchTabRight
 [switchTabRight]: #QProgEdit-QTabManager-switchTabRight
 
@@ -1558,7 +1558,7 @@ A tab, or None if no matching tab was found.
 
 </span>
 
-[QProgEdit.QTabManager.tab]: #QProgEdit-QTabManager-tab
+[qtpyabManager.tab]: #QProgEdit-QTabManager-tab
 [QTabManager.tab]: #QProgEdit-QTabManager-tab
 [tab]: #QProgEdit-QTabManager-tab
 
@@ -1575,7 +1575,7 @@ __Arguments:__
 
 </span>
 
-[QProgEdit.QTabManager.tabChanged]: #QProgEdit-QTabManager-tabChanged
+[qtpyabManager.tabChanged]: #QProgEdit-QTabManager-tabChanged
 [QTabManager.tabChanged]: #QProgEdit-QTabManager-tabChanged
 [tabChanged]: #QProgEdit-QTabManager-tabChanged
 
@@ -1599,7 +1599,7 @@ A tab index, or None if no matching tab was found.
 
 </span>
 
-[QProgEdit.QTabManager.tabIndex]: #QProgEdit-QTabManager-tabIndex
+[qtpyabManager.tabIndex]: #QProgEdit-QTabManager-tabIndex
 [QTabManager.tabIndex]: #QProgEdit-QTabManager-tabIndex
 [tabIndex]: #QProgEdit-QTabManager-tabIndex
 
@@ -1617,7 +1617,7 @@ A list of all tab widgets.
 
 </span>
 
-[QProgEdit.QTabManager.tabs]: #QProgEdit-QTabManager-tabs
+[qtpyabManager.tabs]: #QProgEdit-QTabManager-tabs
 [QTabManager.tabs]: #QProgEdit-QTabManager-tabs
 [tabs]: #QProgEdit-QTabManager-tabs
 
@@ -1638,7 +1638,7 @@ The text or None if the tab does not exist.
 
 </span>
 
-[QProgEdit.QTabManager.text]: #QProgEdit-QTabManager-text
+[qtpyabManager.text]: #QProgEdit-QTabManager-text
 [QTabManager.text]: #QProgEdit-QTabManager-text
 [text]: #QProgEdit-QTabManager-text
 
@@ -1655,7 +1655,7 @@ __Arguments:__
 
 </span>
 
-[QProgEdit.QTabManager.toggleFind]: #QProgEdit-QTabManager-toggleFind
+[qtpyabManager.toggleFind]: #QProgEdit-QTabManager-toggleFind
 [QTabManager.toggleFind]: #QProgEdit-QTabManager-toggleFind
 [toggleFind]: #QProgEdit-QTabManager-toggleFind
 
@@ -1672,13 +1672,13 @@ __Arguments:__
 
 </span>
 
-[QProgEdit.QTabManager.togglePrefs]: #QProgEdit-QTabManager-togglePrefs
+[qtpyabManager.togglePrefs]: #QProgEdit-QTabManager-togglePrefs
 [QTabManager.togglePrefs]: #QProgEdit-QTabManager-togglePrefs
 [togglePrefs]: #QProgEdit-QTabManager-togglePrefs
 
 </span>
 
-[QProgEdit.QTabManager]: #QProgEdit-QTabManager
+[qtpyabManager]: #QProgEdit-QTabManager
 [QTabManager]: #QProgEdit-QTabManager
 
 <span class="ClassDoc YAMLDoc" id="QProgEdit-QUiLoader" markdown="1">
@@ -1781,11 +1781,11 @@ __Arguments:__
 [class __QProgEdit.QSymbolTreeWidgetItem__]: #class-__qprogeditqsymboltreewidgetitem__
 [function __QProgEdit\.QSymbolTreeWidgetItem\.\_\_init\_\___\(editor, lineNo, \_type, name, argSpec\)]: #function-__qprogeditqsymboltreewidgetitem__init____editor-lineno-_type-name-argspec
 [function __QProgEdit\.QSymbolTreeWidgetItem\.activate__\(\)]: #function-__qprogeditqsymboltreewidgetitemactivate__
-[class __QProgEdit.QTabCornerWidget__]: #class-__qprogeditqtabcornerwidget__
+[class __qtpyabCornerWidget__]: #class-__qprogeditqtabcornerwidget__
 [function __QProgEdit\.QTabCornerWidget\.\_\_init\_\___\(tabManager, msg=None, handlerButtonText=None, runButton=False\)]: #function-__qprogeditqtabcornerwidget__init____tabmanager-msgnone-handlerbuttontextnone-runbuttonfalse
 [function __QProgEdit\.QTabCornerWidget\.handlerButtonClicked__\(\)]: #function-__qprogeditqtabcornerwidgethandlerbuttonclicked__
 [function __QProgEdit\.QTabCornerWidget\.update__\(\)]: #function-__qprogeditqtabcornerwidgetupdate__
-[class __QProgEdit.QTabManager__]: #class-__qprogeditqtabmanager__
+[class __qtpyabManager__]: #class-__qprogeditqtabmanager__
 [function __QProgEdit\.QTabManager\.\_\_init\_\___\(parent=None, cfg=<QProgEdit\.\_qeditorcfg\.QEditorCfg object at 0x7f73885d59d0>, tabsClosable=False, tabsMovable=False, msg=None, handlerButtonText=None, runButton=False\)]: #function-__qprogeditqtabmanager__init____parentnone-cfgqprogedit_qeditorcfgqeditorcfg-object-at-0x7f73885d59d0-tabsclosablefalse-tabsmovablefalse-msgnone-handlerbuttontextnone-runbuttonfalse
 [function __QProgEdit\.QTabManager\.addTab__\(title=u'Empty document', select=True\)]: #function-__qprogeditqtabmanageraddtab__titleuempty-document-selecttrue
 [function __QProgEdit\.QTabManager\.applyCfg__\(\)]: #function-__qprogeditqtabmanagerapplycfg__

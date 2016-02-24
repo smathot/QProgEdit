@@ -17,10 +17,10 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from QProgEdit.qt import QtGui, QtCore
+from qtpy import QtGui, QtCore, QtWidgets
 from QProgEdit import QEditor, QEditorPrefs, QEditorFind
 
-class QProgEdit(QtGui.QWidget):
+class QProgEdit(QtWidgets.QWidget):
 
 	"""
 	desc:
@@ -67,7 +67,7 @@ class QProgEdit(QtGui.QWidget):
 		self.prefs.hide()
 		self.find = QEditorFind(self)
 		self.find.hide()
-		self.mainBox = QtGui.QVBoxLayout(self)
+		self.mainBox = QtWidgets.QVBoxLayout(self)
 		self.mainBox.setContentsMargins(4,4,4,4)
 		self.mainBox.setSpacing(4)
 		self.mainBox.addWidget(self.prefs)

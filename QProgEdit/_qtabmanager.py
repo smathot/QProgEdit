@@ -19,13 +19,13 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import sys
-from QProgEdit.qt import QtGui, QtCore
-from QProgEdit.qt.Qsci import QsciScintilla, QsciScintillaBase, QsciLexerPython
+from qtpy import QtGui, QtCore, QtWidgets
+from QProgEdit.pyqt5compat import Qsci
 from QProgEdit.py3compat import *
 from QProgEdit import QEditorCfg, QProgEdit, QTabCornerWidget, \
 	QEditorShortcut, _
 
-class QTabManager(QtGui.QTabWidget):
+class QTabManager(QtWidgets.QTabWidget):
 
 	"""
 	desc:

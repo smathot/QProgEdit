@@ -17,9 +17,9 @@ You should have received a copy of the GNU General Public License
 along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from QProgEdit.qt import QtCore, QtGui
+from qtpy import QtCore, QtWidgets, QtGui
 
-class QSymbolTreeWidgetItem(QtGui.QTreeWidgetItem):
+class QSymbolTreeWidgetItem(QtWidgets.QTreeWidgetItem):
 
 	"""
 	desc:

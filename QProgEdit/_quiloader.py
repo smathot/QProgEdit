@@ -19,7 +19,8 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import sys
-from QProgEdit.qt import QtCore, uic
+from qtpy import QtCore
+from QProgEdit.pyqt5compat import uic
 
 class QUiLoader(QtCore.QObject):
 

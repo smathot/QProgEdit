@@ -18,14 +18,13 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os
-from QProgEdit.qt import QtGui, QtCore
-from QProgEdit.qt import Qsci
-from QProgEdit.qt.Qsci import QsciScintilla
+from qtpy import QtGui, QtCore, QtWidgets
+from QProgEdit.pyqt5compat import Qsci
 from QProgEdit.py3compat import *
 from QProgEdit import QColorScheme
 from QProgEdit import QUiLoader
 
-class QEditorPrefs(QtGui.QWidget, QUiLoader):
+class QEditorPrefs(QtWidgets.QWidget, QUiLoader):
 
 	"""
 	desc:

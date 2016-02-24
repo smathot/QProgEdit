@@ -18,7 +18,7 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os
-from QProgEdit.qt import QtGui, QtCore
+from qtpy import QtGui, QtCore
 
 class QEditorCfg(QtCore.QObject):
 

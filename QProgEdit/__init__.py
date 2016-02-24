@@ -56,12 +56,12 @@ license: |
 ---
 """
 
-version = __version__ = u'3.2.2'
+version = __version__ = u'4.0.0a1'
 
 from QProgEdit.py3compat import *
 
 # A simple wrapper around the translate function
-from QProgEdit.qt.QtCore import QCoreApplication
+from qtpy.QtCore import QCoreApplication
 _ = lambda s: QCoreApplication.translate(u'qprogedit', s)
 
 import QProgEdit._qeditorconst as QEditorConst

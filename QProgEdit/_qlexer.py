@@ -18,8 +18,8 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from QProgEdit.py3compat import *
-from QProgEdit.qt import QtGui, QtCore
-from QProgEdit.qt import Qsci
+from qtpy import QtGui, QtCore
+from QProgEdit.pyqt5compat import Qsci
 from QProgEdit import QColorScheme
 
 python_builtins = (' abs dict help min setattr all dir hex next slice any '
@@ -47,7 +47,7 @@ class QBaseLexer(object):
 		arguments:
 			editor:
 				desc:	An editor object.
-				type:	QsciScintilla
+				type:Qsci.QsciScintilla
 			colorScheme:
 				desc:	A colorscheme.
 				type:	dict

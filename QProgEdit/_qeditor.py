@@ -18,13 +18,12 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from QProgEdit.py3compat import *
-from QProgEdit.qt import QtGui, QtCore
-from QProgEdit.qt.Qsci import QsciScintilla, QsciScintillaBase, QsciCommand, \
-	QsciCommandSet
+from qtpy import QtGui, QtCore, QtWidgets
+from QProgEdit.pyqt5compat import Qsci
 from QProgEdit import QLexer, QColorScheme, QSymbolTreeWidgetItem, symbols, \
 	validate, clean, _
 
-class QEditor(QsciScintilla):
+class QEditor(Qsci.QsciScintilla):
 
 	"""
 	desc:
@@ -57,10 +56,10 @@ class QEditor(QsciScintilla):
 		self.qProgEdit = qProgEdit
 		self.validationErrors = {}
 		self.setLang()
-		self.commentShortcut = QtGui.QShortcut(QtGui.QKeySequence(
+		self.commentShortcut = QtWidgets.QShortcut(QtGui.QKeySequence(
 			self.cfg.qProgEditCommentShortcut), self,
 			context=QtCore.Qt.WidgetWithChildrenShortcut)
-		self.uncommentShortcut = QtGui.QShortcut(QtGui.QKeySequence(
+		self.uncommentShortcut = QtWidgets.QShortcut(QtGui.QKeySequence(
 			self.cfg.qProgEditUncommentShortcut), self,
 			context=QtCore.Qt.WidgetWithChildrenShortcut)
 		self.commentShortcut.activated.connect(self.commentSelection)
@@ -132,7 +131,7 @@ class QEditor(QsciScintilla):
 		indicatorColor = QtGui.QColor(colorScheme[u'Highlight'])
 		indicatorColor.setAlpha(64)
 		self.setIndicatorForegroundColor(indicatorColor, 0)
-		self.markerDefine(QsciScintilla.RightArrow, self.invalidMarker)
+		self.markerDefine(Qsci.QsciScintilla.RightArrow, self.invalidMarker)
 		self.setMarkerBackgroundColor(QtGui.QColor(
 			colorScheme[u'Invalid']), self.invalidMarker)
 		self.setMarkerForegroundColor(QtGui.QColor(
@@ -151,34 +150,34 @@ class QEditor(QsciScintilla):
 		self.setCaretLineVisible(
 			self.cfg.qProgEditHighlightCurrentLine)
 		if self.cfg.qProgEditShowFolding:
-			self.setFolding(QsciScintilla.PlainFoldStyle)
+			self.setFolding(Qsci.QsciScintilla.PlainFoldStyle)
 		else:
-			self.setFolding(QsciScintilla.NoFoldStyle)
+			self.setFolding(Qsci.QsciScintilla.NoFoldStyle)
 		self.setMarginLineNumbers(0, self.cfg.qProgEditLineNumbers)
 		if u'Fold margin' in colorScheme:
 			color = QtGui.QColor(colorScheme[u'Fold margin'])
 			self.setFoldMarginColors(color, color)
 		if self.cfg.qProgEditShowWhitespace:
-			self.setWhitespaceVisibility(QsciScintilla.WsVisible)
+			self.setWhitespaceVisibility(Qsci.QsciScintilla.WsVisible)
 		else:
-			self.setWhitespaceVisibility(QsciScintilla.WsInvisible)
+			self.setWhitespaceVisibility(Qsci.QsciScintilla.WsInvisible)
 		if self.cfg.qProgEditWordWrap:
-			self.setWrapMode(QsciScintilla.WrapWord)
+			self.setWrapMode(Qsci.QsciScintilla.WrapWord)
 		else:
-			self.setWrapMode(QsciScintilla.WrapNone)
+			self.setWrapMode(Qsci.QsciScintilla.WrapNone)
 		if self.cfg.qProgEditWordWrapMarker is not None:
 			self.setEdgeColumn(self.cfg.qProgEditWordWrapMarker)
-			self.setEdgeMode(QsciScintilla.EdgeLine)
+			self.setEdgeMode(Qsci.QsciScintilla.EdgeLine)
 		else:
-			self.setEdgeMode(QsciScintilla.EdgeNone)
+			self.setEdgeMode(Qsci.QsciScintilla.EdgeNone)
 		if self.cfg.qProgEditAutoComplete:
-			self.setAutoCompletionSource(QsciScintilla.AcsAll)
+			self.setAutoCompletionSource(Qsci.QsciScintilla.AcsAll)
 		else:
-			self.setAutoCompletionSource(QsciScintilla.AcsNone)
+			self.setAutoCompletionSource(Qsci.QsciScintilla.AcsNone)
 		if self.cfg.qProgEditHighlightMatchingBrackets:
-			self.setBraceMatching(QsciScintilla.StrictBraceMatch)
+			self.setBraceMatching(Qsci.QsciScintilla.StrictBraceMatch)
 		else:
-			self.setBraceMatching(QsciScintilla.NoBraceMatch)
+			self.setBraceMatching(Qsci.QsciScintilla.NoBraceMatch)
 		self.setLang(self.lang())
 		self.cfgVersion = self.cfg.version()
 
@@ -315,7 +314,7 @@ class QEditor(QsciScintilla):
 			self.paste()
 			event.accept()
 		else:
-			QsciScintilla.keyPressEvent(self, event)
+			Qsci.QsciScintilla.keyPressEvent(self, event)
 
 	def onMarginClick(self, margin, line, state):
 
@@ -339,7 +338,7 @@ class QEditor(QsciScintilla):
 			return
 		if line in self.validationErrors:
 			err = self.validationErrors[line]
-			QtGui.QToolTip.showText(QtGui.QCursor().pos(), err)
+			QtWidgets.QToolTip.showText(QtGui.QCursor().pos(), err)
 
 	def uncommentSelection(self):
 
@@ -399,7 +398,7 @@ class QEditor(QsciScintilla):
 			content.
 		"""
 
-		text = str(QtGui.QApplication.clipboard().text())
+		text = QtWidgets.QApplication.clipboard().text()
 		if hasattr(clean, self.lang().lower()):
 			msg, cleanText = getattr(clean, self.lang().lower())(text)
 			if msg is not None:
@@ -444,14 +443,14 @@ class QEditor(QsciScintilla):
 						highlighting, validation, cleaning, etc.
 						if an appropriate lexer isn't found, no error is
 						generated, but syntax highlighting is disabled. For a
-						list of available lexers, refer to the QsciScintilla
+						list of available lexers, refer to theQsci.QsciScintilla
 						documentation.
 		"""
 
 		self._lexer = QLexer(self, lang=lang,
 			colorScheme=self.cfg.qProgEditColorScheme)
 		self._lang = lang
-		self.SendScintilla(QsciScintillaBase.SCI_CLEARDOCUMENTSTYLE)
+		self.SendScintilla(Qsci.QsciScintillaBase.SCI_CLEARDOCUMENTSTYLE)
 		self.setLexer(self._lexer)
 		self.validate()
 

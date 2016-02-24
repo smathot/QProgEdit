@@ -20,7 +20,7 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import sys
-from QProgEdit.qt import QtGui, QtCore
+from qtpy import QtGui, QtCore, QtWidgets
 from QProgEdit import QTabManager, validate
 
 def cursorRowChanged(index, rowFrom, rowTo):
@@ -52,13 +52,14 @@ def main():
 
 	"""Runs a simple QProgEdit demonstration."""
 
-	validate.addPythonBuiltins(['builtin_var'])
+	print(u'API: %s' % os.environ[u'QT_API'])
+	validate.addPythonBuiltins([u'builtin_var'])
 	validate.setPyFlakesFilter(lambda msg: msg.message == u'undefined name %r')
-	app = QtGui.QApplication(sys.argv)
+	app = QtWidgets.QApplication(sys.argv)
 
-	treeWidgetItem1 = QtGui.QTreeWidgetItem([u'Tab 1'])
-	treeWidgetItem3 = QtGui.QTreeWidgetItem([u'Tab 3'])
-	symbolTree = QtGui.QTreeWidget()
+	treeWidgetItem1 = QtWidgets.QTreeWidgetItem([u'Tab 1'])
+	treeWidgetItem3 = QtWidgets.QTreeWidgetItem([u'Tab 3'])
+	symbolTree = QtWidgets.QTreeWidget()
 	symbolTree.addTopLevelItem(treeWidgetItem1)
 	symbolTree.addTopLevelItem(treeWidgetItem3)
 	symbolTree.itemActivated.connect(activateSymbolTree)
@@ -88,10 +89,10 @@ def main():
 	if os.path.exists(u'content.txt'):
 		tab.setText(open(u'content.txt').read())
 
-	layout = QtGui.QHBoxLayout()
+	layout = QtWidgets.QHBoxLayout()
 	layout.addWidget(symbolTree)
 	layout.addWidget(tabManager)
-	container = QtGui.QWidget()
+	container = QtWidgets.QWidget()
 	container.setLayout(layout)
 	container.show()
 
