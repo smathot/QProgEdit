@@ -18,19 +18,17 @@ You should have received a copy of the GNU General Public License
 along with zoteromarkdown.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from QProgEdit import version
-from distutils.core import setup
+from QProgEdit import __version__
+from setuptools import setup, find_packages
 
 setup(
-    name=u'python-qprogedit',
-    version=version,
-    description= \
-		u'A QScintilla-based text-editor component',
-    author=u'Sebastiaan Mathôt',
-    author_email=u's.mathot@cogsci.nl',
-    license=u'GNU GPL Version 3',
-    url=u'https://github.com/smathot/QProgEdit',
-    packages=['QProgEdit', 'QProgEdit.validate', 'QProgEdit.clean',
-        'QProgEdit.symbols', 'qtpy'],
-    package_data={'QProgEdit' : ['ui/*.ui']}
+	name=u'python-qprogedit',
+	version=__version__,
+	description= u'A QScintilla-based text-editor component',
+	author=u'Sebastiaan Mathôt',
+	author_email=u's.mathot@cogsci.nl',
+	license=u'GNU GPL Version 3',
+	url=u'https://github.com/smathot/QProgEdit',
+	install_requires='qtpy',
+	packages=find_packages('.')
 )
