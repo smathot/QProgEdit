@@ -30,6 +30,7 @@ setup(
 	license=u'GNU GPL Version 3',
 	url=u'https://github.com/smathot/QProgEdit',
 	install_requires='qtpy',
+	package_data={'QProgEdit' : ['ui/*.ui']},
 	packages=find_packages('.'),
 	classifiers=[
 		'Development Status :: 4 - Beta',

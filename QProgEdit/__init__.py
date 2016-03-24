@@ -56,7 +56,7 @@ license: |
 ---
 """
 
-version = __version__ = u'4.0.0a1'
+version = __version__ = u'4.0.0a2'
 
 from QProgEdit.py3compat import *
 
