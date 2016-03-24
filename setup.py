@@ -30,5 +30,16 @@ setup(
 	license=u'GNU GPL Version 3',
 	url=u'https://github.com/smathot/QProgEdit',
 	install_requires='qtpy',
-	packages=find_packages('.')
+	packages=find_packages('.'),
+	classifiers=[
+		'Development Status :: 4 - Beta',
+		'Intended Audience :: End Users/Desktop',
+		'Topic :: Text Editors',
+		'Environment :: MacOS X',
+		'Environment :: Win32 (MS Windows)',
+		'Environment :: X11 Applications',
+		'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+		'Programming Language :: Python :: 2',
+		'Programming Language :: Python :: 3',
+	],
 )
