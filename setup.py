@@ -25,7 +25,7 @@ setup(
 	name=u'python-qprogedit',
 	version=__version__,
 	description= u'A QScintilla-based text-editor component',
-	author=u'Sebastiaan Mathôt',
+	author=u'Sebastiaan Mathot',
 	author_email=u's.mathot@cogsci.nl',
 	license=u'GNU GPL Version 3',
 	url=u'https://github.com/smathot/QProgEdit',
