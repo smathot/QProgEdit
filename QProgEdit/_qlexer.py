@@ -147,7 +147,9 @@ class QOpenSesameLexer(QBaseLexer, Qsci.QsciLexerPython):
 		"""
 
 		if keyset == 1:
-			return (b'set define draw setcycle log run widget')
+			return (b'set define draw setcycle log run widget shuffle '
+				b'shuffle_horiz fullfactorial slice sort sortby reverse roll '
+				b'weight constrain maxrep mindist')
 		if keyset == 2:
 			return (b'ellipse circle line arrow textline image gabore noise '
 				b'fixdot label checkbox button image image_button rating_scale '
