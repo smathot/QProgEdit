@@ -402,9 +402,9 @@ class QEditor(Qsci.QsciScintilla):
 		if hasattr(clean, self.lang().lower()):
 			msg, cleanText = getattr(clean, self.lang().lower())(text)
 			if msg is not None:
-				resp = QtGui.QMessageBox.question(self, _(u'Pasting content'),
-					msg, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
-				if resp == QtGui.QMessageBox.Yes:
+				resp = QtWidgets.QMessageBox.question(self, _(u'Pasting content'),
+					msg, QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
+				if resp == QtWidgets.QMessageBox.Yes:
 					text = cleanText
 		self.replaceSelectedText(text)
 
