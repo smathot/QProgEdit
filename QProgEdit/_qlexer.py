@@ -153,7 +153,7 @@ class QOpenSesameLexer(QBaseLexer, Qsci.QsciLexerPython):
 		if keyset == 2:
 			return (b'ellipse circle line arrow textline image gabore noise '
 				b'fixdot label checkbox button image image_button rating_scale '
-				b'text_input')
+				b'text_input rect')
 		return Qsci.QsciLexerPython.keywords(self, keyset)
 
 class QFallbackLexer(QBaseLexer, Qsci.QsciLexer):
