@@ -32,10 +32,10 @@ class QEditor(Qsci.QsciScintilla):
 
 	invalidMarker = 8
 
-	cursorRowChanged = QtCore.pyqtSignal(int, int) # (Old row, new row)
-	focusLost = QtCore.pyqtSignal()
-	focusReceived = QtCore.pyqtSignal()
-	handlerButtonClicked = QtCore.pyqtSignal()
+	cursorRowChanged = QtCore.Signal(int, int) # (Old row, new row)
+	focusLost = QtCore.Signal()
+	focusReceived = QtCore.Signal()
+	handlerButtonClicked = QtCore.Signal()
 
 	def __init__(self, qProgEdit):
 

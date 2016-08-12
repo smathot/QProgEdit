@@ -32,11 +32,11 @@ class QTabManager(QtWidgets.QTabWidget):
 		A tab manager that contains multiple QProgEdit tabs.
 	"""
 
-	cursorRowChanged = QtCore.pyqtSignal(int, int, int)
-	focusLost = QtCore.pyqtSignal(int)
-	focusReceived = QtCore.pyqtSignal(int)
-	handlerButtonClicked = QtCore.pyqtSignal(int)
-	execute = QtCore.pyqtSignal(str)
+	cursorRowChanged = QtCore.Signal(int, int, int)
+	focusLost = QtCore.Signal(int)
+	focusReceived = QtCore.Signal(int)
+	handlerButtonClicked = QtCore.Signal(int)
+	execute = QtCore.Signal(str)
 
 	def __init__(self, parent=None, cfg=QEditorCfg(), tabsClosable=False,
 		tabsMovable=False, msg=None, handlerButtonText=None, runButton=False):

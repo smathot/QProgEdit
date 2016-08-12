@@ -28,10 +28,10 @@ class QProgEdit(QtWidgets.QWidget):
 		functionality.
 	"""
 
-	cursorRowChanged = QtCore.pyqtSignal()
-	focusLost = QtCore.pyqtSignal()
-	focusReceived = QtCore.pyqtSignal()
-	handlerButtonClicked = QtCore.pyqtSignal()
+	cursorRowChanged = QtCore.Signal()
+	focusLost = QtCore.Signal()
+	focusReceived = QtCore.Signal()
+	handlerButtonClicked = QtCore.Signal()
 
 	def __init__(self, tabManager, dPrint=None, title=u'Empty document',
 		**editorParams):
