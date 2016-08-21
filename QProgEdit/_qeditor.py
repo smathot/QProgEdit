@@ -609,9 +609,11 @@ class QEditor(Qsci.QsciScintilla):
 
 		if QtCore.Qt.ControlModifier == event.modifiers():
 			event.ignore()
-			if event.delta() > 0:
+			delta = event.delta() if hasattr(event, u'delta') \
+				else event.angleDelta().y()
+			if delta > 0:
 				self.zoomIn()
 			else:
-				self.zoomOut()
+				self.zoomOut()					
 		else:
 			super(QEditor, self).wheelEvent(event)
