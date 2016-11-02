@@ -102,17 +102,21 @@ class QEditor(Qsci.QsciScintilla):
 		c = self.standardCommands()
 		# Disable Ctrl+Slash and Ctrl+T
 		cmd = c.boundTo(QtCore.Qt.Key_Slash | QtCore.Qt.ControlModifier)
-		cmd.setKey(0)
+		if cmd is not None:
+			cmd.setKey(0)
 		cmd = c.boundTo(QtCore.Qt.Key_T | QtCore.Qt.ControlModifier)
-		cmd.setKey(0)
+		if cmd is not None:
+			cmd.setKey(0)
 		# Use Ctrl+Shift+D for line duplication
 		cmd = c.boundTo(QtCore.Qt.Key_D | QtCore.Qt.ControlModifier)
-		cmd.setKey(QtCore.Qt.Key_D | QtCore.Qt.ControlModifier \
-			| QtCore.Qt.ShiftModifier)
+		if cmd is not None:
+			cmd.setKey(QtCore.Qt.Key_D | QtCore.Qt.ControlModifier \
+				| QtCore.Qt.ShiftModifier)
 		# Use Ctrl+Shift+K for line deletion
 		cmd = c.boundTo(QtCore.Qt.Key_L | QtCore.Qt.ControlModifier)
-		cmd.setKey(QtCore.Qt.Key_K | QtCore.Qt.ControlModifier \
-			| QtCore.Qt.ShiftModifier)
+		if cmd is not None:
+			cmd.setKey(QtCore.Qt.Key_K | QtCore.Qt.ControlModifier \
+				| QtCore.Qt.ShiftModifier)
 
 	def applyCfg(self):
 
