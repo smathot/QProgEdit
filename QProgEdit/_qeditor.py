@@ -18,6 +18,7 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from QProgEdit.py3compat import *
+import os
 from qtpy import QtGui, QtCore, QtWidgets
 from QProgEdit.pyqt5compat import Qsci
 from QProgEdit import QLexer, QColorScheme, QSymbolTreeWidgetItem, symbols, \
@@ -278,7 +279,6 @@ class QEditor(Qsci.QsciScintilla):
 		if length < 3 or u'\n' in selection:
 			return
 		self.qProgEdit.find.setFindText(selection)
-		indexList = []
 		i = -1
 		line, index = self.getCursorPosition()
 		currentPos = self.positionFromLineIndex(line, index)
@@ -495,10 +495,9 @@ class QEditor(Qsci.QsciScintilla):
 				type:	[str, unicode]
 		"""
 
-		if isinstance(text, basestring):
-			text = safe_decode(text)
-		else:
+		if not isinstance(text, basestring):
 			raise Exception(u'Expecting a str or unicode object')
+		text = safe_decode(text)
 		super(QEditor, self).setText(text)
 		self.setModified(False)
 		self.updateSymbolTree()
@@ -515,7 +514,7 @@ class QEditor(Qsci.QsciScintilla):
 			type:	unicode
 		"""
 
-		return str(super(QEditor, self).text())
+		return super(QEditor, self).text()
 
 	def updateMarginWidth(self):
 
