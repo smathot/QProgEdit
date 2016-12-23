@@ -403,6 +403,7 @@ class QEditor(Qsci.QsciScintilla):
 		"""
 
 		text = QtWidgets.QApplication.clipboard().text()
+		text = text.replace(os.linesep, u'\n')
 		if hasattr(clean, self.lang().lower()):
 			msg, cleanText = getattr(clean, self.lang().lower())(text)
 			if msg is not None:
