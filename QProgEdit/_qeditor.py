@@ -19,6 +19,7 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 
 from QProgEdit.py3compat import *
 import os
+import re
 from qtpy import QtGui, QtCore, QtWidgets
 from QProgEdit.pyqt5compat import Qsci
 from QProgEdit import QLexer, QColorScheme, QSymbolTreeWidgetItem, symbols, \
@@ -75,6 +76,9 @@ class QEditor(Qsci.QsciScintilla):
 		self.symbolTree = None
 		self.symbolTreeWidgetItemClass = QSymbolTreeWidgetItem
 		self._symbols = []
+
+		# Regular expression to catch all newline varieties of various OS's
+		self.newlines_re = re.compile(r'(\r\n|\r|\n)')
 
 	@property
 	def tabManager(self):
@@ -403,7 +407,7 @@ class QEditor(Qsci.QsciScintilla):
 		"""
 
 		text = QtWidgets.QApplication.clipboard().text()
-		text = text.replace(os.linesep, u'\n')
+		text = self.newlines_re.sub('\n', text)
 		if hasattr(clean, self.lang().lower()):
 			msg, cleanText = getattr(clean, self.lang().lower())(text)
 			if msg is not None:
