@@ -174,7 +174,7 @@ class QEditor(Qsci.QsciScintilla):
 			self.setWrapMode(Qsci.QsciScintilla.WrapWord)
 		else:
 			self.setWrapMode(Qsci.QsciScintilla.WrapNone)
-		if self.cfg.qProgEditWordWrapMarker is not None:
+		if self.cfg.qProgEditWordWrapMarker:
 			self.setEdgeColumn(self.cfg.qProgEditWordWrapMarker)
 			self.setEdgeMode(Qsci.QsciScintilla.EdgeLine)
 		else:
