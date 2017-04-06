@@ -399,13 +399,13 @@ class QTabManager(QtWidgets.QTabWidget):
 
 		self.currentWidget().toggleFind(False)
 
-	def togglePrefs(self, visible):
+	def togglePrefs(self, visible=None):
 
 		"""
 		desc:
 			Toggle the visibility of the preferences widget.
 
-		arguments:
+		keywords:
 			visible:
 				desc:	Visibility status.
 				type:	bool

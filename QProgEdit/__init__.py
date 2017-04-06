@@ -26,7 +26,7 @@ desc: |
 	component. It's primary target at the moment is
 	[OpenSesame](http://osdoc.cogsci.nl), a graphical experiment builder.
 
-	Copyright (2013-2015) Sebastiaan Mathôt
+	Copyright (2013-2017) Sebastiaan Mathôt
 
 	<http://www.cogsci.nl/smathot>
 
@@ -56,7 +56,7 @@ license: |
 ---
 """
 
-version = __version__ = u'4.0.10'
+version = __version__ = u'4.0.11'
 
 from QProgEdit.py3compat import *
 

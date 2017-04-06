@@ -239,16 +239,21 @@ class QProgEdit(QtWidgets.QWidget):
 		else:
 			self.editor.setFocus()
 
-	def togglePrefs(self, visible):
+	def togglePrefs(self, visible=None):
 
 		"""
 		desc:
 			Toggles the visibility of the preferences widget
 
-		arguments:
+		keywords:
 			visible:	A boolean indicating the visibility of the widget.
 		"""
-
+		
+		# If a keyboard shortcut was used, we use a button press to emulate the
+		# toggling of the prefs button.
+		if visible is None:
+			self.tabManager.cornerWidget().prefsButton.toggle()
+			return
 		if visible:
 			self.prefs.ui.fontComboBoxFontFamily.setFocus()
 			self.prefs.refresh()
