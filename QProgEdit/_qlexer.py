@@ -93,6 +93,14 @@ class QBaseLexer(object):
 					color = colorScheme[styleName]
 				self.setColor(QtGui.QColor(color), style)
 
+class QJavaScriptLexer(QBaseLexer, Qsci.QsciLexerJavaScript):
+
+	"""
+	desc:
+		A custom JavaScript lexer.
+	"""
+
+	pass
 class QPythonLexer(QBaseLexer, Qsci.QsciLexerPython):
 
 	"""
@@ -207,6 +215,8 @@ def QLexer(editor, lang=u'text', colorScheme=u'Default'):
 
 	if lang.lower() == u'opensesame':
 		lexer = QOpenSesameLexer(editor)
+	elif lang.lower() == u'javascript':
+		lexer = QJavaScriptLexer(editor)
 	elif lang.lower() == u'python':
 		lexer = QPythonLexer(editor)
 	else:

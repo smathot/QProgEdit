@@ -20,5 +20,6 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 languages = [
 	u'Text',
 	u'Python',
+	u'JavaScript',
 	u'OpenSesame'
 	]
