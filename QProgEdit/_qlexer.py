@@ -127,7 +127,7 @@ class QJavaScriptLexer(QBaseLexer, Qsci.QsciLexerJavaScript):
 				+ JAVASCRIPT_BUILTINS
 				+ OSWEB_BUILTINS
 			)
-		return Qsci.QsciLexerPython.keywords(self, keyset)
+		return Qsci.QsciLexerJavaScript.keywords(self, keyset)
 
 
 class QPythonLexer(QBaseLexer, Qsci.QsciLexerPython):
