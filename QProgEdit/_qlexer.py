@@ -18,18 +18,20 @@ along with QProgEdit.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from QProgEdit.py3compat import *
-from qtpy import QtGui, QtCore
+from qtpy import QtGui
 from QProgEdit.pyqt5compat import Qsci
 from QProgEdit import QColorScheme
 
-python_builtins = (' abs dict help min setattr all dir hex next slice any '
+PYTHON_BUILTINS = (' abs dict help min setattr all dir hex next slice any '
 'id object sorted ascii enumerate input oct staticmethod bin eval int open str '
 'bool exec isinstance ord sum bytearray filter issubclass pow super bytes '
 'float iter print tuple callable format len property type chr frozenset list '
 'range vars classmethod getattr locals repr zip compile globals map reversed '
 '__import__ complex hasattr max round delattr hash memoryview set divmod')
+OPENSESAME_BUILTINS = ' exp win self var pool items items clock log'
+JAVASCRIPT_BUILTINS = ' let'
+OSWEB_BUILTINS = ' vars'
 
-opensesame_builtins = ' exp win self var pool items items clock log'
 
 class QBaseLexer(object):
 
@@ -55,8 +57,10 @@ class QBaseLexer(object):
 
 		self.editor = editor
 		# Set the font based on the configuration
-		font = QtGui.QFont(self.editor.cfg.qProgEditFontFamily,
-			self.editor.cfg.qProgEditFontSize)
+		font = QtGui.QFont(
+			self.editor.cfg.qProgEditFontFamily,
+			self.editor.cfg.qProgEditFontSize
+		)
 		self.setFont(font)
 		# Apply the color theme
 		if hasattr(QColorScheme, colorScheme):
@@ -93,6 +97,7 @@ class QBaseLexer(object):
 					color = colorScheme[styleName]
 				self.setColor(QtGui.QColor(color), style)
 
+
 class QJavaScriptLexer(QBaseLexer, Qsci.QsciLexerJavaScript):
 
 	"""
@@ -100,7 +105,31 @@ class QJavaScriptLexer(QBaseLexer, Qsci.QsciLexerJavaScript):
 		A custom JavaScript lexer.
 	"""
 
-	pass
+	def keywords(self, keyset):
+
+		"""
+		desc:
+			Specifies keywords.
+
+		arguments:
+			keyset:
+				desc:	The keyword set.
+				type:	int
+
+		returns:
+			desc:	A space-separated list of keywords.
+			type:	str
+		"""
+
+		if keyset == 1:
+			return (
+				Qsci.QsciLexerJavaScript.keywords(self, keyset)
+				+ JAVASCRIPT_BUILTINS
+				+ OSWEB_BUILTINS
+			)
+		return Qsci.QsciLexerPython.keywords(self, keyset)
+
+
 class QPythonLexer(QBaseLexer, Qsci.QsciLexerPython):
 
 	"""
@@ -126,10 +155,11 @@ class QPythonLexer(QBaseLexer, Qsci.QsciLexerPython):
 
 		if keyset == 1:
 			return Qsci.QsciLexerPython.keywords(self, keyset).replace(
-				' None', '') + python_builtins + opensesame_builtins
+				' None', '') + PYTHON_BUILTINS + OPENSESAME_BUILTINS
 		elif keyset == 2:
 			return 'None True False'
 		return Qsci.QsciLexerPython.keywords(self, keyset)
+
 
 class QOpenSesameLexer(QBaseLexer, Qsci.QsciLexerPython):
 
@@ -164,6 +194,7 @@ class QOpenSesameLexer(QBaseLexer, Qsci.QsciLexerPython):
 				b'text_input rect')
 		return Qsci.QsciLexerPython.keywords(self, keyset)
 
+
 class QFallbackLexer(QBaseLexer, Qsci.QsciLexer):
 
 	"""
@@ -192,6 +223,7 @@ class QFallbackLexer(QBaseLexer, Qsci.QsciLexer):
 			return u'Default'
 		else:
 			return u''
+
 
 def QLexer(editor, lang=u'text', colorScheme=u'Default'):
 
